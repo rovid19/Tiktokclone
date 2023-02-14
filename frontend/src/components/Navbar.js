@@ -149,6 +149,13 @@ const Navbar = ({ handleOpenClose }) => {
             </Link>
           </div>
         </div>
+        <button
+          className="bg-red-500 text-white p-2 w-full absolute bottom-0
+        "
+          onClick={handleOpenClose}
+        >
+          Login
+        </button>
       </div>
     </>
   );

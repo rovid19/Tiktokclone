@@ -1,7 +1,21 @@
 import React from "react";
 import { useState } from "react";
+import axios from "axios";
 
 const Register = ({ handleOpenClose, handleRegister }) => {
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState(null);
+
+  // REGISTRACIJA
+  async function handleRegistration(e) {
+    e.preventDefault();
+    await axios.post("/register", {
+      email,
+      password,
+      username,
+    });
+  }
   return (
     <>
       <div className="w-[350px] fl md:w-[450px] h-[600px] bg-white">
@@ -22,13 +36,17 @@ const Register = ({ handleOpenClose, handleRegister }) => {
           </button>
         </div>
         <div className="text-center font-bold"> Register </div>
-        <div className="flex-col mt-8   w-[80%] h-[75%]">
+        <form
+          className="flex-col mt-8   w-[80%] h-[75%]"
+          onSubmit={handleRegistration}
+        >
           <div className=" ">
             <h1 className="text-gray-300">Email</h1>
             <input
-              type="text"
+              type="email"
               className="mt-1 w-full bg-transparent bg-gray-200 h-12 pl-4"
               placeholder="Insert your email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mt-1 ">
@@ -36,19 +54,21 @@ const Register = ({ handleOpenClose, handleRegister }) => {
               type="text"
               className="w-full bg-transparent bg-gray-200 h-12 pl-4"
               placeholder="Insert your username"
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="mt-1 ">
             <input
-              type="text"
+              type="password"
               className="w-full bg-transparent bg-gray-200 h-12 pl-4"
               placeholder="Insert your password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button className=" bg-gray-200 w-full  text-gray-400 p-2 mt-10">
-            Login
+            Register
           </button>
-        </div>
+        </form>
         <div className="border-t-2 border-opacity-30 text-sm border-gray-300 w-full p-4 text-center">
           {" "}
           Already a member?{" "}

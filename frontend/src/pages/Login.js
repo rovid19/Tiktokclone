@@ -3,6 +3,9 @@ import { useState } from "react";
 import Register from "./Register";
 
 const Login = ({ handleOpenClose }) => {
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
   const [register, setRegister] = useState(false);
 
   function handleRegister() {
@@ -36,9 +39,10 @@ const Login = ({ handleOpenClose }) => {
               <div className=" ">
                 <h1 className="text-gray-300">Email</h1>
                 <input
-                  type="text"
+                  type="password"
                   className="mt-1 w-full bg-transparent bg-gray-200 h-12 pl-4"
                   placeholder="Insert your email"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mt-1 ">
@@ -46,9 +50,10 @@ const Login = ({ handleOpenClose }) => {
                   type="text"
                   className="w-full bg-transparent bg-gray-200 h-12 pl-4"
                   placeholder="Insert your password"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <button className=" bg-gray-200 w-full  text-gray-400 p-2 mt-10">
+              <button className=" bg-gray-200 w-full text-gray-400 p-2 mt-10">
                 Login
               </button>
             </div>
@@ -61,7 +66,12 @@ const Login = ({ handleOpenClose }) => {
             </div>
           </div>
         )}
-        {register && <Register handleRegister={handleRegister} />}
+        {register && (
+          <Register
+            handleRegister={handleRegister}
+            handleOpenClose={handleOpenClose}
+          />
+        )}
       </div>
     </>
   );
