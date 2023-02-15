@@ -2,12 +2,17 @@ import React from "react";
 import { useState } from "react";
 import Img from "../images/logo1.png";
 import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { userContext } from "../Usercontext";
+import axios from "axios";
 
 const Navbar = ({ handleOpenClose }) => {
-  const styles = {
-    backgroundImage: `url(${Img})`,
-  };
+  const { user, setUser } = useContext(userContext);
 
+  async function handleLogout() {
+    axios.post("/logout");
+    setUser(null);
+  }
   return (
     <>
       <header className="h-[7%] z-10 bg-black border-b-[0.1px] flex justify-center border-opacity-20 border-gray-300 ">
@@ -45,12 +50,9 @@ const Navbar = ({ handleOpenClose }) => {
             </button>
           </div>
           <div className="gap-4 text-white hidden lg:flex  justify-end h-full items-center">
-            <div className="gap-1 flex ">
+            <div className="gap-2 flex ">
               <div>
-                <NavLink
-                  to="/foryou"
-                  className="text-white flex gap-1 hover:scale-110"
-                >
+                <NavLink to="/" className="text-white flex hover:scale-110">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -64,27 +66,46 @@ const Navbar = ({ handleOpenClose }) => {
               </div>
               <div>
                 <NavLink
-                  to="/following"
-                  className="text-white flex gap-1 hover:scale-110"
+                  to="/upload"
+                  className="text-white flex hover:scale-110"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="w-6 h-6 hidden lg:block"
+                    class="w-6 h-6"
                   >
-                    <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" />
+                    <path d="M9.97.97a.75.75 0 011.06 0l3 3a.75.75 0 01-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 01-1.06-1.06l3-3zM9.75 6.75v6a.75.75 0 001.5 0v-6h3a3 3 0 013 3v7.5a3 3 0 01-3 3h-7.5a3 3 0 01-3-3v-7.5a3 3 0 013-3h3z" />
+                    <path d="M7.151 21.75a2.999 2.999 0 002.599 1.5h7.5a3 3 0 003-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 01-4.5 4.5H7.151z" />
                   </svg>
                 </NavLink>
               </div>
             </div>
-
-            <button
-              onClick={handleOpenClose}
-              className="bg-red-500 hover:bg-red-700 w-20 h-10 hidden lg:block rounded-md"
-            >
-              Log in
-            </button>
+            {user && (
+              <>
+                <Link to="/profile" className="ml-[-6px]">
+                  <img
+                    src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
+                    className="h-7 rounded-full border-2 border-gray-200 hover:scale-110"
+                  ></img>
+                </Link>
+              </>
+            )}
+            {user ? (
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 hover:bg-red-700 w-20 h-10 hidden lg:block rounded-md"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={handleOpenClose}
+                className="bg-red-500 hover:bg-red-700 w-20 h-10 hidden lg:block rounded-md"
+              >
+                Log in
+              </button>
+            )}
 
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -116,23 +137,8 @@ const Navbar = ({ handleOpenClose }) => {
               </svg>
             </Link>
           </div>
+
           <div className="flex justify-center mt-4">
-            <Link to="/profile" className="hover:scale-125 hover:text-red-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </Link>
-          </div>
-          <div className="flex justify-center mt-6">
             <Link to="/upload" className="hover:scale-125 hover:text-red-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -149,13 +155,56 @@ const Navbar = ({ handleOpenClose }) => {
             </Link>
           </div>
         </div>
-        <button
-          className="bg-red-500 text-white p-2 w-full absolute bottom-0
+        <div
+          className="fl justify-center text-white p-2 w-full absolute bottom-2
         "
-          onClick={handleOpenClose}
         >
-          Login
-        </button>
+          {!user && (
+            <div onClick={handleOpenClose}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+                />
+              </svg>
+            </div>
+          )}
+          {user && (
+            <>
+              <div onClick={handleLogout}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                  />
+                </svg>
+              </div>
+
+              <Link to="/profile">
+                <img
+                  src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
+                  className="h-12 rounded-full border-2 border-gray-200 mt-3"
+                ></img>
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

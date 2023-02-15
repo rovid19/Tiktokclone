@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const Register = ({ handleOpenClose, handleRegister }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
+  const [redirect, setRedirect] = useState(false);
 
   // REGISTRACIJA
   async function handleRegistration(e) {
@@ -15,6 +17,11 @@ const Register = ({ handleOpenClose, handleRegister }) => {
       password,
       username,
     });
+    setRedirect(true);
+  }
+  if (redirect) {
+    handleOpenClose();
+    setRedirect(false);
   }
   return (
     <>
@@ -44,7 +51,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
             <h1 className="text-gray-300">Email</h1>
             <input
               type="email"
-              className="mt-1 w-full bg-transparent bg-gray-200 h-12 pl-4"
+              className="mt-1 w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
               placeholder="Insert your email"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -52,7 +59,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
           <div className="mt-1 ">
             <input
               type="text"
-              className="w-full bg-transparent bg-gray-200 h-12 pl-4"
+              className="w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
               placeholder="Insert your username"
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -60,7 +67,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
           <div className="mt-1 ">
             <input
               type="password"
-              className="w-full bg-transparent bg-gray-200 h-12 pl-4"
+              className="w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
               placeholder="Insert your password"
               onChange={(e) => setPassword(e.target.value)}
             />

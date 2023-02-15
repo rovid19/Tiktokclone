@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .active {
-  @apply bg-red-400;
+  @apply text-red-500;
 }
 
 .koza {

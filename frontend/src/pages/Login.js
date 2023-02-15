@@ -1,15 +1,30 @@
 import React from "react";
 import { useState } from "react";
 import Register from "./Register";
+import axios from "axios";
 
 const Login = ({ handleOpenClose }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
-
+  const [redirect, setRedirect] = useState(false);
   const [register, setRegister] = useState(false);
 
   function handleRegister() {
     setRegister(!register);
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    await axios.post("/login", {
+      email,
+      password,
+    });
+    setRedirect(true);
+  }
+  if (redirect) {
+    handleOpenClose();
+
+    setRedirect(false);
   }
   return (
     <>
@@ -35,20 +50,23 @@ const Login = ({ handleOpenClose }) => {
               </button>
             </div>
             <div className="text-center font-bold"> Log in </div>
-            <div className="flex-col mt-8   w-[80%] h-[75%]">
+            <form
+              className="flex-col mt-8   w-[80%] h-[75%]"
+              onSubmit={handleLogin}
+            >
               <div className=" ">
                 <h1 className="text-gray-300">Email</h1>
                 <input
-                  type="password"
-                  className="mt-1 w-full bg-transparent bg-gray-200 h-12 pl-4"
+                  type="email"
+                  className="mt-1 w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
                   placeholder="Insert your email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mt-1 ">
                 <input
-                  type="text"
-                  className="w-full bg-transparent bg-gray-200 h-12 pl-4"
+                  type="password"
+                  className="w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
                   placeholder="Insert your password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -56,7 +74,7 @@ const Login = ({ handleOpenClose }) => {
               <button className=" bg-gray-200 w-full text-gray-400 p-2 mt-10">
                 Login
               </button>
-            </div>
+            </form>
             <div className="border-t-2 border-opacity-30 text-sm border-gray-300 w-full p-4 text-center">
               {" "}
               Don't have an account yet?{" "}
