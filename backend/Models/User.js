@@ -4,9 +4,10 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   username: String,
   password: String,
-  followers: [String],
-  following: [String],
+  followers: [],
+  following: [],
   videoLikes: 0,
+  profilePhoto: String,
   description: String,
 });
 

@@ -29,7 +29,6 @@ app.listen(PORT);
 const jwtSecret = "rockjefakatludirock";
 const bcryptSalt = bcrypt.genSaltSync(10);
 
-console.log(process.env.MONGOOSE_URL);
 // KOD
 app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
@@ -63,10 +62,10 @@ app.post("/login", async (req, res) => {
         }
       );
     } else {
-      res.status(422).json("error");
+      res.status(422).json("password not found");
     }
   } else {
-    res.json("user not found");
+    res.json("email not found");
   }
 });
 
@@ -84,4 +83,30 @@ app.get("/profile", async (req, res) => {
 
 app.post("/logout", (req, res) => {
   res.cookie("token", "").json(true);
+});
+
+app.put("/editprofile", async (req, res) => {
+  const { token } = req.cookies;
+  const { username, email, bio } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const userEdit = await User.findById(userData.id);
+    userEdit.set({
+      username,
+      email,
+      description: bio,
+    });
+    await userEdit.save();
+    res.json(userEdit);
+  });
+});
+
+app.get("/updatedprofile", (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const updatedUser = await User.findById(userData.id);
+    res.json(updatedUser);
+  });
 });

@@ -1,41 +1,117 @@
 import React from "react";
+import { useContext } from "react";
+import { userContext } from "../../Usercontext";
+import { useState } from "react";
+import axios from "axios";
 
 const EditProfile = ({ handleVisible }) => {
+  const { user } = useContext(userContext);
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
+  const [bio, setBio] = useState(user.description);
+  const [photo, setPhoto] = useState("");
+  const [redirect, setRedirect] = useState(false);
+
+  async function handleEdit(e) {
+    e.preventDefault();
+    axios.put("/editprofile", {
+      username,
+      email,
+      bio,
+      photo,
+    });
+    setRedirect(true);
+  }
+
+  if (redirect) {
+    handleVisible();
+    setRedirect(false);
+  }
+  console.log(user.description);
   return (
-    <div className="h-full w-full  bg-black bg-opacity-50 flex justify-center items-center">
-      <form className="w-[450px] h-[600px] bg-white">
-        <div className="h-[10%]">
-          <h1>Edit Profile</h1>
+    <div className="h-full w-full  bg-black bg-opacity-20 flex justify-center items-center">
+      <form
+        className="w-[320px] lg:w-[450px]  h-[640px] bg-white"
+        onSubmit={handleEdit}
+      >
+        <div className="h-[10%] mt-4 p-4 border-b-2 border-gray-500 border-opacity-20">
+          <h1 className="font-bold">Edit Profile</h1>
         </div>
-        <div className="h-[80%] w-[400px]">
-          <div>
-            <div className="w-[100px]">Profile photo</div>
-            <div className="w-[300px]">
-              <input type="text" />
+        <div className="fl h-[470px] ">
+          <div className="h-[90%] p-2 w-full ">
+            <div className="gap-2 flex border-b-2 border-opacity-30 p-6 border-gray-500">
+              <div className="w-[70px] lg:w-[120px]">
+                <span>Profile photo</span>
+              </div>
+              <div className="w-[130px] lg:w-[300px] ml-4 flex items-center">
+                <img
+                  src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
+                  className="h-20 rounded-full border-2 border-gray-200 mt-3"
+                ></img>
+                <label>
+                  <input type="file" className="hidden" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="w-6 h-6 cursor-pointer"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M11.47 2.47a.75.75 0 011.06 0l4.5 4.5a.75.75 0 01-1.06 1.06l-3.22-3.22V16.5a.75.75 0 01-1.5 0V4.81L8.03 8.03a.75.75 0 01-1.06-1.06l4.5-4.5zM3 15.75a.75.75 0 01.75.75v2.25a1.5 1.5 0 001.5 1.5h13.5a1.5 1.5 0 001.5-1.5V16.5a.75.75 0 011.5 0v2.25a3 3 0 01-3 3H5.25a3 3 0 01-3-3V16.5a.75.75 0 01.75-.75z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </label>
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="w-[100px]">Username</div>
-            <div className="w-[300px]">
-              <input type="text" />
+            <div className="gap-2 flex border-b-2 border-opacity-30 p-6 border-gray-500">
+              <div className="w-[70px] lg:w-[120px]">
+                <span>Username</span>
+              </div>
+              <div className="w-[130px] lg:w-[300px]">
+                <input
+                  value={username}
+                  type="text"
+                  className="bg-gray-500 bg-opacity-50 p-2 rounded-xl"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="w-[100px]">Email</div>
-            <div className="w-[300px]">
-              <input type="text" />
+            <div className="gap-2 flex border-b-2 border-opacity-30 p-6 border-gray-500">
+              <div className="w-[70px] lg:w-[120px]">Email</div>
+              <div className="w-[130px] lg:w-[300px]">
+                <input
+                  value={email}
+                  type="text"
+                  className="bg-gray-500 bg-opacity-50 p-2 rounded-xl"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="w-[100px]">Bio</div>
-            <div className="w-[300px]">
-              <input type="text" />
+            <div className="gap-2 flex  p-6 ">
+              <div className="w-[70px] lg:w-[120px]">Bio</div>
+              <div className="w-[130px] lg:w-[300px]">
+                <input
+                  value={bio}
+                  type="text"
+                  className="bg-gray-500 bg-opacity-50 p-2 h-24 rounded-xl"
+                  onChange={(e) => setBio(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div className="h-[10%]">
-          <button onClick={handleVisible}>Cancel</button>
-          <button onClick={handleVisible}>Save</button>
+        <div className="h-[10%] p-4   border-t-2 border-gray-500 border-opacity-20">
+          <button
+            onClick={handleVisible}
+            className="bg-gray-500 rounded-xl mt-1 text-white p-2 w-24 hover:bg-black "
+          >
+            Cancel
+          </button>
+          <button className="bg-gray-500 ml-2 rounded-xl mt-1 text-white p-2 w-24 hover:bg-black ">
+            Save
+          </button>
         </div>
       </form>
     </div>

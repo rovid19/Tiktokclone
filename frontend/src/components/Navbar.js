@@ -122,10 +122,10 @@ const Navbar = ({ handleOpenClose }) => {
           </div>
         </div>
       </header>
-      <div className="bg-black text-white h-full w-20 absolute top-0 l-0 lg:hidden">
+      <div className="bg-black text-white h-full w-14 absolute top-0 l-0 lg:hidden">
         <div className="mt-20">
           <div className="flex justify-center ">
-            <Link to="/home" className="hover:scale-125 hover:text-red-300">
+            <Link to="/" className="hover:scale-125 hover:text-red-300">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -199,7 +199,7 @@ const Navbar = ({ handleOpenClose }) => {
               <Link to="/profile">
                 <img
                   src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
-                  className="h-12 rounded-full border-2 border-gray-200 mt-3"
+                  className="h-10 rounded-full border-2 border-gray-200 mt-3"
                 ></img>
               </Link>
             </>
