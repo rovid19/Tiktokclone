@@ -1,6 +1,51 @@
 import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import { userContext } from "../Usercontext";
+import { useContext } from "react";
 
 const Upload = ({ handleOpenClose }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [video, setVideo] = useState(null);
+  const [videoFormData, setVideoFormData] = useState([]);
+  const [natpis, setNatpis] = useState(false);
+  const { setVideoTrigger } = useContext(userContext);
+  const [className, setClassName] = useState(
+    " bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
+  );
+
+  function handleFile(e) {
+    const file = e.target.files;
+    const formData = new FormData();
+    formData.append("video", file[0]);
+    setVideoFormData(formData);
+  }
+  function handleUploadVideo(e) {
+    axios
+      .post("upload-video", videoFormData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(({ data }) => {
+        setVideo(data);
+      });
+  }
+  async function handleVideo(e) {
+    e.preventDefault();
+
+    if (video && title && description) {
+      await axios.post("/video", {
+        video,
+        title,
+        description,
+      });
+      setVideoTrigger("trigger");
+      handleOpenClose();
+    } else {
+      setNatpis(true);
+    }
+  }
+  console.log(video);
   return (
     <>
       <div className="flex items-center bg-black bg-opacity-50 justify-center absolute top-0 left-0 w-screen h-screen z-20">
@@ -22,22 +67,41 @@ const Upload = ({ handleOpenClose }) => {
             </button>
           </div>
           <div className="text-center font-bold "> Upload your video </div>
-
-          <form className="flex-col mt-10   w-[80%] h-[75%]">
+          {natpis && (
+            <div className="text-center text-red-500 mt-2 mb-[-30px]">
+              All fields must be filled in
+            </div>
+          )}
+          <form
+            className="flex-col mt-10   w-[80%] h-[75%]"
+            onSubmit={handleVideo}
+          >
             <div className=" mt-2 bg-gray-400 bg-opacity-30 flex items-center">
               <label className="p-2">
                 <input
                   type="file"
-                  className="mt-1 w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
+                  className="mt-5 w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
                   placeholder="Insert your email"
+                  onChange={handleFile}
                 />
               </label>
+              <div onClick={handleUploadVideo}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-8 h-8 mr-4 hover:scale-125 hover:text-red-500 cursor-pointer"
+                >
+                  <path d="M11.47 1.72a.75.75 0 011.06 0l3 3a.75.75 0 01-1.06 1.06l-1.72-1.72V7.5h-1.5V4.06L9.53 5.78a.75.75 0 01-1.06-1.06l3-3zM11.25 7.5V15a.75.75 0 001.5 0V7.5h3.75a3 3 0 013 3v9a3 3 0 01-3 3h-9a3 3 0 01-3-3v-9a3 3 0 013-3h3.75z" />
+                </svg>
+              </div>
             </div>
             <div className="mt-1">
               <input
                 type="type"
                 className="w-full bg-transparent bg-gray-400 bg-opacity-30 h-12 pl-4"
                 placeholder="Title of your video"
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="mt-1 ">
@@ -45,19 +109,11 @@ const Upload = ({ handleOpenClose }) => {
                 type="type"
                 className="w-full bg-transparent bg-gray-400 bg-opacity-30 h-24 pl-4"
                 placeholder="Description of your video"
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <button className=" bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white">
-              Upload
-            </button>
+            <button className={className}>Upload</button>
           </form>
-          <div className="border-t-2 border-opacity-30 text-sm border-gray-300 w-full p-4 text-center">
-            {" "}
-            Don't have an account yet?{" "}
-            <button>
-              <span className="text-red-500">Sign up!</span>
-            </button>
-          </div>
         </div>
       </div>
     </>

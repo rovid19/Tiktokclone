@@ -1,8 +1,25 @@
 import React from "react";
+import { userContext } from "../../Usercontext";
+import { useContext } from "react";
 
 const Video = () => {
+  const { video } = useContext(userContext);
+  console.log(video);
   return (
     <div className="relative h-full w-full">
+      <div className="h-full w-full">
+        {video.map((item) => {
+          return (
+            <div>
+              <video
+                className="w-full h-full"
+                src={"http://localhost:4000/uploads/videos" + item.video}
+              ></video>
+              <h1>{item.video}</h1>
+            </div>
+          );
+        })}
+      </div>
       <div className="bg-transparent border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">
         <div className="flex items-center gap-2">
           <h1 className="hidden lg:block font-bold">0</h1>

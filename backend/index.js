@@ -38,10 +38,10 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 //video
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "uploads/videos");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 const upload = multer({ storage: storage });
@@ -146,3 +146,35 @@ app.post(
     res.json(final);
   }
 );
+
+app.post("/upload-video", upload.single("video"), (req, res) => {
+  const { path, filename } = req.file;
+  res.json(filename);
+});
+
+app.post("/video", async (req, res) => {
+  const { title, description, video } = req.body;
+  const { token } = req.cookies;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const newVideo = await Video.create({
+      title,
+      video,
+      description,
+      owner: userData.id,
+    });
+    res.json(newVideo);
+  });
+});
+
+app.get("/video-store", (req, res) => {
+  Video.find({}, (err, videos) => {
+    if (err) {
+      res.json("err");
+    }
+    if (videos) {
+      res.json(videos);
+    }
+  });
+});

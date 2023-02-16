@@ -6,6 +6,7 @@ const videoSchema = new mongoose.Schema({
   description: String,
   comments: [String],
   likes: 0,
+  video: [],
 });
 
 const videoModel = mongoose.model("Video", videoSchema);

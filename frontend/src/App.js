@@ -19,6 +19,8 @@ const App = () => {
   const [openUpload, setOpenUpload] = useState(false);
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState("");
+  const [video, setVideo] = useState(null);
+  const [videoTrigger, setVideoTrigger] = useState("");
 
   function handleOpenClose() {
     setOpenLogin(!openLogin);
@@ -35,10 +37,27 @@ const App = () => {
       });
     }
   }, [ready]);
+
+  useEffect(() => {
+    axios.get("/video-store", {}).then(({ data }) => {
+      setVideo(data);
+      setVideoTrigger("neke");
+    });
+  }, [videoTrigger]);
   console.log(user);
   return (
     <div>
-      <userContext.Provider value={{ user, setUser, ready, setReady }}>
+      <userContext.Provider
+        value={{
+          user,
+          setUser,
+          ready,
+          setReady,
+          video,
+          setVideo,
+          setVideoTrigger,
+        }}
+      >
         <Routes>
           <Route
             path="/"
