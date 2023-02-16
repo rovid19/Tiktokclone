@@ -2,12 +2,17 @@ import React from "react";
 import { useState } from "react";
 import Register from "./Register";
 import axios from "axios";
+import { useContext } from "react";
+import { userContext } from "../Usercontext";
 
 const Login = ({ handleOpenClose }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [redirect, setRedirect] = useState(false);
   const [register, setRegister] = useState(false);
+  const [error, setError] = useState("");
+
+  const { setUser, setReady } = useContext(userContext);
 
   function handleRegister() {
     setRegister(!register);
@@ -15,11 +20,21 @@ const Login = ({ handleOpenClose }) => {
 
   async function handleLogin(e) {
     e.preventDefault();
-    await axios.post("/login", {
-      email,
-      password,
-    });
-    setRedirect(true);
+    try {
+      await axios.post("/login", {
+        email,
+        password,
+      });
+      setReady("sta");
+      setRedirect(true);
+    } catch (error) {
+      if (error.response.status === 422) {
+        setError("Incorrect email or password");
+      }
+      if (error.response.status === 400) {
+        setError("Incorrect email or password");
+      }
+    }
   }
   if (redirect) {
     handleOpenClose();
@@ -50,6 +65,7 @@ const Login = ({ handleOpenClose }) => {
               </button>
             </div>
             <div className="text-center font-bold"> Log in </div>
+            <div className="text-cetner text-red-500">{error}</div>
             <form
               className="flex-col mt-8   w-[80%] h-[75%]"
               onSubmit={handleLogin}

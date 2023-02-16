@@ -85,8 +85,8 @@ const Navbar = ({ handleOpenClose }) => {
               <>
                 <Link to="/profile" className="ml-[-6px]">
                   <img
-                    src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
-                    className="h-7 rounded-full border-2 border-gray-200 hover:scale-110"
+                    src={"http://localhost:4000/uploads/" + user.profilePhoto}
+                    className="h-7 rounded-full hover:scale-110"
                   ></img>
                 </Link>
               </>
@@ -198,8 +198,8 @@ const Navbar = ({ handleOpenClose }) => {
 
               <Link to="/profile">
                 <img
-                  src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
-                  className="h-10 rounded-full border-2 border-gray-200 mt-3"
+                  src={"http://localhost:4000/uploads/" + user.profilePhoto}
+                  className="h-10 rounded-full  mt-4 "
                 ></img>
               </Link>
             </>

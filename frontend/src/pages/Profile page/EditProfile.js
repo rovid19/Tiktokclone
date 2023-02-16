@@ -5,21 +5,22 @@ import { useState } from "react";
 import axios from "axios";
 
 const EditProfile = ({ handleVisible }) => {
-  const { user } = useContext(userContext);
+  const { user, setReady, ready } = useContext(userContext);
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [bio, setBio] = useState(user.description);
-  const [photo, setPhoto] = useState("");
+  const [photo, setPhoto] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
   async function handleEdit(e) {
     e.preventDefault();
-    axios.put("/editprofile", {
+    await axios.put("/editprofile", {
       username,
       email,
       bio,
-      photo,
+      photo: photo.length > 0 ? photo : user.profilePhoto,
     });
+    setReady("changed");
     setRedirect(true);
   }
 
@@ -27,11 +28,26 @@ const EditProfile = ({ handleVisible }) => {
     handleVisible();
     setRedirect(false);
   }
-  console.log(user.description);
+
+  function uploadImage(e) {
+    const file = e.target.files;
+    const formData = new FormData();
+    formData.append("photo", file[0]);
+
+    axios
+      .post("/upload-image", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((response) => {
+        const { data } = response;
+        setPhoto([data]);
+      });
+  }
+
   return (
     <div className="h-full w-full  bg-black bg-opacity-20 flex justify-center items-center">
       <form
-        className="w-[320px] lg:w-[450px]  h-[640px] bg-white"
+        className="w-[320px] lg:w-[450px]  h-[680px] lg:h-[800px] bg-white"
         onSubmit={handleEdit}
       >
         <div className="h-[10%] mt-4 p-4 border-b-2 border-gray-500 border-opacity-20">
@@ -43,13 +59,29 @@ const EditProfile = ({ handleVisible }) => {
               <div className="w-[70px] lg:w-[120px]">
                 <span>Profile photo</span>
               </div>
-              <div className="w-[130px] lg:w-[300px] ml-4 flex items-center">
-                <img
-                  src="https://www.freeiconspng.com/thumbs/profile-icon-png/am-a-19-year-old-multimedia-artist-student-from-manila--21.png"
-                  className="h-20 rounded-full border-2 border-gray-200 mt-3"
-                ></img>
-                <label>
-                  <input type="file" className="hidden" />
+              <div className="w-[130px]  lg:w-[300px] ml-4 flex items-center">
+                <div className="fl">
+                  <h1>Old</h1>
+                  <img
+                    value={user.profilePhoto}
+                    src={"http://localhost:4000/uploads/" + user.profilePhoto}
+                    className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
+                  ></img>
+                </div>
+
+                <div className="fl">
+                  <h1>New</h1>
+                  <img
+                    src={"http://localhost:4000/uploads/" + photo}
+                    className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
+                  ></img>
+                </div>
+                <label className="mt-6 ml-2">
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={uploadImage}
+                  />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -102,7 +134,7 @@ const EditProfile = ({ handleVisible }) => {
             </div>
           </div>
         </div>
-        <div className="h-[10%] p-4   border-t-2 border-gray-500 border-opacity-20">
+        <div className="h-[10%] p-4 lg:mt-[150px] mt-6 border-t-2 border-gray-500 border-opacity-20">
           <button
             onClick={handleVisible}
             className="bg-gray-500 rounded-xl mt-1 text-white p-2 w-24 hover:bg-black "

@@ -16,7 +16,7 @@ axios.defaults.withCredentials = true;
 const App = () => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState("");
 
   function handleOpenClose() {
     setOpen(!open);
@@ -26,14 +26,14 @@ const App = () => {
     if (!user) {
       axios.get("/profile", {}).then(({ data }) => {
         setUser(data);
-        setReady(true);
+        setReady("ha");
       });
     }
-  }, []);
-
+  }, [ready]);
+  console.log(user);
   return (
     <div>
-      <userContext.Provider value={{ user, setUser, ready }}>
+      <userContext.Provider value={{ user, setUser, ready, setReady }}>
         <Routes>
           <Route
             path="/"

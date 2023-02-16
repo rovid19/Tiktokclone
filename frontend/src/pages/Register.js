@@ -2,8 +2,11 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { userContext } from "../Usercontext";
 
 const Register = ({ handleOpenClose, handleRegister }) => {
+  const { setUser } = useContext(userContext);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
@@ -17,6 +20,11 @@ const Register = ({ handleOpenClose, handleRegister }) => {
       password,
       username,
     });
+    await axios.post("/login", {
+      email,
+      password,
+    });
+    setUser({ random: "biro" });
     setRedirect(true);
   }
   if (redirect) {

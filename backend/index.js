@@ -8,6 +8,8 @@ import cors from "cors";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 import User from "../backend/Models/User.js";
+import multer from "multer";
+import fs from "fs";
 
 // KONFIGURACIJA SERVERA
 const app = express();
@@ -28,6 +30,9 @@ app.listen(PORT);
 
 const jwtSecret = "rockjefakatludirock";
 const bcryptSalt = bcrypt.genSaltSync(10);
+
+const photosMiddleware = multer({ dest: __dirname + "/uploads" });
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 // KOD
 app.post("/register", async (req, res) => {
@@ -65,7 +70,7 @@ app.post("/login", async (req, res) => {
       res.status(422).json("password not found");
     }
   } else {
-    res.json("email not found");
+    res.status(400).json("email not found");
   }
 });
 
@@ -87,14 +92,14 @@ app.post("/logout", (req, res) => {
 
 app.put("/editprofile", async (req, res) => {
   const { token } = req.cookies;
-  const { username, email, bio } = req.body;
-
+  const { username, email, bio, photo } = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
     const userEdit = await User.findById(userData.id);
     userEdit.set({
       username,
       email,
+      profilePhoto: photo,
       description: bio,
     });
     await userEdit.save();
@@ -102,7 +107,7 @@ app.put("/editprofile", async (req, res) => {
   });
 });
 
-app.get("/updatedprofile", (req, res) => {
+app.get("/updatedprofile", async (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -110,3 +115,22 @@ app.get("/updatedprofile", (req, res) => {
     res.json(updatedUser);
   });
 });
+
+app.post(
+  "/upload-image",
+  photosMiddleware.array("photo", 100),
+  async (req, res) => {
+    const uploadedFiles = [];
+    const { path, originalname } = req.files[0];
+    const parts = originalname.split(".");
+    const ext = parts[parts.length - 1];
+    const newPath = path + "." + ext;
+    const final = newPath.replace(
+      "C:\\Users\\Ljubo\\Documents\\GitHub\\Tiktokclone\\backend\\uploads\\",
+      ""
+    );
+    fs.renameSync(path, newPath);
+    await uploadedFiles.push(final);
+    res.json(final);
+  }
+);
