@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser";
 import User from "../backend/Models/User.js";
 import multer from "multer";
 import fs from "fs";
+import Video from "../backend/Models/Video.js";
 
 // KONFIGURACIJA SERVERA
 const app = express();
@@ -31,8 +32,19 @@ app.listen(PORT);
 const jwtSecret = "rockjefakatludirock";
 const bcryptSalt = bcrypt.genSaltSync(10);
 
+//slike
 const photosMiddleware = multer({ dest: __dirname + "/uploads" });
 app.use("/uploads", express.static(__dirname + "/uploads"));
+//video
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 
 // KOD
 app.post("/register", async (req, res) => {

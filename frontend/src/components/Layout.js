@@ -1,11 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar component/Navbar";
 
-const Layout = ({ handleOpenClose }) => {
+const Layout = ({ handleOpenClose, handleUpload }) => {
   return (
     <div className="h-screen flex flex-col">
-      <Navbar handleOpenClose={handleOpenClose} />
+      <Navbar handleOpenClose={handleOpenClose} handleUpload={handleUpload} />
       <Outlet />
     </div>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar component/Navbar";
 import { useState } from "react";
 import Login from "./pages/Login";
 import axios from "axios";
@@ -10,16 +10,21 @@ import { userContext } from "./Usercontext";
 import { useEffect } from "react";
 import { useContext } from "react";
 import Profile from "./pages/Profile page/Profile";
+import Upload from "./pages/Upload";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 const App = () => {
-  const [open, setOpen] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openUpload, setOpenUpload] = useState(false);
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState("");
 
   function handleOpenClose() {
-    setOpen(!open);
+    setOpenLogin(!openLogin);
+  }
+  function handleOpenCloseUpload() {
+    setOpenUpload(!openUpload);
   }
 
   useEffect(() => {
@@ -37,13 +42,19 @@ const App = () => {
         <Routes>
           <Route
             path="/"
-            element={<Layout handleOpenClose={handleOpenClose} />}
+            element={
+              <Layout
+                handleOpenClose={handleOpenClose}
+                handleUpload={handleOpenCloseUpload}
+              />
+            }
           >
             <Route path="/" element={<Home />}></Route>
             <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>
-        {open && <Login handleOpenClose={handleOpenClose} />}
+        {openLogin && <Login handleOpenClose={handleOpenClose} />}
+        {openUpload && <Upload handleOpenClose={handleOpenCloseUpload} />}
       </userContext.Provider>
     </div>
   );

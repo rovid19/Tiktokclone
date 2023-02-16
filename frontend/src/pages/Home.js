@@ -3,7 +3,7 @@ import Video from "../components/Video component/Video";
 
 const Home = () => {
   return (
-    <div className="bg-red-500 lg:bg-black lg:bg-opacity-60 h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
+    <div className=" lg:bg-black lg:bg-opacity-60 h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       <div className="h-full w-full lg:hidden">
         {" "}
         <Video />{" "}

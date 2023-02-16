@@ -80,7 +80,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className=" bg-gray-200 w-full  text-gray-400 p-2 mt-10">
+          <button className=" bg-gray-200 w-full  text-gray-400 p-2 mt-10 hover:bg-black hover:text-white">
             Register
           </button>
         </form>
