@@ -71,7 +71,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <div className="h-[70%]  w-full lg:w-[90%]"></div>{" "}
+            1<div className="h-[70%]  w-full lg:w-[90%]"></div>{" "}
           </>
         )}
       </div>

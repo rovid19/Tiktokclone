@@ -1,28 +1,61 @@
-import React from "react";
+import React, { useRef } from "react";
 import { userContext } from "../../Usercontext";
 import { useContext } from "react";
+import { useState } from "react";
 
 const Video = () => {
+  const [playing, setPlaying] = useState(false);
+  const [volume, setVolume] = useState(0.5);
   const { video } = useContext(userContext);
-  console.log(video);
+  const videoRef = useRef(null);
+
+  function handleVolumeChange(e) {
+    setVolume(e.target.value);
+    videoRef.current.volume = volume;
+  }
+
+  function playPause() {
+    if (playing) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play();
+    }
+    setPlaying(!playing);
+  }
   return (
-    <div className="relative h-full w-full">
-      <div className="h-full w-full">
-        {video.map((item) => {
-          return (
-            <div>
-              <video
-                className="w-full h-full"
-                src={"http://localhost:4000/uploads/videos" + item.video}
-              ></video>
-              <h1>{item.video}</h1>
-            </div>
-          );
-        })}
+    <div className="relative h-full w-full group">
+      <div className="h-full w-full bg-black bg-opacity-80">
+        {video &&
+          video.map((item) => {
+            return (
+              <div className="h-full w-full cursor-pointer">
+                <video
+                  volume={volume}
+                  ref={videoRef}
+                  loop
+                  onClick={playPause}
+                  className="h-full w-full "
+                  src={"http://localhost:4000/uploads/videos/" + item.video}
+                  autoPlay
+                ></video>
+              </div>
+            );
+          })}
       </div>
-      <div className="bg-transparent border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">
-        <div className="flex items-center gap-2">
-          <h1 className="hidden lg:block font-bold">0</h1>
+      <div className=" bg-white lg:hidden lg:group-hover:flex group-hover:opacity-100 transition-all lg:bg-gray-300 bg-opacity-40 border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">
+        <div className="flex   items-center gap-2 justify-start">
+          <label className="hidden lg:block h-full cursor-pointer">
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeChange}
+              className="cursor-pointer h-full"
+            />
+          </label>
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
