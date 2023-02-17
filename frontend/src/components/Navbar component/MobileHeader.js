@@ -7,7 +7,7 @@ const MobileHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
   const { user, setUser } = useContext(userContext);
   return (
     <div className="bg-black text-white h-full w-14 absolute top-0 l-0 lg:hidden">
-      <div className="mt-20">
+      <div className="mt-11">
         <div className="flex justify-center ">
           <Link to="/" className="hover:scale-125 hover:text-red-300">
             <svg
@@ -22,7 +22,7 @@ const MobileHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
           </Link>
         </div>
 
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-1">
           {user && (
             <div onClick={handleUpload}>
               <svg

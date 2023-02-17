@@ -25,7 +25,7 @@ const Profile = () => {
 
   return (
     <div className="bg-red-500 lg:bg-black lg:bg-opacity-60 h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
-      <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl">
+      <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl mt-10">
         {visible && <EditProfile handleVisible={handleVisible} />}
         {visible ? (
           ""

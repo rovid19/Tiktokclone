@@ -7,12 +7,12 @@ import { Link, NavLink } from "react-router-dom";
 const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
   const { user, setUser } = useContext(userContext);
   return (
-    <header className="h-[5%] absolute w-full z-10 bg-black  flex justify-center border-opacity-20 border-gray-300 ">
+    <header className="h-[5%] absolute w-full z-10 bg-black flex justify-center border-opacity-20 border-gray-300 ">
       <div className="lg:w-[55%] w-full grid  grid-cols-2 lg:grid-cols-3 flex items-center">
         <div className="flex items-center ">
           <div className=" gap-[20%] flex items-center">
             <Link to="/">
-              <img src={Img} className="ml-4 lg:ml-0 h-8 cursor-pointer" />
+              <img src={Img} className="ml-4 lg:ml-0 h-6 cursor-pointer" />
             </Link>
           </div>
         </div>
@@ -44,7 +44,10 @@ const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
         <div className="gap-4 text-white hidden lg:flex  justify-end h-full items-center">
           <div className="gap-2 flex ">
             <div>
-              <NavLink to="/" className="text-white flex hover:scale-110">
+              <NavLink
+                to="/"
+                className="text-white flex hover:scale-110 mr-[-15px]"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -63,7 +66,7 @@ const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="w-6 h-6 text-white flex hover:scale-110 cursor-pointer"
+                    class="w-6 h-6 text-white flex hover:scale-110 cursor-pointer ml-3"
                   >
                     <path d="M9.97.97a.75.75 0 011.06 0l3 3a.75.75 0 01-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 01-1.06-1.06l3-3zM9.75 6.75v6a.75.75 0 001.5 0v-6h3a3 3 0 013 3v7.5a3 3 0 01-3 3h-7.5a3 3 0 01-3-3v-7.5a3 3 0 013-3h3z" />
                     <path d="M7.151 21.75a2.999 2.999 0 002.599 1.5h7.5a3 3 0 003-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 01-4.5 4.5H7.151z" />
@@ -85,14 +88,14 @@ const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
           {user ? (
             <button
               onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-700 w-20 h-10 hidden lg:block rounded-md"
+              className="bg-red-500 hover:bg-red-700 w-20 h-8 hidden lg:block rounded-md"
             >
               Logout
             </button>
           ) : (
             <button
               onClick={handleOpenClose}
-              className="bg-red-500 hover:bg-red-700 w-20 h-10 hidden lg:block rounded-md"
+              className="bg-red-500 hover:bg-red-700 w-20 h-8 hidden lg:block rounded-md"
             >
               Log in
             </button>
