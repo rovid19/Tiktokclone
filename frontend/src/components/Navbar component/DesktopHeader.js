@@ -7,7 +7,7 @@ import { Link, NavLink } from "react-router-dom";
 const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
   const { user, setUser } = useContext(userContext);
   return (
-    <header className="h-[5%] absolute w-full z-10 bg-black flex justify-center border-opacity-20 border-gray-300 ">
+    <header className="h-[5%] absolute w-full z-10 bg-black flex justify-center  ">
       <div className="lg:w-[55%] w-full grid  grid-cols-2 lg:grid-cols-3 flex items-center">
         <div className="flex items-center ">
           <div className=" gap-[20%] flex items-center">

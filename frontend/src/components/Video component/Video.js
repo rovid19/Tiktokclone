@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { userContext } from "../../Usercontext";
 import { useContext } from "react";
 import { useState } from "react";
@@ -6,9 +6,13 @@ import { useState } from "react";
 const Video = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [scrollTop, setScrollTop] = useState(0);
   const { video } = useContext(userContext);
 
   const videoRef = useRef(null);
+  const prevScroll = useRef(null);
+  const containerRef = useRef(null);
 
   function handleVolumeChange(e) {
     setVolume(e.target.value);
@@ -23,25 +27,76 @@ const Video = () => {
     }
     setPlaying(!playing);
   }
+
+  useEffect(() => {
+    function handleWheelEvent(e) {
+      if (e.deltaY > 0) {
+        if (currentVideoIndex === video.length) {
+          console.log("cant scroll more dude");
+        } else {
+          setCurrentVideoIndex((prev) => prev + 1);
+        }
+      } else {
+        if (currentVideoIndex === 0) {
+          setCurrentVideoIndex(0);
+        } else {
+          setCurrentVideoIndex((prev) => prev - 1);
+        }
+      }
+    }
+
+    document.addEventListener("wheel", handleWheelEvent);
+  }, []);
+
+  /*useEffect(() => {
+    let startY = 0;
+    let endY = 0;
+
+    function handleTouchStart(e) {
+      startY = e.touches[0].clientY;
+    }
+
+    function handleTouchMove(e) {
+      endY = e.touches[0].clientY;
+    }
+
+    function handleTouchEnd() {
+      if (startY < endY) {
+        if (currentVideoIndex === 0) {
+          setCurrentVideoIndex(0);
+        } else {
+          setCurrentVideoIndex((prev) => prev - 1);
+        }
+      } else if (startY > endY) {
+        if (currentVideoIndex === video.length) {
+          console.log("cant scroll more dude");
+        } else {
+          setCurrentVideoIndex((prev) => prev + 1);
+        }
+      }
+    }
+
+    document.addEventListener("touchstart", handleTouchStart);
+    document.addEventListener("touchmove", handleTouchMove);
+    document.addEventListener("touchend", handleTouchEnd);
+  }); */
   return (
     <div className="relative h-full w-full group">
-      <div className="h-full w-full bg-black bg-opacity-80">
-        {video &&
-          video.map((item) => {
-            return (
-              <div className="h-full w-full cursor-pointer">
-                <video
-                  volume={volume}
-                  ref={videoRef}
-                  loop
-                  onClick={playPause}
-                  className="h-full w-full "
-                  src={"http://localhost:4000/uploads/videos/" + item.video}
-                  autoPlay
-                ></video>
-              </div>
-            );
-          })}
+      <div className="h-full w-full bg-red-500 cursor-pointer lg:border-r-4 lg:border-l-4 border-white overflow-auto">
+        {video && (
+          <video
+            volume={volume}
+            ref={videoRef}
+            loop
+            onClick={playPause}
+            className="h-full w-full "
+            src={
+              "http://localhost:4000/uploads/videos/" +
+              video[currentVideoIndex].video
+            }
+            autoPlay
+          ></video>
+        )}
       </div>
       <div className=" bg-black lg:hidden lg:group-hover:flex group-hover:opacity-100 transition-all lg:bg-black text-white bg-opacity-80 border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">
         <div className="flex justify-between w-full">
@@ -59,7 +114,7 @@ const Video = () => {
             </label>
           </div>
           <div className="flex items-center text-sm lg:text-xl lg:hidden xl:flex  ">
-            <h1>Title of the video</h1>
+            <h1>{video && video[currentVideoIndex].title}</h1>
           </div>
           <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4  ">
             <h1 className=":block font-bold">0</h1>

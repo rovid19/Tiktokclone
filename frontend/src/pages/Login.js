@@ -10,6 +10,7 @@ const Login = ({ handleOpenClose }) => {
   const [password, setPassword] = useState(null);
   const [redirect, setRedirect] = useState(false);
   const [register, setRegister] = useState(false);
+  const [className, setClassName] = useState("");
   const [error, setError] = useState("");
 
   const { setUser, setReady } = useContext(userContext);
@@ -41,6 +42,7 @@ const Login = ({ handleOpenClose }) => {
 
     setRedirect(false);
   }
+
   return (
     <>
       <div className="flex items-center bg-black bg-opacity-50 justify-center absolute top-0 left-0 w-screen h-screen z-20">

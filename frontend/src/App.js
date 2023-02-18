@@ -42,9 +42,11 @@ const App = () => {
     axios.get("/video-store", {}).then(({ data }) => {
       setVideo(data);
       setVideoTrigger("neke");
+      console.log("da");
     });
   }, [videoTrigger]);
   console.log(user);
+  console.log(video);
   return (
     <div>
       <userContext.Provider

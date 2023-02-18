@@ -39,13 +39,14 @@ const Upload = ({ handleOpenClose }) => {
         title,
         description,
       });
-      setVideoTrigger("trigger");
+      setVideoTrigger("triggererr");
       handleOpenClose();
     } else {
       setNatpis(true);
     }
   }
   console.log(video);
+  console.log("da");
   return (
     <>
       <div className="flex items-center bg-black bg-opacity-50 justify-center absolute top-0 left-0 w-screen h-screen z-20">
