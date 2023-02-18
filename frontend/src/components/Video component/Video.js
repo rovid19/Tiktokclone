@@ -27,10 +27,52 @@ const Video = () => {
   }
 
   useEffect(() => {
-    async function handleWheelEvent(e) {
-      const dataFetched = await video;
-      if (dataFetched) {
-        if (e.deltaY > 0) {
+    if (window.innerWidth >= 1025) {
+      async function handleWheelEvent(e) {
+        const dataFetched = await video;
+        if (dataFetched) {
+          if (e.deltaY > 0) {
+            setCurrentVideoIndex((prev) => {
+              if (prev === video.length - 1) {
+                console.log(prev);
+                return prev;
+              } else {
+                console.log(prev);
+                return prev + 1;
+              }
+            });
+          } else {
+            setCurrentVideoIndex((prev) => {
+              if (prev === 0) {
+                return prev;
+              } else {
+                return prev - 1;
+              }
+            });
+          }
+        }
+      }
+
+      window.addEventListener("wheel", handleWheelEvent);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.innerWidth <= 1025) {
+      let startY = 0;
+      let endY = 0;
+
+      function handleTouchStart(e) {
+        startY = e.touches[0].clientY;
+      }
+
+      function handleTouchMove(e) {
+        endY = e.touches[0].clientY;
+      }
+
+      function handleTouchEnd() {
+        if (startY < endY) {
+          console.log("dolje");
           setCurrentVideoIndex((prev) => {
             if (prev === video.length - 1) {
               console.log(prev);
@@ -40,7 +82,8 @@ const Video = () => {
               return prev + 1;
             }
           });
-        } else {
+        } else if (startY > endY) {
+          console.log("gore");
           setCurrentVideoIndex((prev) => {
             if (prev === 0) {
               return prev;
@@ -50,46 +93,13 @@ const Video = () => {
           });
         }
       }
-    }
 
-    window.addEventListener("wheel", handleWheelEvent);
+      document.addEventListener("touchstart", handleTouchStart);
+      document.addEventListener("touchmove", handleTouchMove);
+      document.addEventListener("touchend", handleTouchEnd);
+    }
   }, []);
-
-  /*useEffect(() => {
-    let startY = 0;
-    let endY = 0;
-
-    function handleTouchStart(e) {
-      startY = e.touches[0].clientY;
-    }
-
-    function handleTouchMove(e) {
-      endY = e.touches[0].clientY;
-    }
-
-    function handleTouchEnd() {
-      if (startY < endY) {
-        if (currentVideoIndex === 0) {
-          setCurrentVideoIndex(0);
-        } else {
-          setCurrentVideoIndex((prev) => prev - 1);
-        }
-      } else if (startY > endY) {
-        if (currentVideoIndex === video.length) {
-          console.log("cant scroll more dude");
-        } else {
-          setCurrentVideoIndex((prev) => prev + 1);
-        }
-      }
-    }
-
-    document.addEventListener("touchstart", handleTouchStart);
-    document.addEventListener("touchmove", handleTouchMove);
-    document.addEventListener("touchend", handleTouchEnd);
-  }); */
-  if (!video) {
-    return <div>Loading</div>;
-  }
+  console.log(window.innerWidth);
   return (
     <div className="relative h-full w-full group">
       <div className="h-full w-full bg-red-500 cursor-pointer lg:border-r-4 lg:border-l-4 border-white overflow-auto">
