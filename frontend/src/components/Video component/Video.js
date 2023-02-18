@@ -7,12 +7,10 @@ const Video = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
-  const [scrollTop, setScrollTop] = useState(0);
-  const { video } = useContext(userContext);
+
+  const { video, spreman } = useContext(userContext);
 
   const videoRef = useRef(null);
-  const prevScroll = useRef(null);
-  const containerRef = useRef(null);
 
   function handleVolumeChange(e) {
     setVolume(e.target.value);
@@ -29,23 +27,32 @@ const Video = () => {
   }
 
   useEffect(() => {
-    function handleWheelEvent(e) {
-      if (e.deltaY > 0) {
-        if (currentVideoIndex === video.length) {
-          console.log("cant scroll more dude");
+    async function handleWheelEvent(e) {
+      const dataFetched = await video;
+      if (dataFetched) {
+        if (e.deltaY > 0) {
+          setCurrentVideoIndex((prev) => {
+            if (prev === video.length - 1) {
+              console.log(prev);
+              return prev;
+            } else {
+              console.log(prev);
+              return prev + 1;
+            }
+          });
         } else {
-          setCurrentVideoIndex((prev) => prev + 1);
-        }
-      } else {
-        if (currentVideoIndex === 0) {
-          setCurrentVideoIndex(0);
-        } else {
-          setCurrentVideoIndex((prev) => prev - 1);
+          setCurrentVideoIndex((prev) => {
+            if (prev === 0) {
+              return prev;
+            } else {
+              return prev - 1;
+            }
+          });
         }
       }
     }
 
-    document.addEventListener("wheel", handleWheelEvent);
+    window.addEventListener("wheel", handleWheelEvent);
   }, []);
 
   /*useEffect(() => {
@@ -80,6 +87,9 @@ const Video = () => {
     document.addEventListener("touchmove", handleTouchMove);
     document.addEventListener("touchend", handleTouchEnd);
   }); */
+  if (!video) {
+    return <div>Loading</div>;
+  }
   return (
     <div className="relative h-full w-full group">
       <div className="h-full w-full bg-red-500 cursor-pointer lg:border-r-4 lg:border-l-4 border-white overflow-auto">

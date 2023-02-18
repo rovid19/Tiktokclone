@@ -19,6 +19,7 @@ const App = () => {
   const [openUpload, setOpenUpload] = useState(false);
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState("");
+  const [spreman, setSpreman] = useState(false);
   const [video, setVideo] = useState(null);
   const [videoTrigger, setVideoTrigger] = useState("");
 
@@ -33,7 +34,6 @@ const App = () => {
     if (!user) {
       axios.get("/profile", {}).then(({ data }) => {
         setUser(data);
-        setReady("ha");
       });
     }
   }, [ready]);
@@ -41,7 +41,7 @@ const App = () => {
   useEffect(() => {
     axios.get("/video-store", {}).then(({ data }) => {
       setVideo(data);
-      setVideoTrigger("neke");
+      setSpreman(true);
       console.log("da");
     });
   }, [videoTrigger]);
@@ -58,6 +58,8 @@ const App = () => {
           video,
           setVideo,
           setVideoTrigger,
+          setSpreman,
+          spreman,
         }}
       >
         <Routes>
