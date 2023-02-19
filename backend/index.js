@@ -178,3 +178,13 @@ app.get("/video-store", (req, res) => {
     }
   });
 });
+
+app.get("/get-videos", async (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+
+    const userVideos = await Video.find({ owner: userData.id });
+    res.json(userVideos);
+  });
+});

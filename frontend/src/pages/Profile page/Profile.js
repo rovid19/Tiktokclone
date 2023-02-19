@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import EditProfile from "./EditProfile";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import UserVideos from "./UserVideos.js";
 
 const Profile = () => {
   const [visible, setVisible] = useState(false);
@@ -71,7 +72,9 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            1<div className="h-[70%]  w-full lg:w-[90%]"></div>{" "}
+            <div className="h-[70%]  w-full lg:w-[80%]">
+              <UserVideos />
+            </div>{" "}
           </>
         )}
       </div>

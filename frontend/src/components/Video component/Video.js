@@ -7,6 +7,7 @@ const Video = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [bato, setBato] = useState("");
 
   const { video, spreman } = useContext(userContext);
 
@@ -28,34 +29,30 @@ const Video = () => {
 
   useEffect(() => {
     if (window.innerWidth >= 1025) {
-      async function handleWheelEvent(e) {
-        const dataFetched = await video;
-        if (dataFetched) {
-          if (e.deltaY > 0) {
-            setCurrentVideoIndex((prev) => {
-              if (prev === video.length - 1) {
-                console.log(prev);
-                return prev;
-              } else {
-                console.log(prev);
-                return prev + 1;
-              }
-            });
-          } else {
-            setCurrentVideoIndex((prev) => {
-              if (prev === 0) {
-                return prev;
-              } else {
-                return prev - 1;
-              }
-            });
-          }
+      function handleWheelEvent(e) {
+        if (e.deltaY > 0) {
+          setCurrentVideoIndex((prev) => {
+            if (prev === video.length - 1) {
+              return prev;
+            } else {
+              return prev + 1;
+            }
+          });
+        } else {
+          setCurrentVideoIndex((prev) => {
+            if (prev === 0) {
+              return prev;
+            } else {
+              return prev - 1;
+            }
+          });
         }
       }
 
-      window.addEventListener("wheel", handleWheelEvent);
+      document.addEventListener("wheel", handleWheelEvent);
+      return () => document.removeEventListener("wheel", handleWheelEvent);
     }
-  }, []);
+  }, [spreman]);
 
   useEffect(() => {
     if (window.innerWidth <= 1025) {
@@ -75,10 +72,8 @@ const Video = () => {
           console.log("dolje");
           setCurrentVideoIndex((prev) => {
             if (prev === video.length - 1) {
-              console.log(prev);
               return prev;
             } else {
-              console.log(prev);
               return prev + 1;
             }
           });
@@ -98,8 +93,8 @@ const Video = () => {
       document.addEventListener("touchmove", handleTouchMove);
       document.addEventListener("touchend", handleTouchEnd);
     }
-  }, []);
-  console.log(window.innerWidth);
+  }, [spreman]);
+
   return (
     <div className="relative h-full w-full group">
       <div className="h-full w-full bg-red-500 cursor-pointer lg:border-r-4 lg:border-l-4 border-white overflow-auto">

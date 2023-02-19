@@ -10,10 +10,10 @@ const Login = ({ handleOpenClose }) => {
   const [password, setPassword] = useState(null);
   const [redirect, setRedirect] = useState(false);
   const [register, setRegister] = useState(false);
-  const [className, setClassName] = useState("");
+
   const [error, setError] = useState("");
 
-  const { setUser, setReady } = useContext(userContext);
+  const { setUser, setReady, ready } = useContext(userContext);
 
   function handleRegister() {
     setRegister(!register);
@@ -22,12 +22,15 @@ const Login = ({ handleOpenClose }) => {
   async function handleLogin(e) {
     e.preventDefault();
     try {
-      await axios.post("/login", {
-        email,
-        password,
-      });
-      setReady("sta");
-      setRedirect(true);
+      axios
+        .post("/login", {
+          email,
+          password,
+        })
+        .then(() => {
+          setReady(!ready);
+          handleOpenClose();
+        });
     } catch (error) {
       if (error.response.status === 422) {
         setError("Incorrect email or password");
@@ -42,6 +45,7 @@ const Login = ({ handleOpenClose }) => {
 
     setRedirect(false);
   }
+  console.log(ready);
 
   return (
     <>
