@@ -14,6 +14,7 @@ const Upload = ({ handleOpenClose }) => {
   const [className, setClassName] = useState(
     " bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
   );
+  const [like, setLike] = useState(1);
 
   function handleFile(e) {
     const file = e.target.files;
@@ -39,7 +40,7 @@ const Upload = ({ handleOpenClose }) => {
         title,
         description,
       });
-      setVideoTrigger("triggererr");
+      setVideoTrigger("uploadTriggered");
       handleOpenClose();
     } else {
       setNatpis(true);

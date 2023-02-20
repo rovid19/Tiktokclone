@@ -5,7 +5,7 @@ const videoSchema = new mongoose.Schema({
   title: String,
   description: String,
   comments: [String],
-  likes: 0,
+  likes: { type: [String], default: [] },
   video: [],
 });
 

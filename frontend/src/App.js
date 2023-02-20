@@ -21,6 +21,8 @@ const App = () => {
   const [ready, setReady] = useState(false);
   const [spreman, setSpreman] = useState(false);
   const [video, setVideo] = useState(null);
+  const [userReady, setUserReady] = useState(false);
+  const [addRemoveLike, setAddRemoveLike] = useState(false);
   const [videoTrigger, setVideoTrigger] = useState("");
 
   function handleOpenClose() {
@@ -34,7 +36,7 @@ const App = () => {
     if (!user) {
       axios.get("/profile", {}).then(({ data }) => {
         setUser(data);
-        console.log("user render");
+        setUserReady(!userReady);
       });
     }
   }, [ready]);
@@ -43,8 +45,9 @@ const App = () => {
     axios.get("/video-store", {}).then(({ data }) => {
       setVideo(data);
       setSpreman(!spreman);
+      console.log("rendered");
     });
-  }, [videoTrigger]);
+  }, [videoTrigger, addRemoveLike]);
 
   return (
     <div>
@@ -59,6 +62,9 @@ const App = () => {
           setVideoTrigger,
           setSpreman,
           spreman,
+          userReady,
+          addRemoveLike,
+          setAddRemoveLike,
         }}
       >
         <Routes>

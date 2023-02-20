@@ -20,7 +20,7 @@ const UserVideos = () => {
   }
 
   return (
-    <div className=" lg:w-full h-full grid grid-cols-3 lg:grid-cols-5 overflow-hidden ">
+    <div className=" lg:w-full h-full grid grid-cols-3 lg:grid-cols-5 overflow-hidden    ">
       {userVideos &&
         userVideos.map((item) => {
           return (

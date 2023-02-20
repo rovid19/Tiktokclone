@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   followers: [],
   following: [],
   videoLikes: 0,
+  likedVideos: [String],
   profilePhoto: [String],
   description: String,
 });

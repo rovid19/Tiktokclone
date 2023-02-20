@@ -153,7 +153,7 @@ app.post("/upload-video", upload.single("video"), (req, res) => {
 });
 
 app.post("/video", async (req, res) => {
-  const { title, description, video } = req.body;
+  const { title, description, video, like } = req.body;
   const { token } = req.cookies;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -186,5 +186,51 @@ app.get("/get-videos", async (req, res) => {
 
     const userVideos = await Video.find({ owner: userData.id });
     res.json(userVideos);
+  });
+});
+
+app.put("/send-like", async (req, res) => {
+  const { token } = req.cookies;
+  const { like, likedVideo } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const user = await User.findById(userData.id);
+    await user.set({
+      likedVideos: likedVideo,
+    });
+    await user.save();
+
+    const video = await Video.findOne({ video: likedVideo });
+    await video.set({
+      likes: like,
+    });
+    await video.save();
+    res.json(video);
+  });
+});
+
+app.put("/remove-like", async (req, res) => {
+  const { token } = req.cookies;
+  const { like, likedVideo } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const user = await User.findById(userData.id);
+    const newLiked = user.likedVideos.filter((item) => item !== likedVideo);
+
+    await user.set({
+      likedVideos: newLiked,
+    });
+    await user.save();
+
+    const video = await Video.findOne({ video: likedVideo });
+    const newLike = video.likes.filter((item) => item !== like);
+
+    await video.set({
+      likes: newLike,
+    });
+    await video.save();
+    res.json(video);
   });
 });

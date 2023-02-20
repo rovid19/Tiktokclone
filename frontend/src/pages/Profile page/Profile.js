@@ -33,9 +33,9 @@ const Profile = () => {
         ) : (
           <>
             {" "}
-            <div className="h-[30%] w-full lg:w-[70%]  xl:w-[50%] flex-col mt-6 ">
-              <div className="flex h-[70%]">
-                <div className="w-[140px] lg:w-[200px] ml-2  h-[100%]  flex justify-center">
+            <div className="h-[30%] w-full lg:w-[80%]  xl:w-[80%] flex-col mt-6 ">
+              <div className="flex h-[70%] ">
+                <div className="w-[100px] lg:w-[110px] ml-4  h-[100%]  flex ">
                   <img
                     src={"http://localhost:4000/uploads/" + user.profilePhoto}
                     className="h-full rounded-full"
