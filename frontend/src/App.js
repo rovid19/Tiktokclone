@@ -34,18 +34,20 @@ const App = () => {
 
   useEffect(() => {
     if (!user) {
-      axios.get("/profile", {}).then(({ data }) => {
-        setUser(data);
-        setUserReady(!userReady);
-      });
+      axios
+        .get("/profile?timestamp=" + new Date().getTime(), {})
+        .then(({ data }) => {
+          console.log("da");
+          setUser(data);
+          setUserReady(!userReady);
+        });
     }
-  }, [ready]);
+  }, [user, ready]);
 
   useEffect(() => {
     axios.get("/video-store", {}).then(({ data }) => {
       setVideo(data);
       setSpreman(!spreman);
-      console.log("rendered");
     });
   }, [videoTrigger, addRemoveLike]);
 
@@ -65,6 +67,8 @@ const App = () => {
           userReady,
           addRemoveLike,
           setAddRemoveLike,
+          userReady,
+          setUserReady,
         }}
       >
         <Routes>

@@ -9,11 +9,12 @@ import DesktopHeader from "./DesktopHeader";
 import MobileHeader from "./MobileHeader";
 
 const Navbar = ({ handleOpenClose, handleUpload }) => {
-  const { user, setUser } = useContext(userContext);
+  const { user, setUser, setUserReady, userReady } = useContext(userContext);
 
   async function handleLogout() {
     axios.post("/logout");
     setUser(null);
+    setUserReady(!userReady);
   }
   return (
     <>

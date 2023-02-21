@@ -3,6 +3,7 @@ import { userContext } from "../../Usercontext";
 import { useContext } from "react";
 import { useState } from "react";
 import axios from "axios";
+import Comments from "./Comments.js";
 
 const Video = () => {
   const [playing, setPlaying] = useState(false);
@@ -11,6 +12,8 @@ const Video = () => {
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
   const [render, setRender] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [name, setName] = useState(null);
 
   const [className, setClassName] = useState(
     "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
@@ -70,29 +73,35 @@ const Video = () => {
   }
 
   useEffect(() => {
-    function handleWheelEvent(e) {
-      if (e.deltaY > 0) {
-        setCurrentVideoIndex((prev) => {
-          if (prev === video.length - 1) {
-            return prev;
-          } else {
-            return prev + 1;
-          }
-        });
-      } else {
-        setCurrentVideoIndex((prev) => {
-          if (prev === 0) {
-            return prev;
-          } else {
-            return prev - 1;
-          }
-        });
+    if (video) {
+      function handleWheelEvent(e, video) {
+        if (e.deltaY > 0) {
+          setCurrentVideoIndex((prev) => {
+            if (prev === video.length - 1) {
+              return prev;
+            } else {
+              return prev + 1;
+            }
+          });
+        } else {
+          setCurrentVideoIndex((prev) => {
+            if (prev === 0) {
+              return prev;
+            } else {
+              return prev - 1;
+            }
+          });
+        }
       }
-    }
-    setRender(!render);
 
-    document.addEventListener("wheel", handleWheelEvent);
-    return () => document.removeEventListener("wheel", handleWheelEvent);
+      const div = document.querySelector("#Mirko");
+
+      div.addEventListener("wheel", (e) => handleWheelEvent(e, video));
+      return () =>
+        document.removeEventListener("wheel", (e) =>
+          handleWheelEvent(e, video)
+        );
+    }
   }, [spreman]);
 
   useEffect(() => {
@@ -108,9 +117,8 @@ const Video = () => {
         endY = e.touches[0].clientY;
       }
 
-      function handleTouchEnd() {
+      function handleTouchEnd(video) {
         if (startY < endY) {
-          console.log("dolje");
           setCurrentVideoIndex((prev) => {
             if (prev === video.length - 1) {
               return prev;
@@ -119,7 +127,6 @@ const Video = () => {
             }
           });
         } else if (startY > endY) {
-          console.log("gore");
           setCurrentVideoIndex((prev) => {
             if (prev === 0) {
               return prev;
@@ -129,6 +136,8 @@ const Video = () => {
           });
         }
       }
+
+      const div = document.querySelector("#Mirko");
 
       document.addEventListener("touchstart", handleTouchStart);
       document.addEventListener("touchmove", handleTouchMove);
@@ -156,6 +165,12 @@ const Video = () => {
         );
       }
     }
+  }, [spreman, currentVideoIndex, userReady]);
+  //komentari
+  useEffect(() => {
+    if (video) {
+      setName(video[currentVideoIndex].video[0]);
+    }
   }, [spreman, currentVideoIndex]);
 
   function handleLikeSet() {
@@ -163,9 +178,31 @@ const Video = () => {
     setLikedVideo(video[currentVideoIndex].video[0]);
   }
 
+  function handleOpenCloseComments() {
+    setVisible(!visible);
+  }
+  //n
+  useEffect(() => {
+    if (!user) {
+      console.log("da");
+      setClassName(
+        "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
+      );
+    }
+  }, [userReady]);
   return (
     <div className="relative h-full w-full group">
-      <div className="h-full w-full bg-black cursor-pointer  overflow-auto">
+      {visible && (
+        <Comments
+          handleOpenCloseComments={handleOpenCloseComments}
+          name={name}
+          visible={visible}
+        />
+      )}
+      <div
+        id="Mirko"
+        className="h-full w-full bg-black cursor-pointer  overflow-auto"
+      >
         {video && (
           <video
             volume={volume}
@@ -216,23 +253,21 @@ const Video = () => {
               </svg>
             </div>
             <div className="flex items-center gap-2">
-              {video && (
-                <h1 className="lg:hidden font-bold">
-                  {video[currentVideoIndex].likes.length}
-                </h1>
-              )}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              {video && <h1 className="lg:hidden font-bold">0</h1>}
+              <div onClick={() => handleOpenCloseComments()}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>

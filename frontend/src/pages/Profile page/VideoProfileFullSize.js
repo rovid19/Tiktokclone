@@ -3,7 +3,7 @@ import { userContext } from "../../Usercontext";
 import axios from "axios";
 
 const VideoProfileFullSize = ({ name, closeFullVideo }) => {
-  const [index, setIndex] = useState();
+  const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
@@ -32,7 +32,11 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
   const videoRef = useRef(null);
   useEffect(() => {
     const index = video.findIndex((item) => item.video[0] === name[0]);
-    setIndex(index);
+    console.log(index);
+    if (index === 0) {
+    } else {
+      setIndex(index);
+    }
   }, []);
 
   function playPause() {
@@ -161,7 +165,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
       }
     }
   }, [spreman, index]);
-
+  console.log(index);
   function handleLikeSet() {
     setLike(user._id);
     setLikedVideo(video[index].video[0]);
@@ -186,7 +190,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
           />
         </svg>
       </div>
-      {index && (
+      {video && (
         <video
           volume={volume}
           ref={videoRef}
@@ -216,7 +220,9 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
             <h1>{index && video[index].title}</h1>
           </div>
           <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4  ">
-            <h1 className=":block font-bold">0</h1>
+            {video && (
+              <h1 className="block font-bold">{video[index].likes.length}</h1>
+            )}
             <div onClick={() => handleLikeSet()}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

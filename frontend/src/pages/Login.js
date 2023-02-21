@@ -13,7 +13,8 @@ const Login = ({ handleOpenClose }) => {
 
   const [error, setError] = useState("");
 
-  const { setUser, setReady, ready } = useContext(userContext);
+  const { setUser, setReady, ready, userReady, setUserReady } =
+    useContext(userContext);
 
   function handleRegister() {
     setRegister(!register);
@@ -45,7 +46,6 @@ const Login = ({ handleOpenClose }) => {
 
     setRedirect(false);
   }
-  console.log(ready);
 
   return (
     <>

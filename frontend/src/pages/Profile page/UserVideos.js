@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import VideoProfileFullSize from "./VideoProfileFullSize";
 import { userContext } from "../../Usercontext";
 
@@ -8,6 +8,7 @@ const UserVideos = () => {
   const [userVideos, setUserVideos] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
+  const { addRemoveLike, setAddRemoveLike } = useContext(userContext);
 
   useEffect(() => {
     axios.get("/get-videos", {}).then(({ data }) => {
@@ -17,7 +18,9 @@ const UserVideos = () => {
 
   function closeFullVideo() {
     setVisible(!visible);
+    setAddRemoveLike(!addRemoveLike);
   }
+  console.log(visible);
 
   return (
     <div className=" lg:w-full h-full grid grid-cols-3 lg:grid-cols-5 overflow-hidden    ">

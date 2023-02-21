@@ -11,6 +11,8 @@ import User from "../backend/Models/User.js";
 import multer from "multer";
 import fs from "fs";
 import Video from "../backend/Models/Video.js";
+import CircularJSON from "circular-json";
+import Comments from "./Models/Comments.js";
 
 // KONFIGURACIJA SERVERA
 const app = express();
@@ -233,4 +235,23 @@ app.put("/remove-like", async (req, res) => {
     await video.save();
     res.json(video);
   });
+});
+
+app.post("/comment", async (req, res) => {
+  const { profilePhotoSet, comment, name } = req.body;
+  console.log(name);
+  const newProfile = profilePhotoSet.toString();
+  const commment = await Comments.create({
+    profile: newProfile,
+    comment: comment,
+    video: name,
+  });
+
+  res.json(commment);
+});
+
+app.post("/get-comments", async (req, res) => {
+  const { name } = req.body;
+  const allComments = await Comments.find({ video: name });
+  res.json(allComments);
 });
