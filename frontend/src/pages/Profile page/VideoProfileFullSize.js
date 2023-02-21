@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { userContext } from "../../Usercontext";
 import axios from "axios";
+import CommentsFullSize from "../../components/Video component/CommentsFullSize";
 
 const VideoProfileFullSize = ({ name, closeFullVideo }) => {
   const [index, setIndex] = useState(0);
@@ -8,6 +9,8 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
   const [render, setRender] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [nameDva, setNameDva] = useState(null);
 
   const [className, setClassName] = useState(
     "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
@@ -75,8 +78,8 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
   }
 
   useEffect(() => {
-    if (window.innerWidth >= 1025) {
-      function handleWheelEvent(e) {
+    if (video) {
+      function handleWheelEvent(e, video) {
         if (e.deltaY > 0) {
           setIndex((prev) => {
             if (prev === video.length - 1) {
@@ -96,51 +99,52 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
         }
       }
 
-      document.addEventListener("wheel", handleWheelEvent);
-      return () => document.removeEventListener("wheel", handleWheelEvent);
+      const div = document.querySelector("#Mirko");
+
+      div.addEventListener("wheel", (e) => handleWheelEvent(e, video));
+      return () =>
+        div.removeEventListener("wheel", (e) => handleWheelEvent(e, video));
     }
   }, [spreman]);
 
   useEffect(() => {
-    if (window.innerWidth <= 1025) {
-      if (video) {
-        let startY = 0;
-        let endY = 0;
+    if (video) {
+      let startY = 0;
+      let endY = 0;
 
-        function handleTouchStart(e) {
-          startY = e.touches[0].clientY;
-        }
-
-        function handleTouchMove(e) {
-          endY = e.touches[0].clientY;
-        }
-
-        function handleTouchEnd() {
-          if (startY < endY) {
-            console.log("dolje");
-            setIndex((prev) => {
-              if (prev === video.length - 1) {
-                return prev;
-              } else {
-                return prev + 1;
-              }
-            });
-          } else if (startY > endY) {
-            console.log("gore");
-            setIndex((prev) => {
-              if (prev === 0) {
-                return prev;
-              } else {
-                return prev - 1;
-              }
-            });
-          }
-        }
-
-        document.addEventListener("touchstart", handleTouchStart);
-        document.addEventListener("touchmove", handleTouchMove);
-        document.addEventListener("touchend", handleTouchEnd);
+      function handleTouchStart(e) {
+        startY = e.touches[0].clientY;
       }
+
+      function handleTouchMove(e) {
+        endY = e.touches[0].clientY;
+      }
+
+      function handleTouchEnd() {
+        if (startY < endY) {
+          setIndex((prev) => {
+            if (prev === video.length - 1) {
+              return prev;
+            } else {
+              return prev + 1;
+            }
+          });
+        } else if (startY > endY) {
+          setIndex((prev) => {
+            if (prev === 0) {
+              return prev;
+            } else {
+              return prev - 1;
+            }
+          });
+        }
+      }
+
+      const div = document.querySelector("#Mirko");
+
+      div.addEventListener("touchstart", (e) => handleTouchStart(e));
+      div.addEventListener("touchmove", (e) => handleTouchMove(e));
+      div.addEventListener("touchend", handleTouchEnd);
     }
   }, [spreman]);
 
@@ -170,9 +174,24 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
     setLike(user._id);
     setLikedVideo(video[index].video[0]);
   }
-
+  function handleOpenCloseComments() {
+    setVisible(!visible);
+  }
+  useEffect(() => {
+    if (video) {
+      setNameDva(video[index].video[0]);
+    }
+  }, [spreman, index]);
+  console.log(nameDva);
   return (
     <div className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-90 flex justify-center">
+      {visible && (
+        <CommentsFullSize
+          handleOpenCloseComments={handleOpenCloseComments}
+          name={nameDva}
+          visible={visible}
+        />
+      )}
       <div
         className="text-red-500 h-[10%] md:left-[10%] absolute mt-16 left-[5%] lg:left-[30%]  z-20 cursor-pointer   "
         onClick={closeFullVideo}
@@ -190,17 +209,21 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
           />
         </svg>
       </div>
-      {video && (
-        <video
-          volume={volume}
-          ref={videoRef}
-          loop
-          onClick={playPause}
-          className="h-[calc(100%-5%)] top-[5%] relative w-full z-10 cursor-pointer "
-          src={"http://localhost:4000/uploads/videos/" + video[index].video[0]}
-          autoPlay
-        ></video>
-      )}
+      <div id="Mirko">
+        {video && (
+          <video
+            volume={volume}
+            ref={videoRef}
+            loop
+            onClick={playPause}
+            className="h-[calc(100%-5%)] top-[5%] relative w-full z-10 cursor-pointer "
+            src={
+              "http://localhost:4000/uploads/videos/" + video[index].video[0]
+            }
+            autoPlay
+          ></video>
+        )}
+      </div>
       <div className=" bg-black z-30 group-hover:opacity-100 transition-all lg:bg-black text-white bg-opacity-80 border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">
         <div className="flex justify-between w-full">
           <div className="hidden lg:flex items-center ml-8 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4 ">
@@ -235,19 +258,20 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
             </div>
 
             <div className="flex items-center gap-2">
-              <h1 className="lg:hidden font-bold">0</h1>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+              <div onClick={handleOpenCloseComments}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>

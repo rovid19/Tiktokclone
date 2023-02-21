@@ -238,13 +238,14 @@ app.put("/remove-like", async (req, res) => {
 });
 
 app.post("/comment", async (req, res) => {
-  const { profilePhotoSet, comment, name } = req.body;
+  const { profilePhotoSet, comment, name, id } = req.body;
   console.log(name);
   const newProfile = profilePhotoSet.toString();
   const commment = await Comments.create({
     profile: newProfile,
     comment: comment,
     video: name,
+    owner: id,
   });
 
   res.json(commment);
@@ -254,4 +255,11 @@ app.post("/get-comments", async (req, res) => {
   const { name } = req.body;
   const allComments = await Comments.find({ video: name });
   res.json(allComments);
+});
+
+app.post("/delete-comment", async (req, res) => {
+  const { commentDelete } = req.body;
+
+  const deleteVideo = await Comments.findByIdAndDelete(commentDelete);
+  res.status(200).json(deleteVideo);
 });

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useContext, useState } from "react";
 import { userContext } from "../../Usercontext";
 
-const Comments = ({ handleOpenCloseComments, name, visible }) => {
+const CommentsFullSize = ({ handleOpenCloseComments, name, visible }) => {
   const [profilePhotoSet, setProfilePhotoSet] = useState([]);
   const [comment, setComment] = useState([""]);
   const [error, setError] = useState(false);
@@ -62,8 +62,10 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
         });
     }
   }, [commentDelete]);
+
+  console.log(name);
   return (
-    <div className="w-full h-full z-30 absolute ">
+    <div className="w-full h-full z-40 absolute ">
       <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
         <div
           onClick={() => {
@@ -155,4 +157,4 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
   );
 };
 
-export default Comments;
+export default CommentsFullSize;

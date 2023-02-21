@@ -98,9 +98,7 @@ const Video = () => {
 
       div.addEventListener("wheel", (e) => handleWheelEvent(e, video));
       return () =>
-        document.removeEventListener("wheel", (e) =>
-          handleWheelEvent(e, video)
-        );
+        div.removeEventListener("wheel", (e) => handleWheelEvent(e, video));
     }
   }, [spreman]);
 
@@ -117,7 +115,7 @@ const Video = () => {
         endY = e.touches[0].clientY;
       }
 
-      function handleTouchEnd(video) {
+      function handleTouchEnd() {
         if (startY < endY) {
           setCurrentVideoIndex((prev) => {
             if (prev === video.length - 1) {
@@ -139,9 +137,9 @@ const Video = () => {
 
       const div = document.querySelector("#Mirko");
 
-      document.addEventListener("touchstart", handleTouchStart);
-      document.addEventListener("touchmove", handleTouchMove);
-      document.addEventListener("touchend", handleTouchEnd);
+      div.addEventListener("touchstart", (e) => handleTouchStart(e));
+      div.addEventListener("touchmove", (e) => handleTouchMove(e));
+      div.addEventListener("touchend", handleTouchEnd);
     }
   }, [spreman]);
 
@@ -174,8 +172,12 @@ const Video = () => {
   }, [spreman, currentVideoIndex]);
 
   function handleLikeSet() {
-    setLike(user._id);
-    setLikedVideo(video[currentVideoIndex].video[0]);
+    if (!user) {
+      alert("You must be logged in in order to like a video");
+    } else {
+      setLike(user._id);
+      setLikedVideo(video[currentVideoIndex].video[0]);
+    }
   }
 
   function handleOpenCloseComments() {
@@ -253,7 +255,6 @@ const Video = () => {
               </svg>
             </div>
             <div className="flex items-center gap-2">
-              {video && <h1 className="lg:hidden font-bold">0</h1>}
               <div onClick={() => handleOpenCloseComments()}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
