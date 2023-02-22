@@ -5,6 +5,7 @@ const commentSchema = new mongoose.Schema({
   comment: String,
   video: String,
   owner: String,
+  username: String,
 });
 
 const commentModel = mongoose.model("Comment", commentSchema);

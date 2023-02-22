@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { userContext } from "../../Usercontext";
 import { useContext } from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Comments from "./Comments.js";
 
@@ -14,6 +15,7 @@ const Video = () => {
   const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(null);
+  const [profileId, setProfileId] = useState(null);
 
   const [className, setClassName] = useState(
     "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
@@ -192,6 +194,23 @@ const Video = () => {
       );
     }
   }, [userReady]);
+
+  useEffect(() => {
+    if (profileId) {
+      console.log(profileId);
+      handleNavigate();
+      setProfileId(null);
+    }
+  }, [profileId]);
+
+  const navigate = useNavigate();
+  function handleNavigate() {
+    if (profileId) {
+      console.log(profileId);
+      navigate(`/profile/${profileId}`);
+    }
+  }
+  console.log(video);
   return (
     <div className="relative h-full w-full group">
       {visible && (
@@ -235,8 +254,14 @@ const Video = () => {
               />
             </label>
           </div>
-          <div className="flex items-center  text-sm lg:text-xl lg:hidden xl:flex  ">
-            <h1>{video && video[currentVideoIndex].title}</h1>
+          <div
+            className="flex items-center  text-sm lg:text-xl xl:flex cursor-pointer hover:bg-red-500 hover:rounded-xl  transition-all  "
+            onClick={(e) => {
+              setProfileId(video[currentVideoIndex].owner);
+              handleNavigate();
+            }}
+          >
+            <h1>@{video && video[currentVideoIndex].username}</h1>
           </div>
           <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4  ">
             {video && (

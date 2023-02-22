@@ -3,17 +3,26 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import VideoProfileFullSize from "./VideoProfileFullSize";
 import { userContext } from "../../Usercontext";
+import { useParams } from "react-router-dom";
 
-const UserVideos = () => {
+const UserVideos = ({ nonLogin }) => {
   const [userVideos, setUserVideos] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
+  const { user } = useContext(userContext);
   const { addRemoveLike, setAddRemoveLike } = useContext(userContext);
+  const username = useParams();
 
   useEffect(() => {
-    axios.get("/get-videos", {}).then(({ data }) => {
-      setUserVideos(data);
-    });
+    if (username === user._id)
+      axios.get("/get-videos", {}).then(({ data }) => {
+        setUserVideos(data);
+      });
+    else {
+      axios.get(`/get-videos/${nonLogin._id}`, {}).then(({ data }) => {
+        setUserVideos(data);
+      });
+    }
   }, []);
 
   function closeFullVideo() {

@@ -130,6 +130,12 @@ app.get("/updatedprofile", async (req, res) => {
   });
 });
 
+app.get("/profile/:username", async (req, res) => {
+  const { username } = req.params;
+  const newUser = await User.findById(username);
+  res.json(newUser);
+});
+
 app.post(
   "/upload-image",
   photosMiddleware.array("photo", 100),
@@ -155,8 +161,9 @@ app.post("/upload-video", upload.single("video"), (req, res) => {
 });
 
 app.post("/video", async (req, res) => {
-  const { title, description, video, like } = req.body;
+  const { title, description, video, username } = req.body;
   const { token } = req.cookies;
+  console.log(username);
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -165,6 +172,7 @@ app.post("/video", async (req, res) => {
       video,
       description,
       owner: userData.id,
+      username,
     });
     res.json(newVideo);
   });
@@ -191,6 +199,13 @@ app.get("/get-videos", async (req, res) => {
   });
 });
 
+app.get("/get-videos/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const userVideos = await Video.find({ owner: id });
+  res.json(userVideos);
+});
+
 app.put("/send-like", async (req, res) => {
   const { token } = req.cookies;
   const { like, likedVideo } = req.body;
@@ -204,9 +219,7 @@ app.put("/send-like", async (req, res) => {
     await user.save();
 
     const video = await Video.findOne({ video: likedVideo });
-    await video.set({
-      likes: like,
-    });
+    video.likes.push(like);
     await video.save();
     res.json(video);
   });
@@ -238,7 +251,7 @@ app.put("/remove-like", async (req, res) => {
 });
 
 app.post("/comment", async (req, res) => {
-  const { profilePhotoSet, comment, name, id } = req.body;
+  const { profilePhotoSet, comment, name, id, username } = req.body;
   console.log(name);
   const newProfile = profilePhotoSet.toString();
   const commment = await Comments.create({
@@ -246,6 +259,7 @@ app.post("/comment", async (req, res) => {
     comment: comment,
     video: name,
     owner: id,
+    username: username,
   });
 
   res.json(commment);

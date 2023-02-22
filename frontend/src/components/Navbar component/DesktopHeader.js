@@ -77,7 +77,7 @@ const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
           </div>
           {user && (
             <>
-              <Link to="/profile" className="ml-[-6px]">
+              <Link to={`/profile/${user._id}`} className="ml-[-6px]">
                 <img
                   src={"http://localhost:4000/uploads/" + user.profilePhoto}
                   className="h-7 rounded-full hover:scale-110"

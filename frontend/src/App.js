@@ -82,7 +82,7 @@ const App = () => {
             }
           >
             <Route path="/" element={<Home />}></Route>
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:username" element={<Profile />} />
           </Route>
         </Routes>
         {openLogin && <Login handleOpenClose={handleOpenClose} />}

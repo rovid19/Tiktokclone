@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useContext, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { userContext } from "../../Usercontext";
 
 const Comments = ({ handleOpenCloseComments, name, visible }) => {
@@ -12,6 +13,8 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
   const [post, setPost] = useState(false);
   const [id, setId] = useState(null);
   const [commentDelete, setCommentDelete] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [profileId, setProfileId] = useState(null);
   function postComment(e) {
     e.preventDefault();
     if (comment) {
@@ -24,6 +27,7 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
             comment,
             name,
             id,
+            username,
           })
           .then(() => {
             setAddRemoveLike(!addRemoveLike);
@@ -39,6 +43,7 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
     if (user) {
       setProfilePhotoSet(user.profilePhoto);
       setId(user._id);
+      setUsername(user.username);
     }
   });
 
@@ -62,6 +67,19 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
         });
     }
   }, [commentDelete]);
+  useEffect(() => {
+    if (profileId) {
+      handleNavigate();
+    }
+  }, [profileId]);
+
+  const navigate = useNavigate();
+  function handleNavigate() {
+    if (profileId) {
+      console.log(profileId);
+      navigate(`/profile/${profileId}`);
+    }
+  }
   return (
     <div className="w-full h-full z-30 absolute ">
       <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
@@ -102,13 +120,20 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
               return (
                 <>
                   <div className="flex mt-2 border-t-2 border-gray-200 p-2 ">
-                    <div className="w-[10%]  ">
+                    <div
+                      className="w-[10%] cursor-pointer  "
+                      onClick={() => {
+                        setProfileId(item.owner);
+                        handleNavigate();
+                      }}
+                    >
                       <img
                         className="h-[60px] rounded-full "
                         src={"http://localhost:4000/uploads/" + item.profile}
                       ></img>
                     </div>
                     <div className="w-[90%] relative ml-2">
+                      <h1 className="text-sm">{item.username}</h1>
                       <p>{item.comment}</p>
                       {user && user._id === item.owner && (
                         <div

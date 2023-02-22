@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { userContext } from "../Usercontext";
@@ -10,7 +10,8 @@ const Upload = ({ handleOpenClose }) => {
   const [video, setVideo] = useState(null);
   const [videoFormData, setVideoFormData] = useState([]);
   const [natpis, setNatpis] = useState(false);
-  const { setVideoTrigger } = useContext(userContext);
+  const { setVideoTrigger, user, userReady } = useContext(userContext);
+  const [username, setUsername] = useState(null);
   const [className, setClassName] = useState(
     " bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
   );
@@ -39,6 +40,7 @@ const Upload = ({ handleOpenClose }) => {
         video,
         title,
         description,
+        username,
       });
       setVideoTrigger("uploadTriggered");
       handleOpenClose();
@@ -46,8 +48,12 @@ const Upload = ({ handleOpenClose }) => {
       setNatpis(true);
     }
   }
-  console.log(video);
-  console.log("da");
+  useEffect(() => {
+    if (user) {
+      setUsername(user.username);
+    }
+  }, [userReady]);
+
   return (
     <>
       <div className="flex items-center bg-black bg-opacity-50 justify-center absolute top-0 left-0 w-screen h-screen z-20">
