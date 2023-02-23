@@ -8,6 +8,7 @@ const videoSchema = new mongoose.Schema({
   likes: { type: [String], default: [] },
   video: [],
   username: String,
+  profile: String,
 });
 
 const videoModel = mongoose.model("Video", videoSchema);

@@ -99,7 +99,7 @@ const MobileHeader = ({
             </div>
 
             <Link
-              to="/profile"
+              to={`/profile/${user._id}`}
               onClick={() => {
                 setAccount(false);
                 setVideos(true);

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { userContext } from "../../Usercontext";
 
 const CommentsFullSize = ({ handleOpenCloseComments, name, visible }) => {
@@ -12,6 +13,7 @@ const CommentsFullSize = ({ handleOpenCloseComments, name, visible }) => {
   const [post, setPost] = useState(false);
   const [id, setId] = useState(null);
   const [commentDelete, setCommentDelete] = useState(null);
+  const [profileId, setProfileId] = useState(null);
   function postComment(e) {
     e.preventDefault();
     if (comment) {
@@ -62,8 +64,15 @@ const CommentsFullSize = ({ handleOpenCloseComments, name, visible }) => {
         });
     }
   }, [commentDelete]);
+  const navigate = useNavigate();
 
-  console.log(name);
+  function handleNavigate() {
+    if (profileId) {
+      console.log(profileId);
+      navigate(`/profile/${profileId}`);
+    }
+  }
+
   return (
     <div className="w-full h-full z-40 absolute ">
       <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
@@ -106,7 +115,11 @@ const CommentsFullSize = ({ handleOpenCloseComments, name, visible }) => {
                   <div className="flex mt-2 border-t-2 border-gray-200 p-2 ">
                     <div className="w-[10%]  ">
                       <img
-                        className="h-[60px] rounded-full "
+                        onClick={() => {
+                          setProfileId(item.owner);
+                          handleNavigate();
+                        }}
+                        className="h-[60px] rounded-full cursor-pointer"
                         src={"http://localhost:4000/uploads/" + item.profile}
                       ></img>
                     </div>

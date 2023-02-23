@@ -121,13 +121,10 @@ app.put("/editprofile", async (req, res) => {
   });
 });
 
-app.get("/updatedprofile", async (req, res) => {
-  const { token } = req.cookies;
-  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-    if (err) throw err;
-    const updatedUser = await User.findById(userData.id);
-    res.json(updatedUser);
-  });
+app.get("/updatedprofile/:username", async (req, res) => {
+  const { username } = req.params;
+  const newUser = await User.findById(username);
+  res.json(newUser);
 });
 
 app.get("/profile/:username", async (req, res) => {
