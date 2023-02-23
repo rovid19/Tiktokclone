@@ -277,3 +277,26 @@ app.post("/delete-comment", async (req, res) => {
   const deleteVideo = await Comments.findByIdAndDelete(commentDelete);
   res.status(200).json(deleteVideo);
 });
+
+app.post("/searched-user", async (req, res) => {
+  const { input } = req.body;
+
+  const searchedUser = await User.find({
+    username: { $regex: input, $options: "i" },
+  });
+
+  res.json(searchedUser);
+});
+
+app.post("/searched-video", async (req, res) => {
+  const { input } = req.body;
+
+  const searchedVideo = await Video.find({
+    $or: [
+      { title: { $regex: input, $options: "i" } },
+      { description: { $regex: input, $options: "i" } },
+    ],
+  });
+
+  res.json(searchedVideo);
+});

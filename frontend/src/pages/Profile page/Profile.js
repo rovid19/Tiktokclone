@@ -12,10 +12,9 @@ const Profile = () => {
   const [nonLogin, setNonLogin] = useState(null);
   const { user, setUser, ready, setReady } = useContext(userContext);
   const { username } = useParams();
-  console.log(username);
 
   useEffect(() => {
-    if (username === user._id) {
+    if (user && username === user._id) {
       axios.get("/updatedprofile").then(({ data }) => {
         setUser(data);
         setReady("iopetiopet");
@@ -31,7 +30,13 @@ const Profile = () => {
     setVisible(!visible);
   }
 
-  console.log(username);
+  useEffect(() => {
+    return () => {
+      setNonLogin(null);
+      console.log(nonLogin);
+    };
+  }, []);
+
   return (
     <div className="bg-red-500 lg:bg-red-500 lg: bg-opacity-80   h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl mt-10">
@@ -44,7 +49,7 @@ const Profile = () => {
             <div className="h-[30%] w-full lg:w-[80%]  xl:w-[80%] flex-col mt-6 ">
               <div className="flex h-[70%] ">
                 <div className="w-[100px] lg:w-[110px] ml-4  h-[100%]  flex ">
-                  {username === user._id && (
+                  {user && username === user._id && (
                     <img
                       src={"http://localhost:4000/uploads/" + user.profilePhoto}
                       className="h-full rounded-full"
@@ -61,17 +66,17 @@ const Profile = () => {
                 </div>
                 <div className="w-[200x] ml-2 lg:ml-0 lg:w-[200px] h-[100%] mr-2">
                   <div className="text-3xl uppercase mt-4 ">
-                    {username === user._id && <h1>{user.username}</h1>}
+                    {user && username === user._id && <h1>{user.username}</h1>}
                     {nonLogin && <h1>{nonLogin.username}</h1>}
 
-                    {username === user._id && (
+                    {user && username === user._id && (
                       <h2 className="lg:text-xl text-sm">{user.email}</h2>
                     )}
                     {nonLogin && (
                       <h2 className="lg:text-xl text-sm">{nonLogin.email}</h2>
                     )}
                   </div>
-                  {username === user._id && (
+                  {user && username === user._id && (
                     <button
                       onClick={handleVisible}
                       className="mt-2 bg-black p-2 w-36 rounded-2xl text-white hover:bg-gray-500 "
@@ -102,13 +107,13 @@ const Profile = () => {
                   </h1>
                 </div>
                 <div className=" ml-6 ">
-                  {username === user._id && <p>{user.description}</p>}
+                  {user && username === user._id && <p>{user.description}</p>}
                   {nonLogin && <p>{nonLogin.description}</p>}
                 </div>
               </div>
             </div>
             <div className="h-[70%]  w-full lg:w-[80%]">
-              {username === user._id && <UserVideos />}
+              {user && username === user._id && <UserVideos />}
               {nonLogin && <UserVideos nonLogin={nonLogin} />}
             </div>{" "}
           </>

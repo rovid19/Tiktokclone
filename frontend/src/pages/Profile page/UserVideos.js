@@ -9,27 +9,28 @@ const UserVideos = ({ nonLogin }) => {
   const [userVideos, setUserVideos] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
+  const [trigger, setTrigger] = useState(false);
   const { user } = useContext(userContext);
-  const { addRemoveLike, setAddRemoveLike } = useContext(userContext);
+  const { addRemoveLike, setAddRemoveLike, userReady } =
+    useContext(userContext);
   const username = useParams();
 
   useEffect(() => {
-    if (username === user._id)
+    if (user && username.username === user._id)
       axios.get("/get-videos", {}).then(({ data }) => {
         setUserVideos(data);
       });
-    else {
+    else if (nonLogin) {
       axios.get(`/get-videos/${nonLogin._id}`, {}).then(({ data }) => {
         setUserVideos(data);
       });
     }
-  }, []);
+  }, [userReady]);
 
   function closeFullVideo() {
     setVisible(!visible);
     setAddRemoveLike(!addRemoveLike);
   }
-  console.log(visible);
 
   return (
     <div className=" lg:w-full h-full grid grid-cols-3 lg:grid-cols-5 overflow-hidden    ">

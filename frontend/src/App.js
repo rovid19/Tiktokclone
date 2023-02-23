@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import Profile from "./pages/Profile page/Profile";
 import Upload from "./pages/Upload";
+import Search from "./pages/Search page/Search";
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -22,8 +23,13 @@ const App = () => {
   const [spreman, setSpreman] = useState(false);
   const [video, setVideo] = useState(null);
   const [userReady, setUserReady] = useState(false);
+  const [searched, setSearched] = useState(null);
+  const [searchedVideos, setSearchedVideos] = useState(null);
   const [addRemoveLike, setAddRemoveLike] = useState(false);
   const [videoTrigger, setVideoTrigger] = useState("");
+  const [videos, setVideos] = useState(true);
+  const [account, setAccount] = useState(false);
+  const [trigger, setTrigger] = useState(false);
 
   function handleOpenClose() {
     setOpenLogin(!openLogin);
@@ -37,7 +43,6 @@ const App = () => {
       axios
         .get("/profile?timestamp=" + new Date().getTime(), {})
         .then(({ data }) => {
-          console.log("da");
           setUser(data);
           setUserReady(!userReady);
         });
@@ -69,6 +74,16 @@ const App = () => {
           setAddRemoveLike,
           userReady,
           setUserReady,
+          searched,
+          setSearched,
+          videos,
+          setVideos,
+          account,
+          setAccount,
+          trigger,
+          setTrigger,
+          searchedVideos,
+          setSearchedVideos,
         }}
       >
         <Routes>
@@ -83,6 +98,7 @@ const App = () => {
           >
             <Route path="/" element={<Home />}></Route>
             <Route path="/profile/:username" element={<Profile />} />
+            <Route path="/search/*" element={<Search />} />
           </Route>
         </Routes>
         {openLogin && <Login handleOpenClose={handleOpenClose} />}

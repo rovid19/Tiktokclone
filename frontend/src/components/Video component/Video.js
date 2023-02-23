@@ -188,7 +188,6 @@ const Video = () => {
   //n
   useEffect(() => {
     if (!user) {
-      console.log("da");
       setClassName(
         "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
       );
@@ -210,7 +209,7 @@ const Video = () => {
       navigate(`/profile/${profileId}`);
     }
   }
-  console.log(video);
+
   return (
     <div className="relative h-full w-full group">
       {visible && (

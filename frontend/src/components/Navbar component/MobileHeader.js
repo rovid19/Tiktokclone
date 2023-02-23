@@ -3,13 +3,29 @@ import { useContext } from "react";
 import { userContext } from "../../Usercontext";
 import Img from "../../images/logo1.png";
 import { Link, NavLink } from "react-router-dom";
-const MobileHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
-  const { user, setUser } = useContext(userContext);
+const MobileHeader = ({
+  handleLogout,
+  handleOpenClose,
+  handleUpload,
+  changeInput,
+  setAccount,
+  setVideos,
+}) => {
+  const { user, setUser, trigger, setTrigger, setInput, input } =
+    useContext(userContext);
   return (
     <div className="bg-black text-white h-full w-14 absolute top-0 l-0 lg:hidden">
       <div className="mt-11">
         <div className="flex justify-center ">
-          <Link to="/" className="hover:scale-125 hover:text-red-300">
+          <Link
+            to="/"
+            onClick={() => {
+              setAccount(false);
+              setVideos(true);
+              setInput("");
+            }}
+            className="hover:scale-125 hover:text-red-300"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -82,7 +98,14 @@ const MobileHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
               </svg>
             </div>
 
-            <Link to="/profile">
+            <Link
+              to="/profile"
+              onClick={() => {
+                setAccount(false);
+                setVideos(true);
+                setInput("");
+              }}
+            >
               <img
                 src={"http://localhost:4000/uploads/" + user.profilePhoto}
                 className="h-10 rounded-full  mt-4 "

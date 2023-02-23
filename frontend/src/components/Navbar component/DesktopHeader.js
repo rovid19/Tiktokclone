@@ -2,16 +2,37 @@ import React from "react";
 import { useContext } from "react";
 import { userContext } from "../../Usercontext";
 import Img from "../../images/logo1.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
-const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
-  const { user, setUser } = useContext(userContext);
+const DesktopHeader = ({
+  handleLogout,
+  handleOpenClose,
+  handleUpload,
+  input,
+  setInput,
+  changeInput,
+}) => {
+  const { user, setUser, trigger, setTrigger, setAccount, setVideos } =
+    useContext(userContext);
+  const navigate = useNavigate();
+  const handleSearch = () => {
+    setTrigger(!trigger);
+    navigate("/search");
+  };
+
   return (
     <header className="h-[5%] absolute w-full z-10 bg-black flex justify-center  ">
       <div className="lg:w-[55%] w-full grid  grid-cols-2 lg:grid-cols-3 flex items-center">
         <div className="flex items-center ">
           <div className=" gap-[20%] flex items-center">
-            <Link to="/">
+            <Link
+              to="/"
+              onClick={() => {
+                setAccount(false);
+                setVideos(true);
+                setInput("");
+              }}
+            >
               <img src={Img} className="ml-4 lg:ml-0 h-6 cursor-pointer" />
             </Link>
           </div>
@@ -19,12 +40,19 @@ const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
         <div className="flex bg-tamna gap-1 h-[75%] items-center rounded-full mr-4 lg:mr-0">
           <div className=" h-[80%] w-[90%] lg:border-r-2 lg:border-opacity-20 flex items-center border-gray-300">
             <input
+              value={input}
+              onChange={(e) => {
+                changeInput(e.target.value);
+              }}
               type="text"
               placeholder="Search"
-              className="bg-transparent text-l pl-4 w-full"
+              className="bg-transparent text-l pl-4 w-full text-white"
             />
           </div>
-          <button className="text-gray-500 hover:scale-110 hidden lg:block">
+          <button
+            className="text-gray-500 hover:scale-110  lg:block"
+            onClick={handleSearch}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -45,6 +73,11 @@ const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
           <div className="gap-2 flex ">
             <div>
               <NavLink
+                onClick={() => {
+                  setAccount(false);
+                  setVideos(true);
+                  setInput("");
+                }}
                 to="/"
                 className="text-white flex hover:scale-110 mr-[-15px]"
               >
@@ -77,7 +110,15 @@ const DesktopHeader = ({ handleLogout, handleOpenClose, handleUpload }) => {
           </div>
           {user && (
             <>
-              <Link to={`/profile/${user._id}`} className="ml-[-6px]">
+              <Link
+                to={`/profile/${user._id}`}
+                className="ml-[-6px]"
+                onClick={() => {
+                  setAccount(false);
+                  setVideos(true);
+                  setInput("");
+                }}
+              >
                 <img
                   src={"http://localhost:4000/uploads/" + user.profilePhoto}
                   className="h-7 rounded-full hover:scale-110"
