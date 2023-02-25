@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;700&display=swap");
+
+body {
+  font-family: "Oswald";
+}
 
 .active {
   @apply text-red-500;

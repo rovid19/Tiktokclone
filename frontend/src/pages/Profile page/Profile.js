@@ -1,47 +1,82 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { userContext } from "../../Usercontext";
 import { useContext, useState } from "react";
 import EditProfile from "./EditProfile";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 import UserVideos from "./UserVideos.js";
 import { useParams } from "react-router-dom";
 
-const Profile = () => {
+const Profile = ({ user }) => {
   const [visible, setVisible] = useState(false);
   const [nonLogin, setNonLogin] = useState(null);
   const [login, setLogin] = useState(null);
-  const { user, setUser, ready, setReady, userReady } = useContext(userContext);
+  const [followReady, setFollowReady] = useState("");
+  const { setReady, setUser } = useContext(userContext);
+  const [followClassname, setFollowClassname] = useState(
+    "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
+  );
   const { username } = useParams();
 
   useEffect(() => {
+    console.log(user);
     if (user && username === user._id.toString()) {
       axios.get(`/updatedprofile/${username}`).then(({ data }) => {
         setLogin(data);
         setReady("iopetiopet");
+        console.log("user render");
       });
       if (nonLogin) {
         setNonLogin(null);
         console.log("nonlogin");
       }
     }
-  }, [nonLogin]);
+  }, [user]);
+
+  /*useEffect(() => {
+    if (user && followReady !== "") {
+      axios.get(`/updatedprofile/${user._id}`).then(({ data }) => {
+        setUser(data);
+      });
+      if (nonLogin) {
+        setNonLogin(null);
+      }
+    }
+  }, [followReady]);*/
 
   useEffect(() => {
     axios.get(`/profile/${username}`).then(({ data }) => {
       setNonLogin(data);
+      console.log("nonlogin render");
+      if (user && user.following.some((item) => item.id === username)) {
+        setFollowClassname(
+          "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
+        );
+      } else {
+        setFollowClassname(
+          "mt-2 bg-black p-2 w-36 rounded-2xl text-white hover:bg-red-500 "
+        );
+      }
     });
-  }, []);
+  }, [followReady]);
 
   function handleVisible() {
     setVisible(!visible);
   }
-
-  console.log(nonLogin, login);
-
+  function handleFollow() {
+    if (user && user.following.some((item) => item.id === username)) {
+      axios.post(`/unfollow-user/${username}`, {}).then(() => {
+        setFollowReady("blja");
+      });
+    } else {
+      axios.post(`/follow-user/${username}`, {}).then(() => {
+        setFollowReady("blauuuz");
+      });
+    }
+  }
+  console.log(user);
   return (
     <div className="bg-red-500 lg:bg-red-500 lg: bg-opacity-80   h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
-      <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl mt-10">
+      <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl pt-12 lg:pt-16 lg:pb-4">
         {visible && <EditProfile handleVisible={handleVisible} />}
         {visible ? (
           ""
@@ -88,10 +123,17 @@ const Profile = () => {
                   )}
                   {nonLogin && (
                     <button
-                      onClick={handleVisible}
-                      className="mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
+                      onClick={() => {
+                        handleFollow();
+                      }}
+                      className={followClassname}
                     >
-                      Follow
+                      {user &&
+                        !user.following.some((item) => item.id === username) &&
+                        "Follow"}
+                      {user &&
+                        user.following.some((item) => item.id === username) &&
+                        "Following"}
                     </button>
                   )}
                 </div>
@@ -99,10 +141,16 @@ const Profile = () => {
               <div className="">
                 <div className="flex gap-4 mt-2 ml-6 ">
                   <h1>
-                    <span className="font-bold">0</span> Follower
+                    <span className="font-bold">
+                      {nonLogin && nonLogin.followers.length}
+                    </span>{" "}
+                    Follower
                   </h1>{" "}
                   <h1>
-                    <span className="font-bold">0</span> Following
+                    <span className="font-bold">
+                      {nonLogin && nonLogin.following.length}
+                    </span>{" "}
+                    Following
                   </h1>{" "}
                   <h1>
                     <span className="font-bold">0</span> Likes

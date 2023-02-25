@@ -183,6 +183,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
     }
   }, [spreman, index]);
   console.log(nameDva);
+  console.log(name);
   return (
     <div className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-90 flex justify-center">
       {visible && (

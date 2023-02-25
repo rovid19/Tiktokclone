@@ -218,7 +218,10 @@ app.put("/send-like", async (req, res) => {
     const video = await Video.findOne({ video: likedVideo });
     video.likes.push(like);
     await video.save();
-    res.json(video);
+    const usersVideo = await User.findById(video.owner);
+    usersVideo.videoLikes = usersVideo.videoLikes + 1;
+    await usersVideo.save();
+    res.json(usersVideo.videoLikes);
   });
 });
 
@@ -296,4 +299,87 @@ app.post("/searched-video", async (req, res) => {
   });
 
   res.json(searchedVideo);
+});
+
+app.post("/follow-user/:id", async (req, res) => {
+  const { token } = req.cookies;
+  const { id } = req.params;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const userFollows = await User.findById(userData.id);
+    const userFollowed = await User.findById(id);
+    const { profilePhoto, description, username } = userFollowed;
+    const newFollowing = {
+      profile: profilePhoto.toString(),
+      username: username,
+      description: description,
+      id: id,
+    };
+    userFollows.following.push(newFollowing);
+    await userFollows.save();
+  });
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const userFollows = await User.findById(userData.id);
+    const userFollowed = await User.findById(id);
+    const { profilePhoto, description, username } = userFollows;
+    const newFollowing = {
+      profile: profilePhoto.toString(),
+      username: username,
+      description: description,
+      id: userData.id,
+    };
+    userFollowed.followers.push(newFollowing);
+    await userFollowed.save();
+    res.json("ok");
+  });
+});
+
+app.post("/unfollow-user/:username", async (req, res) => {
+  const { token } = req.cookies;
+  const { username } = req.params;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+
+    const userUnfollows = await User.findById(userData.id);
+    const userUnFollowed = await User.findById(username);
+    const index = userUnfollows.following.findIndex(
+      (item) => item.id === username
+    );
+    if (index > -1) {
+      userUnfollows.following.splice(index, 1);
+    }
+    await userUnfollows.save();
+
+    const indexDva = userUnFollowed.followers.findIndex(
+      (item) => item.id === userData.it
+    );
+    if (indexDva > -1) {
+      userUnFollowed.followers.splice(indexDva, 1);
+    }
+    await userUnFollowed.save();
+    res.json("ok");
+  });
+});
+
+app.get("/following-users", async (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const user = await User.findById(userData.id);
+    const data = user.following;
+
+    res.json(data);
+  });
+});
+
+app.get("/top-creator", async (req, res) => {
+  const allUsers = await User.find();
+
+  const sorted = allUsers.sort((a, b) => b.videoLikes - a.videoLikes);
+
+  const top5 = sorted.splice(0, 5);
+  res.json(top5);
 });

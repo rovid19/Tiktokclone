@@ -37,6 +37,9 @@ const App = () => {
   function handleOpenCloseUpload() {
     setOpenUpload(!openUpload);
   }
+  function handleStateChange() {
+    setReady(!ready);
+  }
 
   useEffect(() => {
     if (!user) {
@@ -48,13 +51,15 @@ const App = () => {
         });
     }
   }, [user, ready]);
-
+  console.log(ready);
   useEffect(() => {
     axios.get("/video-store", {}).then(({ data }) => {
       setVideo(data);
       setSpreman(!spreman);
     });
   }, [videoTrigger, addRemoveLike]);
+
+  console.log(user);
 
   return (
     <div>
@@ -96,12 +101,23 @@ const App = () => {
               />
             }
           >
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/profile/:username" element={<Profile />} />
+            <Route
+              path="/"
+              element={<Home handleOpenClose={handleOpenClose} />}
+            ></Route>
+            <Route
+              path="/profile/:username"
+              element={<Profile user={user} />}
+            />
             <Route path="/search/*" element={<Search />} />
           </Route>
         </Routes>
-        {openLogin && <Login handleOpenClose={handleOpenClose} />}
+        {openLogin && (
+          <Login
+            handleOpenClose={handleOpenClose}
+            handleStateChange={handleStateChange}
+          />
+        )}
         {openUpload && <Upload handleOpenClose={handleOpenCloseUpload} />}
       </userContext.Provider>
     </div>

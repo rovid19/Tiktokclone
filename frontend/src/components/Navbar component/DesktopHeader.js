@@ -2,6 +2,7 @@ import React from "react";
 import { useContext } from "react";
 import { userContext } from "../../Usercontext";
 import Img from "../../images/logo1.png";
+import Img2 from "../../images/logo2.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const DesktopHeader = ({
@@ -21,7 +22,7 @@ const DesktopHeader = ({
   };
 
   return (
-    <header className="h-[5%] absolute w-full z-10 bg-black flex justify-center  ">
+    <header className="h-[5%] lg:h-[7%] absolute w-full z-10 bg-black lg:bg-white flex justify-center border-b-2 border-gray-300 border-opacity-10 lg:border-opacity-20  ">
       <div className="lg:w-[55%] w-full grid  grid-cols-2 lg:grid-cols-3 flex items-center">
         <div className="flex items-center ">
           <div className=" gap-[20%] flex items-center">
@@ -33,7 +34,23 @@ const DesktopHeader = ({
                 setInput("");
               }}
             >
-              <img src={Img} className="ml-4 lg:ml-0 h-6 cursor-pointer" />
+              <img
+                src={Img}
+                className="hidden lg:block ml-0 lg:ml-0 h-10 cursor-pointer"
+              />
+            </Link>
+            <Link
+              to="/"
+              onClick={() => {
+                setAccount(false);
+                setVideos(true);
+                setInput("");
+              }}
+            >
+              <img
+                src={Img2}
+                className="ml-1 lg:hidden h-[20px] cursor-pointer"
+              />
             </Link>
           </div>
         </div>
@@ -79,7 +96,7 @@ const DesktopHeader = ({
                   setInput("");
                 }}
                 to="/"
-                className="text-white flex hover:scale-110 mr-[-15px]"
+                className="text-black flex hover:scale-110 mr-[-15px]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +116,7 @@ const DesktopHeader = ({
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="w-6 h-6 text-white flex hover:scale-110 cursor-pointer ml-3"
+                    class="w-6 h-6 text-black flex hover:scale-110 cursor-pointer ml-3"
                   >
                     <path d="M9.97.97a.75.75 0 011.06 0l3 3a.75.75 0 01-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 01-1.06-1.06l3-3zM9.75 6.75v6a.75.75 0 001.5 0v-6h3a3 3 0 013 3v7.5a3 3 0 01-3 3h-7.5a3 3 0 01-3-3v-7.5a3 3 0 013-3h3z" />
                     <path d="M7.151 21.75a2.999 2.999 0 002.599 1.5h7.5a3 3 0 003-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 01-4.5 4.5H7.151z" />
@@ -121,7 +138,7 @@ const DesktopHeader = ({
               >
                 <img
                   src={"http://localhost:4000/uploads/" + user.profilePhoto}
-                  className="h-7 rounded-full hover:scale-110"
+                  className="h-7 rounded-full hover:scale-110 border-2 border-black"
                 ></img>
               </Link>
             </>

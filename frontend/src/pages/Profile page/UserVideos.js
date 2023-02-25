@@ -9,7 +9,6 @@ const UserVideos = ({ nonLogin }) => {
   const [userVideos, setUserVideos] = useState([]);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
-  const [trigger, setTrigger] = useState(false);
   const { user } = useContext(userContext);
   const { addRemoveLike, setAddRemoveLike, userReady } =
     useContext(userContext);
@@ -33,7 +32,7 @@ const UserVideos = ({ nonLogin }) => {
   }
 
   return (
-    <div className=" lg:w-full h-full grid grid-cols-3 lg:grid-cols-5 overflow-hidden    ">
+    <div className=" lg:w-full h-full grid grid-cols-3 2xl:grid-cols-5 overflow-scroll    ">
       {userVideos &&
         userVideos.map((item) => {
           return (

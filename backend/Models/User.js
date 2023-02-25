@@ -4,9 +4,13 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   username: String,
   password: String,
-  followers: [],
-  following: [],
-  videoLikes: 0,
+  followers: [
+    { username: String, profile: String, description: String, id: String },
+  ],
+  following: [
+    { username: String, profile: String, description: String, id: String },
+  ],
+  videoLikes: { type: Number, default: 0 },
   likedVideos: [String],
   profilePhoto: [String],
   description: String,

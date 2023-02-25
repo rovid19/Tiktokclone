@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Register from "./Register";
 import axios from "axios";
 import { useContext } from "react";
 import { userContext } from "../Usercontext";
 
-const Login = ({ handleOpenClose }) => {
+const Login = ({ handleOpenClose, handleStateChange }) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [redirect, setRedirect] = useState(false);
   const [register, setRegister] = useState(false);
+  const [mater, setMater] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -29,9 +30,10 @@ const Login = ({ handleOpenClose }) => {
           password,
         })
         .then(() => {
-          setReady(!ready);
+          console.log("da");
           handleOpenClose();
         });
+      handleStateChange();
     } catch (error) {
       if (error.response.status === 422) {
         setError("Incorrect email or password");
@@ -46,7 +48,11 @@ const Login = ({ handleOpenClose }) => {
 
     setRedirect(false);
   }
-
+  useEffect(() => {
+    if (mater) {
+      setReady(!ready);
+    }
+  });
   return (
     <>
       <div className="flex items-center bg-black bg-opacity-50 justify-center absolute top-0 left-0 w-screen h-screen z-20">

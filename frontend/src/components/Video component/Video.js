@@ -211,7 +211,7 @@ const Video = () => {
   }
 
   return (
-    <div className="relative h-full w-full group">
+    <div className="relative h-full w-full group  flex justify-center ">
       {visible && (
         <Comments
           handleOpenCloseComments={handleOpenCloseComments}
@@ -221,7 +221,7 @@ const Video = () => {
       )}
       <div
         id="Mirko"
-        className="h-full w-full bg-black cursor-pointer  overflow-auto"
+        className="h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-white"
       >
         {video && (
           <video
@@ -238,7 +238,7 @@ const Video = () => {
           ></video>
         )}
       </div>
-      <div className=" bg-black  lg:hidden z-20 lg:z-0 lg:group-hover:flex group-hover:opacity-100 transition-all lg:bg-black text-white bg-opacity-80 border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">
+      <div className="   lg:hidden  z-20 lg:z-0 lg:group-hover:flex group-hover:opacity-100 transition-all  text-white bg-opacity-80 border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full lg:rounded-xl rounded-none bg-black bg-opacity-40 flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">
         <div className="flex justify-between w-full">
           <div className="hidden lg:flex items-center ml-8 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4 ">
             <label className="hidden lg:block h-full cursor-pointer">
@@ -254,7 +254,7 @@ const Video = () => {
             </label>
           </div>
           <div
-            className="flex items-center  text-sm lg:text-xl xl:flex cursor-pointer hover:bg-red-500 hover:rounded-xl  transition-all  "
+            className=" border-r-2 border-white border-opacity-25  pr-4 lg:pr-0 lg:pl-0 lg:border-none flex items-center  text-sm lg:text-xl xl:flex cursor-pointer hover:bg-red-500 hover:rounded-xl  transition-all  "
             onClick={(e) => {
               setProfileId(video[currentVideoIndex].owner);
               handleNavigate();
