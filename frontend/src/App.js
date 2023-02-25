@@ -30,6 +30,8 @@ const App = () => {
   const [videos, setVideos] = useState(true);
   const [account, setAccount] = useState(false);
   const [trigger, setTrigger] = useState(false);
+  const [nonLogin, setNonLogin] = useState(null);
+  const [edit, setEdit] = useState(false);
 
   function handleOpenClose() {
     setOpenLogin(!openLogin);
@@ -48,10 +50,19 @@ const App = () => {
         .then(({ data }) => {
           setUser(data);
           setUserReady(!userReady);
+          console.log("da");
+        });
+    } else {
+      axios
+        .get("/profile?timestamp=" + new Date().getTime(), {})
+        .then(({ data }) => {
+          setUser(data);
+          setUserReady(!userReady);
+          console.log("dada");
         });
     }
-  }, [user, ready]);
-  console.log(ready);
+  }, [ready, nonLogin]);
+
   useEffect(() => {
     axios.get("/video-store", {}).then(({ data }) => {
       setVideo(data);
@@ -89,6 +100,10 @@ const App = () => {
           setTrigger,
           searchedVideos,
           setSearchedVideos,
+          nonLogin,
+          setNonLogin,
+          edit,
+          setEdit,
         }}
       >
         <Routes>

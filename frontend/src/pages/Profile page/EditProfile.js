@@ -5,10 +5,10 @@ import { useState } from "react";
 import axios from "axios";
 
 const EditProfile = ({ handleVisible }) => {
-  const { user, setReady, ready } = useContext(userContext);
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
-  const [bio, setBio] = useState(user.description);
+  const { user, setEdit, edit } = useContext(userContext);
+  const [username, setUsername] = useState(user && user.username);
+  const [email, setEmail] = useState(user && user.email);
+  const [bio, setBio] = useState(user && user.description);
   const [photo, setPhoto] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
@@ -20,7 +20,7 @@ const EditProfile = ({ handleVisible }) => {
       bio,
       photo: photo.length > 0 ? photo : user.profilePhoto,
     });
-    setReady("changed");
+    setEdit(!edit);
     setRedirect(true);
   }
 

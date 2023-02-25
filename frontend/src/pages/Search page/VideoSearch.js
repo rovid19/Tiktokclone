@@ -205,7 +205,7 @@ const VideoProfileFullSize = ({ openClose, name }) => {
         />
       )}
       <div
-        className="text-red-500 h-[10%] md:left-[10%] absolute mt-16 left-[5%] lg:left-[30%]  z-20 cursor-pointer   "
+        className="text-red-500 h-[10%] md:left-[10%] absolute mt-20 left-[5%] lg:left-[30%]  z-20 cursor-pointer   "
         onClick={openClose}
       >
         <svg
@@ -228,7 +228,7 @@ const VideoProfileFullSize = ({ openClose, name }) => {
             ref={videoRef}
             loop
             onClick={playPause}
-            className="h-[calc(100%-5%)] top-[5%] relative w-full z-10 cursor-pointer "
+            className="h-[calc(100%-7%)] top-[7%] relative w-full z-10 cursor-pointer "
             src={
               "http://localhost:4000/uploads/videos/" +
               searchedVideos[index].video[0]

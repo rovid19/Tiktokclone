@@ -30,10 +30,9 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
           password,
         })
         .then(() => {
-          console.log("da");
+          setReady(!ready);
           handleOpenClose();
         });
-      handleStateChange();
     } catch (error) {
       if (error.response.status === 422) {
         setError("Incorrect email or password");

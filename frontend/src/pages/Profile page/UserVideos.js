@@ -32,12 +32,12 @@ const UserVideos = ({ nonLogin }) => {
   }
 
   return (
-    <div className=" lg:w-full h-full grid grid-cols-3 2xl:grid-cols-5 overflow-scroll    ">
+    <div className=" lg:w-full h-full grid grid-cols-3 2xl:grid-cols-5 overflow-scroll scrollbar-hide gap-2    ">
       {userVideos &&
         userVideos.map((item) => {
           return (
             <div
-              className="cursor-pointer hover:scale-125 transition-all h-4"
+              className="cursor-pointer hover:scale-110 transition-all h-4"
               onClick={(e) => {
                 setName(item.video);
                 setVisible(!visible);
@@ -48,12 +48,17 @@ const UserVideos = ({ nonLogin }) => {
                 autoPlay
                 muted
                 src={"http://localhost:4000/uploads/videos/" + item.video}
+                className="rounded-2xl shadow-lg"
               ></video>{" "}
             </div>
           );
         })}
       {visible && (
-        <VideoProfileFullSize name={name} closeFullVideo={closeFullVideo} />
+        <VideoProfileFullSize
+          name={name}
+          closeFullVideo={closeFullVideo}
+          userVideos={userVideos}
+        />
       )}
     </div>
   );

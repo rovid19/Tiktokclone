@@ -13,13 +13,13 @@ const SearchVideos = () => {
   }
 
   return (
-    <div className="lg:w-full p-4 h-[100%] grid grid-cols-1  md:grid-cols-3 ml-4 lg:ml-0 overflow-scroll mt-4 lg:mt-4 2xl:mt-8 lg:grid-cols-3 2xl:grid-cols-5  ">
+    <div className="lg:w-full p-4 h-[100%] grid grid-cols-1  md:grid-cols-3 ml-4 lg:ml-0 overflow-scroll scrollbar-hide mt-4 lg:mt-4 2xl:mt-8 lg:grid-cols-3 2xl:grid-cols-5 ">
       {visible && <VideoSearch openClose={openClose} name={name} />}
       {searchedVideos && searchedVideos.length > 0 ? (
         searchedVideos.map((item) => {
           return (
             <div
-              className="hover:scale-110 transition-all lg:h-[80%] 2xl:h-[50%] w-[180px] shadow-md rounded-xl cursor-pointer "
+              className="hover:scale-110 transition-all lg:h-[80%] 2xl:h-[50%] w-[180px] shadow-md rounded-xl cursor-pointer mt-4 lg:mt-2 "
               onClick={() => {
                 openClose();
                 setName(item.video);

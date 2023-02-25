@@ -77,6 +77,8 @@ app.post("/login", async (req, res) => {
         {},
         async (err, token) => {
           if (err) throw err;
+          res.setHeader("Cache-Control", "no-cache");
+          res.setHeader("Expires", "Thu, 01 Jan 1970 00:00:00 GMT");
           res.cookie("token", token).json(token);
         }
       );
@@ -348,19 +350,20 @@ app.post("/unfollow-user/:username", async (req, res) => {
     const index = userUnfollows.following.findIndex(
       (item) => item.id === username
     );
+    console.log(index);
     if (index > -1) {
       userUnfollows.following.splice(index, 1);
     }
     await userUnfollows.save();
 
     const indexDva = userUnFollowed.followers.findIndex(
-      (item) => item.id === userData.it
+      (item) => item.id === userData.id
     );
     if (indexDva > -1) {
       userUnFollowed.followers.splice(indexDva, 1);
     }
     await userUnFollowed.save();
-    res.json("ok");
+    res.json(userUnFollowed);
   });
 });
 

@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { userContext } from "../Usercontext";
 
 const Register = ({ handleOpenClose, handleRegister }) => {
-  const { setUser } = useContext(userContext);
+  const { setUser, setReady, ready } = useContext(userContext);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
@@ -24,7 +24,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
       email,
       password,
     });
-    setUser({ random: "biro" });
+    setReady(!ready);
     setRedirect(true);
   }
   if (redirect) {

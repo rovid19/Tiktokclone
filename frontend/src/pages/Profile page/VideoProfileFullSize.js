@@ -2,15 +2,17 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import { userContext } from "../../Usercontext";
 import axios from "axios";
 import CommentsFullSize from "../../components/Video component/CommentsFullSize";
+import { useParams } from "react-router-dom";
 
-const VideoProfileFullSize = ({ name, closeFullVideo }) => {
+const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
-  const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
   const [nameDva, setNameDva] = useState(null);
+
+  const username = useParams();
 
   const [className, setClassName] = useState(
     "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
@@ -22,19 +24,16 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
     videoRef.current.volume = volume;
   }
   const {
-    video,
     spreman,
     user,
-    userReady,
-    setSpreman,
-    setVideoTrigger,
+
     addRemoveLike,
     setAddRemoveLike,
   } = useContext(userContext);
 
   const videoRef = useRef(null);
   useEffect(() => {
-    const index = video.findIndex((item) => item.video[0] === name[0]);
+    const index = userVideos.findIndex((item) => item.video[0] === name[0]);
     console.log(index);
     if (index === 0) {
     } else {
@@ -78,7 +77,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
   }
 
   useEffect(() => {
-    if (video) {
+    if (userVideos) {
       function handleWheelEvent(e, video) {
         if (e.deltaY > 0) {
           setIndex((prev) => {
@@ -101,14 +100,16 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
 
       const div = document.querySelector("#Mirko");
 
-      div.addEventListener("wheel", (e) => handleWheelEvent(e, video));
+      div.addEventListener("wheel", (e) => handleWheelEvent(e, userVideos));
       return () =>
-        div.removeEventListener("wheel", (e) => handleWheelEvent(e, video));
+        div.removeEventListener("wheel", (e) =>
+          handleWheelEvent(e, userVideos)
+        );
     }
   }, [spreman]);
 
   useEffect(() => {
-    if (video) {
+    if (userVideos) {
       let startY = 0;
       let endY = 0;
 
@@ -123,7 +124,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
       function handleTouchEnd() {
         if (startY < endY) {
           setIndex((prev) => {
-            if (prev === video.length - 1) {
+            if (prev === userVideos.length - 1) {
               return prev;
             } else {
               return prev + 1;
@@ -155,8 +156,8 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
   }, [like]);
 
   useEffect(() => {
-    if (video && user) {
-      const ifLiked = video[index].likes.includes(user._id);
+    if (userVideos && user) {
+      const ifLiked = userVideos[index].likes.includes(user._id);
 
       if (ifLiked) {
         setClassName(
@@ -172,18 +173,17 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
   console.log(index);
   function handleLikeSet() {
     setLike(user._id);
-    setLikedVideo(video[index].video[0]);
+    setLikedVideo(userVideos[index].video[0]);
   }
   function handleOpenCloseComments() {
     setVisible(!visible);
   }
   useEffect(() => {
-    if (video) {
-      setNameDva(video[index].video[0]);
+    if (userVideos) {
+      setNameDva(userVideos[index].video[0]);
     }
   }, [spreman, index]);
-  console.log(nameDva);
-  console.log(name);
+
   return (
     <div className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-90 flex justify-center">
       {visible && (
@@ -194,7 +194,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
         />
       )}
       <div
-        className="text-red-500 h-[10%] md:left-[10%] absolute mt-16 left-[5%] lg:left-[30%]  z-20 cursor-pointer   "
+        className="text-red-500 h-[10%] md:left-[10%] absolute mt-20 left-[5%] lg:left-[30%]  z-20 cursor-pointer   "
         onClick={closeFullVideo}
       >
         <svg
@@ -211,15 +211,16 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
         </svg>
       </div>
       <div id="Mirko">
-        {video && (
+        {userVideos && (
           <video
             volume={volume}
             ref={videoRef}
             loop
             onClick={playPause}
-            className="h-[calc(100%-5%)] top-[5%] relative w-full z-10 cursor-pointer "
+            className="h-[calc(100%-7%)] top-[7%] relative w-full z-10 cursor-pointer "
             src={
-              "http://localhost:4000/uploads/videos/" + video[index].video[0]
+              "http://localhost:4000/uploads/videos/" +
+              userVideos[index].video[0]
             }
             autoPlay
           ></video>
@@ -241,11 +242,13 @@ const VideoProfileFullSize = ({ name, closeFullVideo }) => {
             </label>
           </div>
           <div className="flex items-center text-sm lg:text-xl lg:hidden xl:flex  ">
-            <h1>{index && video[index].title}</h1>
+            <h1>{index && userVideos[index].title}</h1>
           </div>
           <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4  ">
-            {video && (
-              <h1 className="block font-bold">{video[index].likes.length}</h1>
+            {userVideos && (
+              <h1 className="block font-bold">
+                {userVideos[index].likes.length}
+              </h1>
             )}
             <div onClick={() => handleLikeSet()}>
               <svg
