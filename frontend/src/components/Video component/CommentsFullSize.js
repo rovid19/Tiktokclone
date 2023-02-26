@@ -75,7 +75,7 @@ const CommentsFullSize = ({ handleOpenCloseComments, name, visible }) => {
 
   return (
     <div className="w-full h-full z-40 absolute ">
-      <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
+      <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[80%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
         <div
           onClick={() => {
             setError(!error);
@@ -113,7 +113,7 @@ const CommentsFullSize = ({ handleOpenCloseComments, name, visible }) => {
               return (
                 <>
                   <div className="flex mt-2 border-t-2 border-gray-200 p-2 ">
-                    <div className="w-[10%]  ">
+                    <div className="w-[10%] md:w-[6%] lg:w-[7%] 2xl:w-[5%] ">
                       <img
                         onClick={() => {
                           setProfileId(item.owner);

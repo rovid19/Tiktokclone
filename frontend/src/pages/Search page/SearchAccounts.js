@@ -3,9 +3,17 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../Usercontext";
 const SearchAccounts = () => {
-  const { searched } = useContext(userContext);
+  const { searched, setVideos, setAccount, account, videos } =
+    useContext(userContext);
   console.log(searched);
   const navigate = useNavigate();
+
+  if (window.location.href === "http://localhost:3000/search/accounts") {
+    console.log("da");
+    setVideos(false);
+    setAccount(true);
+  }
+  console.log(account, "video", videos);
 
   return (
     <div className="w-full h-full ">

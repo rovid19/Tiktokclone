@@ -236,8 +236,9 @@ const Video = ({ followingVideos }) => {
             onClick={playPause}
             className="h-full w-full "
             src={
+              followingVideos &&
               "http://localhost:4000/uploads/videos/" +
-              followingVideos[currentVideoIndex].video
+                followingVideos[currentVideoIndex].video
             }
             autoPlay
           ></video>

@@ -11,6 +11,9 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
   const [redirect, setRedirect] = useState(false);
   const [register, setRegister] = useState(false);
   const [mater, setMater] = useState(false);
+  const [className, setClassName] = useState(
+    "bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
+  );
 
   const [error, setError] = useState("");
 
@@ -32,15 +35,16 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
         .then(() => {
           setReady(!ready);
           handleOpenClose();
+        })
+        .catch((error) => {
+          if (error.response.status === 422) {
+            setError("Incorrect email or password");
+          }
+          if (error.response.status === 400) {
+            setError("Incorrect email or password");
+          }
         });
-    } catch (error) {
-      if (error.response.status === 422) {
-        setError("Incorrect email or password");
-      }
-      if (error.response.status === 400) {
-        setError("Incorrect email or password");
-      }
-    }
+    } catch {}
   }
   if (redirect) {
     handleOpenClose();
@@ -52,6 +56,29 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
       setReady(!ready);
     }
   });
+
+  if (email && password && password.length > 3) {
+    if (className.includes("bg-red-500") && className.includes("text-white")) {
+    } else {
+      console.log("da");
+      setClassName(
+        "bg-red-500 w-full text-white p-2 mt-10 hover:bg-black hover:text-white"
+      );
+    }
+  }
+
+  if ((password && password.length < 3) || !email || !password) {
+    if (
+      className.includes("bg-gray-200") &&
+      className.includes("text-gray-400")
+    ) {
+    } else {
+      setClassName(
+        "bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
+      );
+    }
+  }
+
   return (
     <>
       <div className="flex items-center bg-black bg-opacity-50 justify-center absolute top-0 left-0 w-screen h-screen z-20">
@@ -82,10 +109,10 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
               onSubmit={handleLogin}
             >
               <div className=" ">
-                <h1 className="text-gray-300">Email</h1>
+                <h1 className="text-gray-300 text-sm">Account Info:</h1>
                 <input
                   type="email"
-                  className="mt-1 w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
+                  className="mt-1 w-full  bg-gray-300 bg-opacity-30 h-12 pl-4"
                   placeholder="Insert your email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -93,14 +120,12 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
               <div className="mt-1 ">
                 <input
                   type="password"
-                  className="w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
+                  className="w-full bg-gray-300 bg-opacity-30 h-12 pl-4"
                   placeholder="Insert your password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <button className=" bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white">
-                Login
-              </button>
+              <button className={className}>Login</button>
             </form>
             <div className="border-t-2 border-opacity-30 text-sm border-gray-300 w-full p-4 text-center">
               {" "}

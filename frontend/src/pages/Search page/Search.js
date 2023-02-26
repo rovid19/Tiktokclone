@@ -42,6 +42,17 @@ const Search = () => {
       console.log(account);
     }
   }
+
+  if (account) {
+    if (classNameDva.includes("text-black")) {
+    } else {
+      setClassNameDva("text-xl lg:text-4xl text-black  cursor-pointer ");
+      setClassName(
+        "text-xl lg:text-4xl text-gray-300  cursor-pointer hover:text-red-500  transition-all "
+      );
+    }
+  }
+
   return (
     <div className=" bg-red-500  h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       <div className="h-full w-full lg:w-[55%] bg-white">

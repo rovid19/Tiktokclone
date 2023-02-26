@@ -40,7 +40,6 @@ const Home = ({ handleOpenClose }) => {
     }
   }, [user]);
 
-  console.log(followingVideos);
   return (
     <div className=" bg-white  h-[calc(100%-5%)] lg:h-[calc(100%-7%)] fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0 lg:top-[7%] top-[5%]">
       <div className="h-full w-full lg:w-[55%] flex">
@@ -144,7 +143,7 @@ const Home = ({ handleOpenClose }) => {
               })}
           </div>
           {user && (
-            <div className="h-[40%] w-full border-t-2 border-gray-200 border-opacity-30 flex-col pl-4 pt-4 hover:rounded-xl ">
+            <div className="h-[40%] w-full border-t-2 border-gray-200 border-opacity-30 flex-col pl-4 pt-4 hover:rounded-xl overflow-scroll scrollbar-hide ">
               <h1 className="text-gray-500">Following accounts</h1>
 
               {user &&

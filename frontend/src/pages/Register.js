@@ -11,6 +11,9 @@ const Register = ({ handleOpenClose, handleRegister }) => {
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
   const [redirect, setRedirect] = useState(false);
+  const [className, setClassName] = useState(
+    "bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
+  );
 
   // REGISTRACIJA
   async function handleRegistration(e) {
@@ -31,6 +34,29 @@ const Register = ({ handleOpenClose, handleRegister }) => {
     handleOpenClose();
     setRedirect(false);
   }
+
+  if (email && password && username && password.length > 3) {
+    if (className.includes("bg-red-500") && className.includes("text-white")) {
+    } else {
+      console.log("da");
+      setClassName(
+        "bg-red-500 w-full text-white p-2 mt-10 hover:bg-black hover:text-white"
+      );
+    }
+  }
+
+  if ((password && password.length < 3) || !email || !username || !password) {
+    if (
+      className.includes("bg-gray-200") &&
+      className.includes("text-gray-400")
+    ) {
+    } else {
+      setClassName(
+        "bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
+      );
+    }
+  }
+
   return (
     <>
       <div className="w-[350px] fl md:w-[450px] h-[600px] bg-white">
@@ -50,16 +76,16 @@ const Register = ({ handleOpenClose, handleRegister }) => {
             </svg>
           </button>
         </div>
-        <div className="text-center font-bold"> Register </div>
+        <div className="text-center font-bold "> Register </div>
         <form
           className="flex-col mt-8   w-[80%] h-[75%]"
           onSubmit={handleRegistration}
         >
           <div className=" ">
-            <h1 className="text-gray-300">Email</h1>
+            <h1 className="text-gray-300 text-sm">Account Info:</h1>
             <input
               type="email"
-              className="mt-1 w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
+              className="mt-1 w-full bg-gray-300 bg-opacity-30 h-12 pl-4"
               placeholder="Insert your email"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -67,7 +93,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
           <div className="mt-1 ">
             <input
               type="text"
-              className="w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
+              className="w-full bg-gray-300 bg-opacity-30 h-12 pl-4"
               placeholder="Insert your username"
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -75,14 +101,12 @@ const Register = ({ handleOpenClose, handleRegister }) => {
           <div className="mt-1 ">
             <input
               type="password"
-              className="w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
+              className="w-full bg-gray-300 bg-opacity-30 h-12 pl-4"
               placeholder="Insert your password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className=" bg-gray-200 w-full  text-gray-400 p-2 mt-10 hover:bg-black hover:text-white">
-            Register
-          </button>
+          <button className={className}>Register</button>
         </form>
         <div className="border-t-2 border-opacity-30 text-sm border-gray-300 w-full p-4 text-center">
           {" "}

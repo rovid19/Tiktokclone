@@ -12,6 +12,8 @@ const Video = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
+  const [scrolling, setScrolling] = useState(false);
+  const [scrollingDown, setScrollingDown] = useState(!false);
   const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(null);
@@ -76,8 +78,10 @@ const Video = () => {
 
   useEffect(() => {
     if (video) {
-      function handleWheelEvent(e, video) {
+      console.log("komp");
+      function handleWheelEvent(e) {
         if (e.deltaY > 0) {
+          setScrolling((prev) => !prev);
           setCurrentVideoIndex((prev) => {
             if (prev === video.length - 1) {
               return prev;
@@ -106,6 +110,7 @@ const Video = () => {
 
   useEffect(() => {
     if (video) {
+      console.log("mob");
       let startY = 0;
       let endY = 0;
 
@@ -209,6 +214,8 @@ const Video = () => {
       navigate(`/profile/${profileId}`);
     }
   }
+
+  console.log("current", currentVideoIndex);
 
   return (
     <div className="relative h-full w-full group  flex justify-center ">

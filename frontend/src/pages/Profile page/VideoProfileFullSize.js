@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import { userContext } from "../../Usercontext";
 import axios from "axios";
 import CommentsFullSize from "../../components/Video component/CommentsFullSize";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
@@ -11,6 +12,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   const [like, setLike] = useState(0);
   const [visible, setVisible] = useState(false);
   const [nameDva, setNameDva] = useState(null);
+  const [profileId, setProfileId] = useState(null);
 
   const username = useParams();
 
@@ -194,6 +196,14 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   }, [spreman, index]);
 
   console.log(className.replace("hover:text-gray-200", ""));
+
+  const navigate = useNavigate();
+  function handleNavigate() {
+    if (profileId) {
+      console.log(profileId);
+      navigate(`/profile/${profileId}`);
+    }
+  }
 
   return (
     <div className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-90 flex justify-center">

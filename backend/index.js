@@ -212,6 +212,7 @@ app.put("/send-like", async (req, res) => {
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
     const user = await User.findById(userData.id);
+
     await user.set({
       likedVideos: likedVideo,
     });
@@ -221,9 +222,12 @@ app.put("/send-like", async (req, res) => {
     video.likes.push(like);
     await video.save();
     const usersVideo = await User.findById(video.owner);
+    console.log("stari lajk: ", usersVideo.videoLikes);
     usersVideo.videoLikes = usersVideo.videoLikes + 1;
     await usersVideo.save();
-    res.json(usersVideo.videoLikes);
+    console.log("novi lajk: ", usersVideo.videoLikes);
+    console.log("sljedeci");
+    res.json("ok");
   });
 });
 
@@ -237,7 +241,7 @@ app.put("/remove-like", async (req, res) => {
     const newLiked = user.likedVideos.filter((item) => item !== likedVideo);
     const { likedVideos, videoLikes } = user;
 
-    await user.set({
+    user.set({
       likedVideos: newLiked,
     });
     await user.save();
@@ -245,13 +249,15 @@ app.put("/remove-like", async (req, res) => {
     const video = await Video.findOne({ video: likedVideo });
     const newLike = video.likes.filter((item) => item !== like);
     const newUser = await User.findById(video.owner);
-
-    await newUser.set({
+    console.log("stari lajk: ", newUser.videoLikes);
+    newUser.set({
       videoLikes: videoLikes - 1,
     });
     await newUser.save();
+    console.log("novi lajk: ", newUser.videoLikes);
+    console.log("sljedeci");
 
-    await video.set({
+    video.set({
       likes: newLike,
     });
     await video.save();
