@@ -10,7 +10,7 @@ const UserVideos = ({ nonLogin }) => {
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
   const { user } = useContext(userContext);
-  const { addRemoveLike, setAddRemoveLike, userReady } =
+  const { addRemoveLike, setAddRemoveLike, userReady, likeTrigger } =
     useContext(userContext);
   const username = useParams();
 
@@ -24,7 +24,7 @@ const UserVideos = ({ nonLogin }) => {
         setUserVideos(data);
       });
     }
-  }, [userReady]);
+  }, [userReady, likeTrigger]);
 
   function closeFullVideo() {
     setVisible(!visible);
@@ -37,7 +37,7 @@ const UserVideos = ({ nonLogin }) => {
         userVideos.map((item) => {
           return (
             <div
-              className="cursor-pointer hover:scale-110 transition-all h-4"
+              className="cursor-pointer hover:scale-110 transition-all h-4 p-1"
               onClick={(e) => {
                 setName(item.video);
                 setVisible(!visible);
@@ -48,7 +48,7 @@ const UserVideos = ({ nonLogin }) => {
                 autoPlay
                 muted
                 src={"http://localhost:4000/uploads/videos/" + item.video}
-                className="rounded-2xl shadow-lg"
+                className=" rounded-lg lg:rounded-2xl shadow-lg"
               ></video>{" "}
             </div>
           );

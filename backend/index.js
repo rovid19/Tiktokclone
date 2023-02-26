@@ -235,6 +235,7 @@ app.put("/remove-like", async (req, res) => {
     if (err) throw err;
     const user = await User.findById(userData.id);
     const newLiked = user.likedVideos.filter((item) => item !== likedVideo);
+    const { likedVideos, videoLikes } = user;
 
     await user.set({
       likedVideos: newLiked,
@@ -243,12 +244,18 @@ app.put("/remove-like", async (req, res) => {
 
     const video = await Video.findOne({ video: likedVideo });
     const newLike = video.likes.filter((item) => item !== like);
+    const newUser = await User.findById(video.owner);
+
+    await newUser.set({
+      videoLikes: videoLikes - 1,
+    });
+    await newUser.save();
 
     await video.set({
       likes: newLike,
     });
     await video.save();
-    res.json(video);
+    res.json(newUser);
   });
 });
 
@@ -334,7 +341,7 @@ app.post("/follow-user/:id", async (req, res) => {
     };
     userFollowed.followers.push(newFollowing);
     await userFollowed.save();
-    res.json("ok");
+    res.json(userFollows);
   });
 });
 
@@ -385,4 +392,21 @@ app.get("/top-creator", async (req, res) => {
 
   const top5 = sorted.splice(0, 5);
   res.json(top5);
+});
+
+app.get("/get-following-videos/:username", async (req, res) => {
+  const { username } = req.params;
+  const videoArray = [];
+
+  const user = await User.findById(username);
+  const { following } = user;
+  for (const item of following) {
+    const id = item.id;
+    const itemVideo = await Video.find({ owner: id });
+    videoArray.push(itemVideo);
+  }
+
+  const oneArray = videoArray.concat.apply([], videoArray);
+
+  res.json(oneArray);
 });

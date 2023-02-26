@@ -47,7 +47,6 @@ const Profile = ({ user }) => {
   // Get profile by their url id
   useEffect(() => {
     axios.get(`/profile/${username}`).then(({ data }) => {
-      console.log("again");
       setNonLogin(data);
       if (user && user.following.some((item) => item.id === username)) {
         setFollowClassname(
@@ -99,7 +98,7 @@ const Profile = ({ user }) => {
                     ></img>
                   )}
                 </div>
-                <div className="w-[200x] ml-2 lg:ml-0 lg:w-[200px] h-[100%] mr-2">
+                <div className="w-[200x] ml-2 lg:ml-2 lg:w-[200px] h-[100%] mr-2">
                   <div className="text-3xl uppercase mt-4 ">
                     {nonLogin && <h1>{nonLogin.username}</h1>}
 

@@ -33,7 +33,7 @@ const Home = ({ handleOpenClose }) => {
   return (
     <div className=" bg-white  h-[calc(100%-5%)] lg:h-[calc(100%-7%)] fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0 lg:top-[7%] top-[5%]">
       <div className="h-full w-full lg:w-[55%] flex">
-        <div className="hidden lg:flex lg:flex-col lg:w-[30%]   hover:border-r-2 hover:border-gray-200 hover:border-opacity-30 transition-all p-1">
+        <div className="hidden lg:flex lg:flex-col lg:w-[30%] border-r-2 border-l-2 border-gray-200 border-opacity-30   transition-all p-2">
           <nav className="h-[15%]  w-full fl ">
             <Link
               onClick={() => {
@@ -92,13 +92,13 @@ const Home = ({ handleOpenClose }) => {
               topCreator.map((item) => {
                 return (
                   <div
-                    className="w-full h-[15%] p-2 flex hover:bg-gray-200 cursor-pointer items-center mt-2"
+                    className="w-full h-[15%] p-2 flex relative hover:bg-gray-200 cursor-pointer items-center mt-2 group"
                     onClick={() => {
                       setId(item._id);
                     }}
                   >
                     <>
-                      <div>
+                      <div className="w-[13%]">
                         {" "}
                         <img
                           className="h-10 rounded-full"
@@ -115,6 +115,17 @@ const Home = ({ handleOpenClose }) => {
                         <h3 className=" text-gray-700 text-sm">
                           {item.description}
                         </h3>{" "}
+                      </div>
+                      <div className="absolute right-4 items-center text-sm gap-1 font-bold opacity-20 group-hover:opacity-100 hidden 2xl:flex">
+                        {item.videoLikes}{" "}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          class="w-4 h-4 text-black"
+                        >
+                          <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                        </svg>
                       </div>
                     </>
                   </div>
@@ -134,7 +145,7 @@ const Home = ({ handleOpenClose }) => {
                         setId(item.id);
                       }}
                     >
-                      <div>
+                      <div className="w-[13%]">
                         {" "}
                         <img
                           className="h-10 rounded-full"

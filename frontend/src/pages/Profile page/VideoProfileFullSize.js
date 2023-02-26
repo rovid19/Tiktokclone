@@ -26,6 +26,10 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   const {
     spreman,
     user,
+    edit,
+    setEdit,
+    likeTrigger,
+    setLikeTrigger,
 
     addRemoveLike,
     setAddRemoveLike,
@@ -34,7 +38,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   const videoRef = useRef(null);
   useEffect(() => {
     const index = userVideos.findIndex((item) => item.video[0] === name[0]);
-    console.log(index);
+
     if (index === 0) {
     } else {
       setIndex(index);
@@ -51,7 +55,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   }
 
   function handleLike() {
-    if (className.includes("text-red-500")) {
+    if (userVideos && userVideos[index].likes.includes(user._id)) {
       axios
         .put("/remove-like", {
           like,
@@ -61,6 +65,8 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
           setAddRemoveLike(!addRemoveLike);
           setLike(null);
           setLikedVideo(null);
+          setEdit(!edit);
+          setLikeTrigger(!likeTrigger);
         });
     } else {
       axios
@@ -72,6 +78,8 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
           setAddRemoveLike(!addRemoveLike);
           setLike(null);
           setLikedVideo(null);
+          setEdit(!edit);
+          setLikeTrigger(!likeTrigger);
         });
     }
   }
@@ -158,19 +166,20 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   useEffect(() => {
     if (userVideos && user) {
       const ifLiked = userVideos[index].likes.includes(user._id);
+      console.log(ifLiked);
 
       if (ifLiked) {
-        setClassName(
-          "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer text-red-500"
-        );
+        console.log("add");
+        setClassName((prev) => prev + " text-red-500");
       } else {
+        console.log("remove");
         setClassName(
           "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
         );
       }
     }
-  }, [spreman, index]);
-  console.log(index);
+  }, [spreman, index, likeTrigger]);
+
   function handleLikeSet() {
     setLike(user._id);
     setLikedVideo(userVideos[index].video[0]);
@@ -183,6 +192,8 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
       setNameDva(userVideos[index].video[0]);
     }
   }, [spreman, index]);
+
+  console.log(className.replace("hover:text-gray-200", ""));
 
   return (
     <div className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-90 flex justify-center">

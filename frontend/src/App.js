@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
-import Navbar from "./components/Navbar component/Navbar";
+import Following from "./pages/Following.js";
 import { useState } from "react";
 import Login from "./pages/Login";
 import axios from "axios";
@@ -32,6 +32,7 @@ const App = () => {
   const [trigger, setTrigger] = useState(false);
   const [nonLogin, setNonLogin] = useState(null);
   const [edit, setEdit] = useState(false);
+  const [likeTrigger, setLikeTrigger] = useState(false);
 
   function handleOpenClose() {
     setOpenLogin(!openLogin);
@@ -50,7 +51,6 @@ const App = () => {
         .then(({ data }) => {
           setUser(data);
           setUserReady(!userReady);
-          console.log("da");
         });
     } else {
       axios
@@ -58,7 +58,6 @@ const App = () => {
         .then(({ data }) => {
           setUser(data);
           setUserReady(!userReady);
-          console.log("dada");
         });
     }
   }, [ready, nonLogin]);
@@ -69,8 +68,6 @@ const App = () => {
       setSpreman(!spreman);
     });
   }, [videoTrigger, addRemoveLike]);
-
-  console.log(user);
 
   return (
     <div>
@@ -104,6 +101,8 @@ const App = () => {
           setNonLogin,
           edit,
           setEdit,
+          likeTrigger,
+          setLikeTrigger,
         }}
       >
         <Routes>
@@ -125,6 +124,7 @@ const App = () => {
               element={<Profile user={user} />}
             />
             <Route path="/search/*" element={<Search />} />
+            <Route path="/following/:id" element={<Following />} />
           </Route>
         </Routes>
         {openLogin && (

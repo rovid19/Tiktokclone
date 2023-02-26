@@ -45,9 +45,9 @@ const EditProfile = ({ handleVisible }) => {
   }
 
   return (
-    <div className="h-full w-full  bg-black bg-opacity-20 flex justify-center items-center">
+    <div className="h-full w-full   flex justify-center items-center">
       <form
-        className="w-[320px] lg:w-[450px]  h-[680px] lg:h-[800px] bg-white"
+        className="w-[320px] lg:w-[450px]  h-[680px] lg:h-[800px] bg-white border-4 border-gray-200 mt-6"
         onSubmit={handleEdit}
       >
         <div className="h-[10%] mt-4 p-4 border-b-2 border-gray-500 border-opacity-20">
