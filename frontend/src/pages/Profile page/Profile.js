@@ -46,7 +46,7 @@ const Profile = ({ user }) => {
 
   // Get profile by their url id
   useEffect(() => {
-    axios.get(`/profile/${username}`).then(({ data }) => {
+    axios.get(`/api/user/profile/${username}`).then(({ data }) => {
       setNonLogin(data);
       if (user && user.following.some((item) => item.id === username)) {
         setFollowClassname(

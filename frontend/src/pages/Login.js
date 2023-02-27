@@ -28,7 +28,7 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
     e.preventDefault();
     try {
       axios
-        .post("/login", {
+        .post("/api/auth/login", {
           email,
           password,
         })

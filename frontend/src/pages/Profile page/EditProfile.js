@@ -14,7 +14,7 @@ const EditProfile = ({ handleVisible }) => {
 
   async function handleEdit(e) {
     e.preventDefault();
-    await axios.put("/editprofile", {
+    await axios.put("/api/user/editprofile", {
       username,
       email,
       bio,
@@ -35,7 +35,7 @@ const EditProfile = ({ handleVisible }) => {
     formData.append("photo", file[0]);
 
     axios
-      .post("/upload-image", formData, {
+      .post("api/upload/upload-image", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {

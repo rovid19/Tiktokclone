@@ -47,14 +47,14 @@ const App = () => {
   useEffect(() => {
     if (!user) {
       axios
-        .get("/profile?timestamp=" + new Date().getTime(), {})
+        .get("api/user/profile?timestamp=" + new Date().getTime(), {})
         .then(({ data }) => {
           setUser(data);
           setUserReady(!userReady);
         });
     } else {
       axios
-        .get("/profile?timestamp=" + new Date().getTime(), {})
+        .get("api/user/profile?timestamp=" + new Date().getTime(), {})
         .then(({ data }) => {
           setUser(data);
           setUserReady(!userReady);
@@ -66,6 +66,8 @@ const App = () => {
     axios.get("/video-store", {}).then(({ data }) => {
       setVideo(data);
       setSpreman(!spreman);
+      console.log("da");
+      console.log(video);
     });
   }, [videoTrigger, addRemoveLike]);
 

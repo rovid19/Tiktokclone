@@ -18,12 +18,12 @@ const Register = ({ handleOpenClose, handleRegister }) => {
   // REGISTRACIJA
   async function handleRegistration(e) {
     e.preventDefault();
-    await axios.post("/register", {
+    await axios.post("/api/auth/register", {
       email,
       password,
       username,
     });
-    await axios.post("/login", {
+    await axios.post("/api/auth/login", {
       email,
       password,
     });

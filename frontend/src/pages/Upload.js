@@ -25,11 +25,12 @@ const Upload = ({ handleOpenClose }) => {
   }
   function handleUploadVideo(e) {
     axios
-      .post("upload-video", videoFormData, {
+      .post("/api/upload/upload-video", videoFormData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then(({ data }) => {
         setVideo(data);
+        setVideoTrigger("mirko");
       });
   }
   async function handleVideo(e) {

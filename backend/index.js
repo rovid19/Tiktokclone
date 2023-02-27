@@ -13,6 +13,9 @@ import fs from "fs";
 import Video from "../backend/Models/Video.js";
 import CircularJSON from "circular-json";
 import Comments from "./Models/Comments.js";
+import authRroutes from "./Routes/auth.js";
+import userRoutes from "./Routes/user.js";
+import uploadRoutes from "./Routes/upload.js";
 
 // KONFIGURACIJA SERVERA
 const app = express();
@@ -32,13 +35,12 @@ app.use(cookieParser());
 app.listen(PORT);
 
 const jwtSecret = "rockjefakatludirock";
-const bcryptSalt = bcrypt.genSaltSync(10);
 
 //slike
-const photosMiddleware = multer({ dest: __dirname + "/uploads" });
+
 app.use("/uploads", express.static(__dirname + "/uploads"));
 //video
-const storage = multer.diskStorage({
+/*const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/videos");
   },
@@ -46,51 +48,14 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "-" + file.originalname);
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage });*/
 
 // KOD
-app.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
-  try {
-    const newUser = await User.create({
-      email: email,
-      username: username,
-      password: bcrypt.hashSync(password, bcryptSalt),
-    });
-    res.json(newUser);
-  } catch {
-    res.status(422).json("nijebrodo");
-  }
-});
+app.use("/api/auth", authRroutes);
+app.use("/api/user", userRoutes);
+app.use("/api/upload", uploadRoutes);
 
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  const userDoc = await User.findOne({ email });
-
-  if (userDoc) {
-    const checkPass = bcrypt.compareSync(password, userDoc.password);
-
-    if (checkPass) {
-      jwt.sign(
-        { email: userDoc.email, id: userDoc._id },
-        jwtSecret,
-        {},
-        async (err, token) => {
-          if (err) throw err;
-          res.setHeader("Cache-Control", "no-cache");
-          res.setHeader("Expires", "Thu, 01 Jan 1970 00:00:00 GMT");
-          res.cookie("token", token).json(token);
-        }
-      );
-    } else {
-      res.status(422).json("password not found");
-    }
-  } else {
-    res.status(400).json("email not found");
-  }
-});
-
-app.get("/profile", async (req, res) => {
+/*app.get("/profile", async (req, res) => {
   const { token } = req.cookies;
   if (token)
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -100,10 +65,6 @@ app.get("/profile", async (req, res) => {
     });
   else {
   }
-});
-
-app.post("/logout", (req, res) => {
-  res.cookie("token", "").json(true);
 });
 
 app.put("/editprofile", async (req, res) => {
@@ -121,9 +82,9 @@ app.put("/editprofile", async (req, res) => {
     await userEdit.save();
     res.json(userEdit);
   });
-});
+});*/
 
-app.get("/updatedprofile/:username", async (req, res) => {
+/*app.get("/updatedprofile/:username", async (req, res) => {
   const { username } = req.params;
   const newUser = await User.findById(username);
   res.json(newUser);
@@ -157,7 +118,7 @@ app.post(
 app.post("/upload-video", upload.single("video"), (req, res) => {
   const { path, filename } = req.file;
   res.json(filename);
-});
+});*/
 
 app.post("/video", async (req, res) => {
   const { title, description, video, username } = req.body;

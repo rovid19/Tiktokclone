@@ -28,7 +28,7 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
 
   const navigate = useNavigate();
   async function handleLogout() {
-    axios.post("/logout");
+    axios.post("/api/auth/logout");
     setUser(null);
     setUserReady(!userReady);
     navigate(`/`);
