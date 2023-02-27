@@ -162,7 +162,6 @@ app.post("/upload-video", upload.single("video"), (req, res) => {
 app.post("/video", async (req, res) => {
   const { title, description, video, username } = req.body;
   const { token } = req.cookies;
-  console.log(username);
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -208,6 +207,7 @@ app.get("/get-videos/:id", async (req, res) => {
 app.put("/send-like", async (req, res) => {
   const { token } = req.cookies;
   const { like, likedVideo } = req.body;
+  console.log(like, likedVideo);
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -222,12 +222,11 @@ app.put("/send-like", async (req, res) => {
     video.likes.push(like);
     await video.save();
     const usersVideo = await User.findById(video.owner);
-    console.log("stari lajk: ", usersVideo.videoLikes);
+
     usersVideo.videoLikes = usersVideo.videoLikes + 1;
     await usersVideo.save();
-    console.log("novi lajk: ", usersVideo.videoLikes);
-    console.log("sljedeci");
-    res.json("ok");
+
+    res.json(video);
   });
 });
 
@@ -249,13 +248,11 @@ app.put("/remove-like", async (req, res) => {
     const video = await Video.findOne({ video: likedVideo });
     const newLike = video.likes.filter((item) => item !== like);
     const newUser = await User.findById(video.owner);
-    console.log("stari lajk: ", newUser.videoLikes);
+
     newUser.set({
       videoLikes: videoLikes - 1,
     });
     await newUser.save();
-    console.log("novi lajk: ", newUser.videoLikes);
-    console.log("sljedeci");
 
     video.set({
       likes: newLike,
@@ -267,7 +264,7 @@ app.put("/remove-like", async (req, res) => {
 
 app.post("/comment", async (req, res) => {
   const { profilePhotoSet, comment, name, id, username } = req.body;
-  console.log(name);
+
   const newProfile = profilePhotoSet.toString();
   const commment = await Comments.create({
     profile: newProfile,
@@ -333,6 +330,8 @@ app.post("/follow-user/:id", async (req, res) => {
     };
     userFollows.following.push(newFollowing);
     await userFollows.save();
+
+    console.log(userFollows.following);
   });
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
@@ -363,7 +362,7 @@ app.post("/unfollow-user/:username", async (req, res) => {
     const index = userUnfollows.following.findIndex(
       (item) => item.id === username
     );
-    console.log(index);
+
     if (index > -1) {
       userUnfollows.following.splice(index, 1);
     }

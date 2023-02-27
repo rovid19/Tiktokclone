@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import { userContext } from "../../Usercontext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import CommentsFullSize from "../../components/Video component/CommentsFullSize";
 
 const VideoProfileFullSize = ({ openClose, name }) => {
@@ -10,6 +11,7 @@ const VideoProfileFullSize = ({ openClose, name }) => {
   const [like, setLike] = useState(0);
   const [visible, setVisible] = useState(false);
   const [nameDva, setNameDva] = useState(null);
+  const [profileId, setProfileId] = useState(null);
 
   const [className, setClassName] = useState(
     "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
@@ -193,7 +195,22 @@ const VideoProfileFullSize = ({ openClose, name }) => {
       setNameDva(searchedVideos[index].video[0]);
     }
   }, [spreman, index]);
-  console.log(nameDva);
+
+  useEffect(() => {
+    if (profileId) {
+      console.log(profileId);
+      handleNavigate();
+      setProfileId(null);
+    }
+  }, [profileId]);
+
+  const navigate = useNavigate();
+  function handleNavigate() {
+    if (profileId) {
+      console.log(profileId);
+      navigate(`/profile/${profileId}`);
+    }
+  }
 
   return (
     <div className="absolute h-full w-full top-0 left-0 bg-black bg-opacity-90 flex justify-center">
@@ -252,8 +269,14 @@ const VideoProfileFullSize = ({ openClose, name }) => {
               />
             </label>
           </div>
-          <div className="flex items-center text-sm lg:text-xl lg:hidden xl:flex  ">
-            <h1>{index && searchedVideos[index].title}</h1>
+          <div
+            className="flex items-center text-sm lg:text-xl lg:hidden xl:flex cursor-pointer hover:bg-red-500 hover:rounded-xl  transition-all  "
+            onClick={(e) => {
+              setProfileId(searchedVideos[index].owner);
+              handleNavigate();
+            }}
+          >
+            <h1>@{searchedVideos && searchedVideos[index].username}</h1>
           </div>
           <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4  ">
             {searchedVideos && (

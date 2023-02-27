@@ -12,9 +12,6 @@ const Video = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
-  const [scrolling, setScrolling] = useState(false);
-  const [scrollingDown, setScrollingDown] = useState(!false);
-  const [render, setRender] = useState(false);
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(null);
   const [profileId, setProfileId] = useState(null);
@@ -81,7 +78,6 @@ const Video = () => {
       console.log("komp");
       function handleWheelEvent(e) {
         if (e.deltaY > 0) {
-          setScrolling((prev) => !prev);
           setCurrentVideoIndex((prev) => {
             if (prev === video.length - 1) {
               return prev;
@@ -231,18 +227,20 @@ const Video = () => {
         className="h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-white"
       >
         {video && (
-          <video
-            volume={volume}
-            ref={videoRef}
-            loop
-            onClick={playPause}
-            className="h-full w-full "
-            src={
-              "http://localhost:4000/uploads/videos/" +
-              video[currentVideoIndex].video
-            }
-            autoPlay
-          ></video>
+          <div className="h-[100%] w-[100%]">
+            <video
+              volume={volume}
+              ref={videoRef}
+              loop
+              onClick={playPause}
+              className="h-full w-full "
+              src={
+                "http://localhost:4000/uploads/videos/" +
+                video[currentVideoIndex].video
+              }
+              autoPlay
+            ></video>
+          </div>
         )}
       </div>
       <div className="   lg:hidden  z-20 lg:z-0 lg:group-hover:flex group-hover:opacity-100 transition-all  text-white bg-opacity-80 border-t-2 border-gray-300 border-opacity-25 absolute bottom-0 h-12 lg:h-14 w-full lg:rounded-xl rounded-none bg-black bg-opacity-40 flex lg:gap-2 justify-between lg:justify-center items-center p-2 lg:border-none">

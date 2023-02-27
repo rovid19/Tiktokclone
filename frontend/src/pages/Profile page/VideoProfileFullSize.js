@@ -180,7 +180,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
         );
       }
     }
-  }, [spreman, index, likeTrigger]);
+  }, [spreman, index, likeTrigger, userVideos]);
 
   function handleLikeSet() {
     setLike(user._id);

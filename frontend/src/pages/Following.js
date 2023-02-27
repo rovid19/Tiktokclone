@@ -9,11 +9,13 @@ const Home = ({ handleOpenClose }) => {
   const [following, setFollowing] = useState([]);
   const [topCreator, setTopCreator] = useState([]);
   const [id, setId] = useState(null);
-  const { setAccount, setVideos, setInput, user } = useContext(userContext);
+  const { setAccount, setVideos, setInput, user, addRemoveLike } =
+    useContext(userContext);
   const navigate = useNavigate();
   const username = useParams();
   useEffect(() => {
     if (user) {
+      console.log("aha");
       axios.get("/following-users").then(({ data }) => {
         setFollowing(data);
       });
@@ -38,7 +40,7 @@ const Home = ({ handleOpenClose }) => {
         setFollowingVideos(data);
       });
     }
-  }, [user]);
+  }, [user, addRemoveLike]);
 
   return (
     <div className=" bg-white  h-[calc(100%-5%)] lg:h-[calc(100%-7%)] fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0 lg:top-[7%] top-[5%]">

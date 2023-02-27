@@ -12,7 +12,7 @@ const Video = ({ followingVideos }) => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
-  const [render, setRender] = useState(false);
+
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(null);
   const [profileId, setProfileId] = useState(null);
@@ -46,9 +46,13 @@ const Video = ({ followingVideos }) => {
     }
     setPlaying(!playing);
   }
-
+  console.log(like, likedVideo);
   function handleLike() {
-    if (className.includes("text-red-500")) {
+    if (
+      followingVideos &&
+      followingVideos[currentVideoIndex].likes.includes(user._id)
+    ) {
+      console.log("removaj");
       axios
         .put("/remove-like", {
           like,
@@ -60,6 +64,7 @@ const Video = ({ followingVideos }) => {
           setLikedVideo(null);
         });
     } else {
+      console.log("dodaj");
       axios
         .put("/send-like", {
           like,
@@ -105,7 +110,7 @@ const Video = ({ followingVideos }) => {
           handleWheelEvent(e, followingVideos)
         );
     }
-  }, [spreman]);
+  }, [followingVideos, spreman]);
 
   useEffect(() => {
     if (followingVideos) {
@@ -146,7 +151,7 @@ const Video = ({ followingVideos }) => {
       div.addEventListener("touchmove", (e) => handleTouchMove(e));
       div.addEventListener("touchend", handleTouchEnd);
     }
-  }, [spreman]);
+  }, [followingVideos, spreman]);
 
   useEffect(() => {
     if (like && likedVideo) {
@@ -159,6 +164,7 @@ const Video = ({ followingVideos }) => {
       const ifLiked = followingVideos[currentVideoIndex].likes.includes(
         user._id
       );
+      console.log(ifLiked);
 
       if (ifLiked) {
         setClassName(
@@ -170,7 +176,8 @@ const Video = ({ followingVideos }) => {
         );
       }
     }
-  }, [spreman, currentVideoIndex, userReady]);
+  }, [spreman, currentVideoIndex, userReady, followingVideos]);
+  console.log(followingVideos);
   //komentari
   useEffect(() => {
     if (followingVideos) {
