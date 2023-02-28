@@ -12,14 +12,12 @@ const Comments = ({ handleOpenCloseComments, name }) => {
   const navigate = useNavigate();
 
   // STATES
-  const [profilePhotoSet, setProfilePhotoSet] = useState([]);
   const [comment, setComment] = useState([""]);
   const [error, setError] = useState(false);
   const [comments, setComments] = useState([]);
   const [post, setPost] = useState(false);
   const [id, setId] = useState(null);
   const [commentDelete, setCommentDelete] = useState(null);
-  const [username, setUsername] = useState(null);
   const [profileId, setProfileId] = useState(null);
 
   // AXIOS POST COMMENT
@@ -31,11 +29,9 @@ const Comments = ({ handleOpenCloseComments, name }) => {
       } else {
         axios
           .post("/api/interaction/send-comment", {
-            profilePhotoSet,
             comment,
             name,
             id,
-            username,
           })
           .then(() => {
             setAddRemoveLike(!addRemoveLike);
@@ -51,9 +47,7 @@ const Comments = ({ handleOpenCloseComments, name }) => {
   // SET STATES IF USER EXISTS FOR AXIOS CALL
   useEffect(() => {
     if (user) {
-      setProfilePhotoSet(user.profilePhoto);
       setId(user._id);
-      setUsername(user.username);
     }
   });
 
@@ -91,6 +85,7 @@ const Comments = ({ handleOpenCloseComments, name }) => {
       navigate(`/profile/${profileId}`);
     }
   }
+
   return (
     <div className="w-full h-full z-30 absolute ">
       <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
@@ -134,19 +129,22 @@ const Comments = ({ handleOpenCloseComments, name }) => {
                     <div
                       className="w-[10%] cursor-pointer  "
                       onClick={() => {
-                        setProfileId(item.owner);
+                        setProfileId(item.owner._id);
                         handleNavigate();
                       }}
                     >
                       <img
                         className="h-[60px] rounded-full "
-                        src={"http://localhost:4000/uploads/" + item.profile}
+                        src={
+                          "http://localhost:4000/uploads/" +
+                          item.owner.profilePhoto
+                        }
                       ></img>
                     </div>
                     <div className="w-[90%] relative ml-2">
-                      <h1 className="text-sm">{item.username}</h1>
+                      <h1 className="text-sm">{item.owner.username}</h1>
                       <p>{item.comment}</p>
-                      {user && user._id === item.owner && (
+                      {user && user._id === item.owner._id && (
                         <div
                           className="absolute right-0 top-0"
                           onClick={() => {

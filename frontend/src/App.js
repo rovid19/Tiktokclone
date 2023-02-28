@@ -27,7 +27,7 @@ const App = () => {
   const [userReady, setUserReady] = useState(false);
   const [searched, setSearched] = useState(null);
   const [searchedVideos, setSearchedVideos] = useState(null);
-  const [addRemoveLike, setAddRemoveLike] = useState(false);
+  const [addRemoveLike, setAddRemoveLike] = useState("");
   const [videoTrigger, setVideoTrigger] = useState("");
   const [videos, setVideos] = useState(true);
   const [account, setAccount] = useState(false);
@@ -82,6 +82,16 @@ const App = () => {
         console.log("da");
       });
   }, [videoTrigger, addRemoveLike, video]);
+
+  // AXIOS GET ALL VIDEOS AFTER ADDING OR REMOVING LIKE
+  useEffect(() => {
+    if (addRemoveLike !== "")
+      axios.get("api/video/get-all-videos", {}).then(({ data }) => {
+        setVideo(data);
+        setSpreman(!spreman);
+        console.log("da");
+      });
+  }, [addRemoveLike]);
 
   return (
     <div>

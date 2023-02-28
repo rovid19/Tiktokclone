@@ -22,7 +22,7 @@ const VideoProfileFullSize = ({ openClose, name }) => {
   const [profileId, setProfileId] = useState(null);
   const [listener, setListener] = useState(false);
   const [className, setClassName] = useState(
-    "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
+    "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
   );
   const [volume, setVolume] = useState(0.5);
 
@@ -58,25 +58,25 @@ const VideoProfileFullSize = ({ openClose, name }) => {
 
   // AXIOS SEND OR REMOVE LIKE FROM A VIDEO
   function handleLike() {
-    if (className.includes("text-red-500")) {
+    if (searchedVideos[index].likes.includes(user._id)) {
       axios
-        .put("/remove-like", {
+        .put("/api/interaction/remove-like", {
           like,
           likedVideo,
         })
         .then(() => {
-          setAddRemoveLike(!addRemoveLike);
+          setAddRemoveLike("mirko");
           setLike(null);
           setLikedVideo(null);
         });
     } else {
       axios
-        .put("/send-like", {
+        .put("/api/interaction/send-like", {
           like,
           likedVideo,
         })
         .then(() => {
-          setAddRemoveLike(!addRemoveLike);
+          setAddRemoveLike("zdenko");
           setLike(null);
           setLikedVideo(null);
         });
@@ -181,11 +181,11 @@ const VideoProfileFullSize = ({ openClose, name }) => {
 
       if (ifLiked) {
         setClassName(
-          "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer text-red-500"
+          "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer text-red-500"
         );
       } else {
         setClassName(
-          "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
+          "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
         );
       }
     }

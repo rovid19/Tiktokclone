@@ -17,6 +17,7 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
     videos,
     trigger,
     setSearchedVideos,
+    addRemoveLike,
   } = useContext(userContext);
 
   const [input, setInput] = useState(null);
@@ -59,7 +60,7 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
         console.log("video");
       }
     }
-  }, [trigger]);
+  }, [trigger, addRemoveLike]);
 
   return (
     <>

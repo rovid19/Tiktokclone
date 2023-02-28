@@ -53,7 +53,7 @@ const Video = () => {
           likedVideo,
         })
         .then(() => {
-          setAddRemoveLike(!addRemoveLike);
+          setAddRemoveLike("NENE");
           setLike(null);
           setLikedVideo(null);
         });
@@ -64,7 +64,7 @@ const Video = () => {
           likedVideo,
         })
         .then(() => {
-          setAddRemoveLike(!addRemoveLike);
+          setAddRemoveLike("DADA");
           setLike(null);
           setLikedVideo(null);
         });

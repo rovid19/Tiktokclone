@@ -64,18 +64,26 @@ export const removeLike = async (req, res) => {
 };
 
 export const sendComment = async (req, res) => {
-  const { profilePhotoSet, comment, name, id, username } = req.body;
+  const { comment, name, id } = req.body;
 
-  const newProfile = profilePhotoSet.toString();
+  // const newProfile = profilePhotoSet.toString();
+  const user = await User.findById(id);
   const commment = await Comments.create({
-    profile: newProfile,
+    // profile: newProfile,
     comment: comment,
     video: name,
     owner: id,
-    username: username,
+    //username: username,
   });
 
-  res.json(commment);
+  const combinedComment = {
+    _id: commment._id,
+    comment: commment.comment,
+    profile: user.profilePhoto,
+    username: user.username,
+  };
+
+  res.json(combinedComment);
 };
 
 export const deleteComment = async (req, res) => {
@@ -87,8 +95,11 @@ export const deleteComment = async (req, res) => {
 
 export const getAllComments = async (req, res) => {
   const { name } = req.body;
-  const allComments = await Comments.find({ video: name });
-  console.log(allComments);
+  const allComments = await Comments.find({ video: name }).populate(
+    "owner",
+    "username profilePhoto"
+  );
+
   res.json(allComments);
 };
 

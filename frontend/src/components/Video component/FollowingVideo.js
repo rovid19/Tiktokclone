@@ -24,7 +24,7 @@ const Video = ({ followingVideos }) => {
   const [name, setName] = useState(null);
   const [profileId, setProfileId] = useState(null);
   const [className, setClassName] = useState(
-    "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
+    "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
   );
 
   // HANDLE VOLUME CHANGE
@@ -50,7 +50,7 @@ const Video = ({ followingVideos }) => {
       followingVideos[currentVideoIndex].likes.includes(user._id)
     ) {
       axios
-        .put("/remove-like", {
+        .put("/api/interaction/remove-like", {
           like,
           likedVideo,
         })
@@ -61,7 +61,7 @@ const Video = ({ followingVideos }) => {
         });
     } else {
       axios
-        .put("/send-like", {
+        .put("/api/interaction/send-like", {
           like,
           likedVideo,
         })
@@ -167,11 +167,11 @@ const Video = ({ followingVideos }) => {
 
       if (ifLiked) {
         setClassName(
-          "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer text-red-500"
+          "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer text-red-500"
         );
       } else {
         setClassName(
-          "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
+          "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
         );
       }
     }
@@ -182,7 +182,7 @@ const Video = ({ followingVideos }) => {
     if (followingVideos) {
       setName(followingVideos[currentVideoIndex].video[0]);
     }
-  }, [spreman, currentVideoIndex]);
+  }, [followingVideos, currentVideoIndex]);
 
   // SET STATE FOR REMOVE OR SEND LIKE
   function handleLikeSet() {
@@ -223,7 +223,7 @@ const Video = ({ followingVideos }) => {
     }
   }
   //
-
+  console.log(name);
   return (
     <div className="relative h-full w-full group  flex justify-center ">
       {visible && (

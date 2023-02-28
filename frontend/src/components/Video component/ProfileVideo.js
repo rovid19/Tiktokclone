@@ -27,7 +27,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   const [nameDva, setNameDva] = useState(null);
   const [listener, setListener] = useState(false);
   const [className, setClassName] = useState(
-    "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
+    "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
   );
   const [volume, setVolume] = useState(0.5);
 
@@ -61,7 +61,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
   function handleLike() {
     if (userVideos && userVideos[index].likes.includes(user._id)) {
       axios
-        .put("/remove-like", {
+        .put("/api/interaction/remove-like", {
           like,
           likedVideo,
         })
@@ -74,7 +74,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
         });
     } else {
       axios
-        .put("/send-like", {
+        .put("/api/interaction/send-like", {
           like,
           likedVideo,
         })
@@ -185,12 +185,10 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
       console.log(ifLiked);
 
       if (ifLiked) {
-        console.log("add");
         setClassName((prev) => prev + " text-red-500");
       } else {
-        console.log("remove");
         setClassName(
-          "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
+          "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
         );
       }
     }

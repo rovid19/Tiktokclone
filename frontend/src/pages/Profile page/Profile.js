@@ -88,7 +88,7 @@ const Profile = ({ user }) => {
                     >
                       Edit profile
                     </button>
-                  ) : (
+                  ) : user ? (
                     <button
                       onClick={() => {
                         handleFollow();
@@ -102,7 +102,7 @@ const Profile = ({ user }) => {
                         user.following.some((item) => item.id === username) &&
                         "Following"}
                     </button>
-                  )}
+                  ) : null}
                 </div>
               </div>
               <div className="">
