@@ -1,12 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { userContext } from "../Usercontext";
 
 const Register = ({ handleOpenClose, handleRegister }) => {
-  const { setUser, setReady, ready } = useContext(userContext);
+  // CONTEXT & EXTRA
+  const { setReady, ready } = useContext(userContext);
+
+  // STATES
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
@@ -15,7 +17,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
     "bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
   );
 
-  // REGISTRACIJA
+  // AXIOS HANDLE REGISTER
   async function handleRegistration(e) {
     e.preventDefault();
     await axios.post("/api/auth/register", {
@@ -35,6 +37,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
     setRedirect(false);
   }
 
+  // CHANGE COLOR OF REGISTER BUTTON AFTER THESE CONDITIONS ARE MET
   if (email && password && username && password.length > 3) {
     if (className.includes("bg-red-500") && className.includes("text-white")) {
     } else {
@@ -45,6 +48,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
     }
   }
 
+  // CHANGE COLOR OF REGISTER BUTTON AFTER THESE CONDITIONS ARE MET
   if ((password && password.length < 3) || !email || !username || !password) {
     if (
       className.includes("bg-gray-200") &&

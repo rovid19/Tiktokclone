@@ -1,21 +1,23 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-import Home from "./pages/Home";
-import Following from "./pages/Following.js";
+import Home from "./pages/Home page/Home";
+import Following from "./pages/Home page/Following.js";
 import { useState } from "react";
 import Login from "./pages/Login";
 import axios from "axios";
 import { userContext } from "./Usercontext";
 import { useEffect } from "react";
-import { useContext } from "react";
 import Profile from "./pages/Profile page/Profile";
 import Upload from "./pages/Upload";
 import Search from "./pages/Search page/Search";
 
+// AXIOS SETUP
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
+
 const App = () => {
+  //STATES & EXTRA
   const [openLogin, setOpenLogin] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
   const [user, setUser] = useState(null);
@@ -34,16 +36,24 @@ const App = () => {
   const [edit, setEdit] = useState(false);
   const [likeTrigger, setLikeTrigger] = useState(false);
 
+  const prevVideoRef = useRef(["marko"]);
+
+  // OPEN/CLOSE LOGIN COMPONENT
   function handleOpenClose() {
     setOpenLogin(!openLogin);
   }
+
+  // OPEN/CLOSE UPLOAD COMPONENT
   function handleOpenCloseUpload() {
     setOpenUpload(!openUpload);
   }
+
+  //HANDLE STATE CHANGE
   function handleStateChange() {
     setReady(!ready);
   }
 
+  // AXIOS GET LOGGED IN USER
   useEffect(() => {
     if (!user) {
       axios
@@ -62,14 +72,16 @@ const App = () => {
     }
   }, [ready, nonLogin]);
 
+  // AXIOS GET ALL VIDEOS ON PLATFORM
   useEffect(() => {
-    axios.get("/video-store", {}).then(({ data }) => {
-      setVideo(data);
-      setSpreman(!spreman);
-      console.log("da");
-      console.log(video);
-    });
-  }, [videoTrigger, addRemoveLike]);
+    if (JSON.stringify(prevVideoRef.current) !== JSON.stringify(video))
+      axios.get("api/video/get-all-videos", {}).then(({ data }) => {
+        prevVideoRef.current = data;
+        setVideo(data);
+        setSpreman(!spreman);
+        console.log("da");
+      });
+  }, [videoTrigger, addRemoveLike, video]);
 
   return (
     <div>

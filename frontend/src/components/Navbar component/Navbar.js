@@ -1,47 +1,46 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import Img from "../../images/logo1.png";
-import { Link, Navigate, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { userContext } from "../../Usercontext";
 import axios from "axios";
-import DesktopHeader from "./DesktopHeader";
-import MobileHeader from "./MobileHeader";
+import NavbarDesktop from "./NavbarDesktop";
+import NavbarMobile from "./NavbarMobile";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = ({ handleOpenClose, handleUpload }) => {
   const {
-    user,
     setUser,
     setUserReady,
     userReady,
-    searched,
     setSearched,
     account,
     videos,
     trigger,
-    setTrigger,
-    searchedVideos,
     setSearchedVideos,
   } = useContext(userContext);
-  const [input, setInput] = useState(null);
 
+  const [input, setInput] = useState(null);
   const navigate = useNavigate();
+
+  // LOGOUT
   async function handleLogout() {
     axios.post("/api/auth/logout");
     setUser(null);
     setUserReady(!userReady);
     navigate(`/`);
   }
+
+  // UPDATE INPUT STATE
   function changeInput(input) {
     setInput(input);
   }
 
+  // FETCH SEARCH VIDEOS AND ACCOUNT DATA
   useEffect(() => {
     if (input) {
       if (account) {
         axios
-          .post("/searched-user", {
+          .post("/api/search/searched-user", {
             input,
           })
           .then(({ data }) => {
@@ -51,7 +50,7 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
       }
       if (videos) {
         axios
-          .post("/searched-video", {
+          .post("/api/search/searched-video", {
             input,
           })
           .then(({ data }) => {
@@ -64,13 +63,13 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
 
   return (
     <>
-      <DesktopHeader
+      <NavbarDesktop
         handleLogout={handleLogout}
         handleOpenClose={handleOpenClose}
         handleUpload={handleUpload}
         changeInput={changeInput}
       />
-      <MobileHeader
+      <NavbarMobile
         handleLogout={handleLogout}
         handleOpenClose={handleOpenClose}
         handleUpload={handleUpload}

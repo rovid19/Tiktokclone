@@ -1,20 +1,28 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userContext } from "../../Usercontext";
 
-const Comments = ({ handleOpenCloseComments, name, visible }) => {
+const Comments = ({ handleOpenCloseComments, name }) => {
+  // CONTEXT
+  const { user, addRemoveLike, setAddRemoveLike } = useContext(userContext);
+
+  // NAVIGATE
+  const navigate = useNavigate();
+
+  // STATES
   const [profilePhotoSet, setProfilePhotoSet] = useState([]);
   const [comment, setComment] = useState([""]);
   const [error, setError] = useState(false);
-  const { user, addRemoveLike, setAddRemoveLike } = useContext(userContext);
   const [comments, setComments] = useState([]);
   const [post, setPost] = useState(false);
   const [id, setId] = useState(null);
   const [commentDelete, setCommentDelete] = useState(null);
   const [username, setUsername] = useState(null);
   const [profileId, setProfileId] = useState(null);
+
+  // AXIOS POST COMMENT
   function postComment(e) {
     e.preventDefault();
     if (comment) {
@@ -22,7 +30,7 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
         alert("You must be logged in in order to post a comment");
       } else {
         axios
-          .post("/comment", {
+          .post("/api/interaction/send-comment", {
             profilePhotoSet,
             comment,
             name,
@@ -39,6 +47,8 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
       setError(!error);
     }
   }
+
+  // SET STATES IF USER EXISTS FOR AXIOS CALL
   useEffect(() => {
     if (user) {
       setProfilePhotoSet(user.profilePhoto);
@@ -47,19 +57,20 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
     }
   });
 
+  // AXIOS GET ALL COMMENTS ON VIDEO
   useEffect(() => {
     axios
-      .post("/get-comments", {
+      .post("/api/interaction/get-comments", {
         name,
       })
       .then(({ data }) => setComments(data));
   }, [post]);
-  console.log(comments);
 
+  // AXIOS DELETE COMMENT
   useEffect(() => {
     if (commentDelete) {
       axios
-        .post("/delete-comment", {
+        .post("/api/interaction/delete-comment", {
           commentDelete,
         })
         .then(() => {
@@ -73,7 +84,7 @@ const Comments = ({ handleOpenCloseComments, name, visible }) => {
     }
   }, [profileId]);
 
-  const navigate = useNavigate();
+  // NAVIGATE TO CLICKED USER PROFILE
   function handleNavigate() {
     if (profileId) {
       console.log(profileId);

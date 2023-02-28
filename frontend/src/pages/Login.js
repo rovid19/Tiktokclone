@@ -5,7 +5,11 @@ import axios from "axios";
 import { useContext } from "react";
 import { userContext } from "../Usercontext";
 
-const Login = ({ handleOpenClose, handleStateChange }) => {
+const Login = ({ handleOpenClose }) => {
+  // CONTEXT & EXTRA
+  const { setReady, ready } = useContext(userContext);
+
+  // STATES
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [redirect, setRedirect] = useState(false);
@@ -14,16 +18,14 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
   const [className, setClassName] = useState(
     "bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
   );
-
   const [error, setError] = useState("");
 
-  const { setUser, setReady, ready, userReady, setUserReady } =
-    useContext(userContext);
-
+  // OPEN REGISTER POPUP
   function handleRegister() {
     setRegister(!register);
   }
 
+  // AXIOS LOGIN
   async function handleLogin(e) {
     e.preventDefault();
     try {
@@ -46,17 +48,21 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
         });
     } catch {}
   }
+
+  // REDIRECT AFTER SUCCESSFUL LOGIN
   if (redirect) {
     handleOpenClose();
 
     setRedirect(false);
   }
+
   useEffect(() => {
     if (mater) {
       setReady(!ready);
     }
   });
 
+  // CHANGE COLOR OF LOGIN BUTTON AFTER THESE CONDITIONS ARE MET
   if (email && password && password.length > 3) {
     if (className.includes("bg-red-500") && className.includes("text-white")) {
     } else {
@@ -67,6 +73,7 @@ const Login = ({ handleOpenClose, handleStateChange }) => {
     }
   }
 
+  // CHANGE COLOR OF LOGIN BUTTON AFTER THESE CONDITIONS ARE MET
   if ((password && password.length < 3) || !email || !password) {
     if (
       className.includes("bg-gray-200") &&

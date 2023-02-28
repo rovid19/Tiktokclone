@@ -5,50 +5,59 @@ import { userContext } from "../Usercontext";
 import { useContext } from "react";
 
 const Upload = ({ handleOpenClose }) => {
+  // CONTEXT & EXTRA
+  const { user, userReady, setVideo } = useContext(userContext);
+
+  // STATES
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [video, setVideo] = useState(null);
+  const [vidac, setVidac] = useState(null);
   const [videoFormData, setVideoFormData] = useState([]);
   const [natpis, setNatpis] = useState(false);
-  const { setVideoTrigger, user, userReady } = useContext(userContext);
   const [username, setUsername] = useState(null);
   const [className, setClassName] = useState(
     " bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
   );
-  const [like, setLike] = useState(1);
 
+  // MAKE FORM DATA WITH UPLOADED FILE
   function handleFile(e) {
     const file = e.target.files;
     const formData = new FormData();
     formData.append("video", file[0]);
     setVideoFormData(formData);
   }
+
+  // AXIOS HANDLE UPLOAD VIDEO
   function handleUploadVideo(e) {
     axios
       .post("/api/upload/upload-video", videoFormData, {
         headers: { "Content-Type": "multipart/form-data" },
       })
       .then(({ data }) => {
-        setVideo(data);
-        setVideoTrigger("mirko");
+        setVidac(data);
       });
   }
+
+  // AXIOS STORE UPLOADED VIDEO
   async function handleVideo(e) {
     e.preventDefault();
 
-    if (video && title && description) {
-      await axios.post("/video", {
-        video,
+    if (vidac && title && description) {
+      await axios.post("/api/video/videos", {
+        vidac,
         title,
         description,
         username,
       });
-      setVideoTrigger("uploadTriggered");
+      setVideo(null);
+
       handleOpenClose();
     } else {
       setNatpis(true);
     }
   }
+
+  // SET STATE IF USER IS LOGGED IN
   useEffect(() => {
     if (user) {
       setUsername(user.username);

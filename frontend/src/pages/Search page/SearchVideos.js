@@ -1,20 +1,24 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { userContext } from "../../Usercontext";
-import VideoSearch from "./VideoSearch.js";
+import SearchVideo from "../../components/Video component/SearchVideo.js";
 
 const SearchVideos = () => {
+  // CONTEXT & EXTRA
   const { searchedVideos } = useContext(userContext);
+
+  // STATES
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(null);
 
+  // OPEN/CLOSE FULL SIZE VIDEO
   function openClose() {
     setVisible(!visible);
   }
 
   return (
     <div className="lg:w-full p-4 h-[100%] grid grid-cols-1  md:grid-cols-3 ml-4 lg:ml-0 overflow-scroll scrollbar-hide mt-4 lg:mt-4 2xl:mt-8 lg:grid-cols-3 2xl:grid-cols-5 ">
-      {visible && <VideoSearch openClose={openClose} name={name} />}
+      {visible && <SearchVideo openClose={openClose} name={name} />}
       {searchedVideos && searchedVideos.length > 0 ? (
         searchedVideos.map((item) => {
           return (

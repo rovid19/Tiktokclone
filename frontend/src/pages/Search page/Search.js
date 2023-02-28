@@ -1,14 +1,16 @@
 import React from "react";
 import { useContext, useState } from "react";
 import { userContext } from "../../Usercontext";
-import { Route, Routes } from "react-router-dom";
 import SearchAccounts from "./SearchAccounts";
 import SearchVideos from "./SearchVideos";
 import { Link } from "react-router-dom";
+
 const Search = () => {
+  // CONTEXT & EXTRA
   const { videos, setVideos, account, setAccount, trigger, setTrigger } =
     useContext(userContext);
 
+  //STATES
   const [className, setClassName] = useState(
     "text-xl lg:text-4xl text-black  cursor-pointer "
   );
@@ -16,6 +18,7 @@ const Search = () => {
     "text-xl lg:text-4xl text-gray-300  cursor-pointer hover:text-red-500  transition-all "
   );
 
+  //ON CLICK CHANGE CURRENT SEARCH ACCOUNT/VIDEOS AND SET THEIR CSS
   function handleVideos() {
     if (className.includes("text-black")) {
     } else {
@@ -28,6 +31,8 @@ const Search = () => {
       setAccount(false);
     }
   }
+
+  //ON CLICK CHANGE CURRENT SEARCH ACCOUNT/VIDEOS AND SET THEIR CSS
   function handleAccount() {
     if (classNameDva.includes("text-black")) {
     } else {
@@ -43,6 +48,7 @@ const Search = () => {
     }
   }
 
+  // HANDLE BUG WHEN USING BACK BUTTON
   if (account) {
     if (classNameDva.includes("text-black")) {
     } else {

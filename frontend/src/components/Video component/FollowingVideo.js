@@ -7,37 +7,33 @@ import axios from "axios";
 import Comments from "./Comments.js";
 
 const Video = ({ followingVideos }) => {
+  // CONTEXT & EXTRA
+  const { spreman, user, userReady, addRemoveLike, setAddRemoveLike } =
+    useContext(userContext);
+
+  const navigate = useNavigate();
+  const videoRef = useRef(null);
+
+  // STATES
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [likedVideo, setLikedVideo] = useState(null);
   const [like, setLike] = useState(0);
-
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState(null);
   const [profileId, setProfileId] = useState(null);
-
   const [className, setClassName] = useState(
     "w-8 h-8 lg:h-10 lg:w-10 hover:text-gray-200 hover:scale-125 cursor-pointer"
   );
 
-  const {
-    spreman,
-    user,
-    userReady,
-    setSpreman,
-    setVideoTrigger,
-    addRemoveLike,
-    setAddRemoveLike,
-  } = useContext(userContext);
-
-  const videoRef = useRef(null);
-
+  // HANDLE VOLUME CHANGE
   function handleVolumeChange(e) {
     setVolume(e.target.value);
     videoRef.current.volume = volume;
   }
 
+  // HANDLE PLAY PAUSE
   function playPause() {
     if (playing) {
       videoRef.current.pause();
@@ -46,13 +42,13 @@ const Video = ({ followingVideos }) => {
     }
     setPlaying(!playing);
   }
-  console.log(like, likedVideo);
+
+  // AXIOS SEND OR REMOVE LIKE FROM A VIDEO
   function handleLike() {
     if (
       followingVideos &&
       followingVideos[currentVideoIndex].likes.includes(user._id)
     ) {
-      console.log("removaj");
       axios
         .put("/remove-like", {
           like,
@@ -64,7 +60,6 @@ const Video = ({ followingVideos }) => {
           setLikedVideo(null);
         });
     } else {
-      console.log("dodaj");
       axios
         .put("/send-like", {
           like,
@@ -78,6 +73,7 @@ const Video = ({ followingVideos }) => {
     }
   }
 
+  // ON SCROLL FUNCTION THAT FOR SCROLLING ON VIDEOS - DESKTOP
   useEffect(() => {
     if (followingVideos) {
       function handleWheelEvent(e, followingVideos) {
@@ -110,8 +106,9 @@ const Video = ({ followingVideos }) => {
           handleWheelEvent(e, followingVideos)
         );
     }
-  }, [followingVideos, spreman]);
+  }, [followingVideos]);
 
+  // ON SCROLL FUNCTION THAT FOR SCROLLING ON VIDEOS - MOBILE
   useEffect(() => {
     if (followingVideos) {
       let startY = 0;
@@ -151,14 +148,16 @@ const Video = ({ followingVideos }) => {
       div.addEventListener("touchmove", (e) => handleTouchMove(e));
       div.addEventListener("touchend", handleTouchEnd);
     }
-  }, [followingVideos, spreman]);
+  }, [followingVideos]);
 
+  // STATE CHECK BEFORE SENDING OR REMOVE LIKES
   useEffect(() => {
     if (like && likedVideo) {
       handleLike();
     }
   }, [like]);
 
+  // CHECK IF USER ALREADY LIKED A VIDEO
   useEffect(() => {
     if (followingVideos && user) {
       const ifLiked = followingVideos[currentVideoIndex].likes.includes(
@@ -177,14 +176,15 @@ const Video = ({ followingVideos }) => {
       }
     }
   }, [spreman, currentVideoIndex, userReady, followingVideos]);
-  console.log(followingVideos);
-  //komentari
+
+  // SET STATE FOR COMMENTS
   useEffect(() => {
     if (followingVideos) {
       setName(followingVideos[currentVideoIndex].video[0]);
     }
   }, [spreman, currentVideoIndex]);
 
+  // SET STATE FOR REMOVE OR SEND LIKE
   function handleLikeSet() {
     if (!user) {
       alert("You must be logged in in order to like a video");
@@ -194,10 +194,12 @@ const Video = ({ followingVideos }) => {
     }
   }
 
+  // HANDLE OPEN/CLOSE COMMENTS
   function handleOpenCloseComments() {
     setVisible(!visible);
   }
-  //n
+
+  // SET COLOR OF LIKE BUTTON IF USER DOESNT EXIST TO DEFAULT
   useEffect(() => {
     if (!user) {
       setClassName(
@@ -206,21 +208,21 @@ const Video = ({ followingVideos }) => {
     }
   }, [userReady]);
 
+  // NAVIGATE TO CLICKED USER PROFILE
   useEffect(() => {
     if (profileId) {
-      console.log(profileId);
       handleNavigate();
       setProfileId(null);
     }
   }, [profileId]);
 
-  const navigate = useNavigate();
   function handleNavigate() {
     if (profileId) {
       console.log(profileId);
       navigate(`/profile/${profileId}`);
     }
   }
+  //
 
   return (
     <div className="relative h-full w-full group  flex justify-center ">

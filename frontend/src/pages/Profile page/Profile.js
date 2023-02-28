@@ -1,50 +1,24 @@
-import React, { memo, useEffect } from "react";
+import React, { useEffect } from "react";
 import { userContext } from "../../Usercontext";
 import { useContext, useState } from "react";
-import EditProfile from "./EditProfile";
+import ProfileEdit from "./ProfileEdit";
 import axios from "axios";
-import UserVideos from "./UserVideos.js";
+import ProfileVideos from "./ProfileVideos.js";
 import { useParams } from "react-router-dom";
-import { isEqual } from "lodash";
 
 const Profile = ({ user }) => {
-  const [visible, setVisible] = useState(false);
+  // CONTEXT & EXTRA
+  const { nonLogin, setNonLogin, edit } = useContext(userContext);
+  const { username } = useParams();
 
+  //STATES
+  const [visible, setVisible] = useState(false);
   const [followReady, setFollowReady] = useState(false);
-  const { setReady, setUser, ready, nonLogin, setNonLogin, edit, setEdit } =
-    useContext(userContext);
   const [followClassname, setFollowClassname] = useState(
     "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
   );
-  const { username } = useParams();
-  /*
-  useEffect(() => {
-    if (user && username === user._id.toString()) {
-      axios.get(`/updatedprofile/${username}`).then(({ data }) => {
-        setLogin(data);
-        setReady("iopetiopet");
-        console.log("user render");
-      });
-      if (nonLogin) {
-        setNonLogin(null);
-        console.log("nonlogin");
-      }
-    }
-  }, [user]); */
 
-  /*useEffect(() => {
-    if (followReady !== "") {
-      axios.get(`/updatedprofile/${user._id}`).then(({ data }) => {
-        setUser(data);
-      });
-      if (nonLogin) {
-        console.log("da");
-        setNonLogin(null);
-      }
-    }
-  }, [followReady]);*/
-
-  // Get profile by their url id
+  // GET USER PROFILE BY THEIR ID FROM PARAMS
   useEffect(() => {
     axios.get(`/api/user/profile/${username}`).then(({ data }) => {
       setNonLogin(data);
@@ -60,18 +34,19 @@ const Profile = ({ user }) => {
     });
   }, [followReady, edit]);
 
+  //OPEN PROFILEVIDEO COMPONENT
   function handleVisible() {
     setVisible(!visible);
   }
 
-  // Follow and unfollow
+  // AXIOS FOLLOW AND UNFOLLOW
   function handleFollow() {
     if (user && user.following.some((item) => item.id === username)) {
-      axios.post(`/unfollow-user/${username}`, {}).then(() => {
+      axios.post(`/api/interaction/unfollow-user/${username}`, {}).then(() => {
         setFollowReady(!followReady);
       });
     } else {
-      axios.post(`/follow-user/${username}`, {}).then(() => {
+      axios.post(`/api/interaction/follow-user/${username}`, {}).then(() => {
         setFollowReady(!followReady);
       });
     }
@@ -80,7 +55,7 @@ const Profile = ({ user }) => {
   return (
     <div className="bg-red-500 lg:bg-red-500 lg: bg-opacity-80   h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl pt-12 lg:pt-16 lg:pb-4 ">
-        {visible && <EditProfile handleVisible={handleVisible} />}
+        {visible && <ProfileEdit handleVisible={handleVisible} />}
         {visible ? (
           ""
         ) : (
@@ -157,7 +132,7 @@ const Profile = ({ user }) => {
               </div>
             </div>
             <div className="h-[70%]  w-full lg:w-[80%]">
-              {nonLogin && <UserVideos nonLogin={nonLogin} />}
+              {nonLogin && <ProfileVideos nonLogin={nonLogin} />}
             </div>{" "}
           </>
         )}
