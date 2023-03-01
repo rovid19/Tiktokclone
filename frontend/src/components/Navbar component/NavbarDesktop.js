@@ -130,12 +130,12 @@ const DesktopHeader = ({
           {user && (
             <>
               <div
-                className="ml-[-6px]"
+                className="ml-[-6px] cursor-pointer"
                 onClick={() => {
+                  navigate(`/profile/${user._id}`);
                   setAccount(false);
                   setVideos(true);
                   setInput("");
-                  navigate(`/profile/${user._id}`);
                 }}
               >
                 <img
