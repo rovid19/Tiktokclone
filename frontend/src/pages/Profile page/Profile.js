@@ -70,7 +70,10 @@ const Profile = () => {
                       <img
                         src={
                           "https://gymtok-api-app.onrender.com/uploads/" +
-                          nonLogin.profilePhoto
+                          nonLogin.profilePhoto[0].replace(
+                            "/opt/render/project/src/backend/uploads/",
+                            ""
+                          )
                         }
                         className="h-full rounded-full"
                       ></img>

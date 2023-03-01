@@ -83,7 +83,7 @@ const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
       navigate(`/profile/${profileId}`);
     }
   }
-
+  console.log(comments);
   return (
     <div className="w-full h-full z-40 absolute ">
       <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[80%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
@@ -133,7 +133,10 @@ const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
                         className="h-[60px] rounded-full cursor-pointer"
                         src={
                           "https://gymtok-api-app.onrender.com/uploads/" +
-                          item.profile
+                          item.owner.profilePhoto[0].replace(
+                            "/opt/render/project/src/backend/uploads/",
+                            ""
+                          )
                         }
                       ></img>
                     </div>

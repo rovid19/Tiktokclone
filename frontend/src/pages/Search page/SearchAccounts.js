@@ -31,7 +31,10 @@ const SearchAccounts = () => {
                   className="h-full rounded-full cursor-pointer"
                   src={
                     "https://gymtok-api-app.onrender.com/uploads/" +
-                    item.profilePhoto
+                    item.profilePhoto[0].replace(
+                      "/opt/render/project/src/backend/uploads/",
+                      ""
+                    )
                   }
                 ></img>{" "}
               </div>

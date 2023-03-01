@@ -12,7 +12,7 @@ const EditProfile = ({ handleVisible }) => {
   const [username, setUsername] = useState(user && user.username);
   const [email, setEmail] = useState(user && user.email);
   const [bio, setBio] = useState(user && user.description);
-  const [photo, setPhoto] = useState([]);
+  const [photo, setPhoto] = useState(null);
   const [redirect, setRedirect] = useState(false);
 
   // AXIOS APPLY PROFILE EDITS
@@ -72,7 +72,10 @@ const EditProfile = ({ handleVisible }) => {
                     value={user.profilePhoto}
                     src={
                       "https://gymtok-api-app.onrender.com/uploads/" +
-                      user.profilePhoto
+                      user.profilePhoto[0].replace(
+                        "/opt/render/project/src/backend/uploads/",
+                        ""
+                      )
                     }
                     className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
                   ></img>
@@ -80,10 +83,18 @@ const EditProfile = ({ handleVisible }) => {
 
                 <div className="fl">
                   <h1>New</h1>
-                  <img
-                    src={"https://gymtok-api-app.onrender.com/uploads/" + photo}
-                    className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
-                  ></img>
+                  {photo && (
+                    <img
+                      src={
+                        "https://gymtok-api-app.onrender.com/uploads/" +
+                        photo[0].replace(
+                          "/opt/render/project/src/backend/uploads/",
+                          ""
+                        )
+                      }
+                      className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
+                    ></img>
+                  )}
                 </div>
                 <label className="mt-6 ml-2">
                   <input
