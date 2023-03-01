@@ -13,8 +13,8 @@ export const uploadImage = async (req, res) => {
   );
   fs.renameSync(path, newPath);
   uploadedFiles.push(final);
-  res.json(final);
-  console.log(final);
+  res.json(filename);
+  console.log(filename);
 };
 
 export const uploadVideo = (req, res) => {
