@@ -36,6 +36,7 @@ export const editprofile = async (req, res) => {
 
 export const setprofile = async (req, res) => {
   const { username } = req.params;
+  console.log(username);
   const newUser = await User.findById(username);
   res.json(newUser);
 };
