@@ -7,7 +7,7 @@ import { userContext } from "../Usercontext";
 
 const Login = ({ handleOpenClose }) => {
   // CONTEXT & EXTRA
-  const { setReady, ready } = useContext(userContext);
+  const { setReady, ready, setUser } = useContext(userContext);
 
   // STATES
   const [email, setEmail] = useState(null);
@@ -34,8 +34,9 @@ const Login = ({ handleOpenClose }) => {
           email,
           password,
         })
-        .then(() => {
-          setReady(!ready);
+        .then(({ data }) => {
+          setUser(data);
+          //setReady(!ready);
           handleOpenClose();
         })
         .catch((error) => {
