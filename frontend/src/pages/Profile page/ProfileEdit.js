@@ -46,12 +46,10 @@ const EditProfile = ({ handleVisible }) => {
       })
       .then((response) => {
         const { data } = response;
-        setPhoto([
-          data[0].replace("/opt/render/project/src/backend/uploads/", ""),
-        ]);
+        setPhoto([data]);
       });
   }
-  console.log(photo[0].replace("/opt/render/project/src/backend/uploads/", ""));
+
   return (
     <div className="h-full w-full   flex justify-center items-center">
       <form

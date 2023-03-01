@@ -14,7 +14,11 @@ export const uploadImage = async (req, res) => {
   fs.renameSync(path, newPath);
   uploadedFiles.push(final);
   res.json(final);
-  console.log(final);
+  const finalFinal = final.replace(
+    "/opt/render/project/src/backend/uploads/",
+    ""
+  );
+  console.log(finalFinal);
 };
 
 export const uploadVideo = (req, res) => {

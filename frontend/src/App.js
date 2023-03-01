@@ -14,6 +14,7 @@ import Search from "./pages/Search page/Search";
 
 // AXIOS SETUP
 axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
+// axios.defaults.baseURL = "https://localhost:4000";
 axios.defaults.withCredentials = true;
 
 const App = () => {
