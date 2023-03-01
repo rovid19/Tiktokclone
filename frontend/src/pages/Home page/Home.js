@@ -116,7 +116,8 @@ const Home = ({ handleOpenClose }) => {
                         <img
                           className="h-10 rounded-full"
                           src={
-                            "http://localhost:4000/uploads/" + item.profilePhoto
+                            "https://gymtok-api-app.onrender.com/uploads/" +
+                            item.profilePhoto
                           }
                         ></img>
                       </div>
@@ -162,7 +163,10 @@ const Home = ({ handleOpenClose }) => {
                         {" "}
                         <img
                           className="h-10 rounded-full"
-                          src={"http://localhost:4000/uploads/" + item.profile}
+                          src={
+                            "https://gymtok-api-app.onrender.com/uploads/" +
+                            item.profile
+                          }
                         ></img>
                       </div>
 

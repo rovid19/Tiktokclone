@@ -139,7 +139,10 @@ const DesktopHeader = ({
                 }}
               >
                 <img
-                  src={"http://localhost:4000/uploads/" + user.profilePhoto}
+                  src={
+                    "https://gymtok-api-app.onrender.com/uploads/" +
+                    user.profilePhoto
+                  }
                   className="h-7 rounded-full hover:scale-110 border-2 border-black"
                 ></img>
               </Link>

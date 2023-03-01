@@ -246,7 +246,7 @@ const Video = ({ followingVideos }) => {
             className="h-full w-full "
             src={
               followingVideos &&
-              "http://localhost:4000/uploads/videos/" +
+              "https://gymtok-api-app.onrender.com/uploads/" +
                 followingVideos[currentVideoIndex].video
             }
             autoPlay

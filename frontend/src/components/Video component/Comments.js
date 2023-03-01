@@ -136,7 +136,7 @@ const Comments = ({ handleOpenCloseComments, name }) => {
                       <img
                         className="h-[60px] rounded-full "
                         src={
-                          "http://localhost:4000/uploads/" +
+                          "https://gymtok-api-app.onrender.com/uploads/" +
                           item.owner.profilePhoto
                         }
                       ></img>

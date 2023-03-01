@@ -67,7 +67,8 @@ const Profile = ({ user }) => {
                   {nonLogin && (
                     <img
                       src={
-                        "http://localhost:4000/uploads/" + nonLogin.profilePhoto
+                        "https://gymtok-api-app.onrender.com/uploads/" +
+                        nonLogin.profilePhoto
                       }
                       className="h-full rounded-full"
                     ></img>

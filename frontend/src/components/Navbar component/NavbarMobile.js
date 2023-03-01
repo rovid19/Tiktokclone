@@ -106,7 +106,10 @@ const MobileHeader = ({
               }}
             >
               <img
-                src={"http://localhost:4000/uploads/" + user.profilePhoto}
+                src={
+                  "https://gymtok-api-app.onrender.com/uploads/" +
+                  user.profilePhoto
+                }
                 className="h-10 rounded-full  mt-4 "
               ></img>
             </Link>

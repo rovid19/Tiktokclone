@@ -261,7 +261,7 @@ const VideoProfileFullSize = ({ openClose, name }) => {
             onClick={playPause}
             className="h-[calc(100%-7%)] top-[7%] relative w-full z-10 cursor-pointer "
             src={
-              "http://localhost:4000/uploads/videos/" +
+              "https://gymtok-api-app.onrender.com/uploads/" +
               searchedVideos[index].video[0]
             }
             autoPlay

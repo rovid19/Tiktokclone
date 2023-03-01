@@ -131,7 +131,10 @@ const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
                           handleNavigate();
                         }}
                         className="h-[60px] rounded-full cursor-pointer"
-                        src={"http://localhost:4000/uploads/" + item.profile}
+                        src={
+                          "https://gymtok-api-app.onrender.com/uploads/" +
+                          item.profile
+                        }
                       ></img>
                     </div>
                     <div className="w-[90%] relative ml-2">

@@ -249,7 +249,7 @@ const Video = () => {
               onClick={playPause}
               className="h-full w-full"
               src={
-                "http://localhost:4000/uploads/videos/" +
+                "https://gymtok-api-app.onrender.com/uploads/" +
                 video[currentVideoIndex].video
               }
               autoPlay
