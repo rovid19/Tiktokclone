@@ -20,18 +20,20 @@ const Profile = ({ user }) => {
 
   // GET USER PROFILE BY THEIR ID FROM PARAMS
   useEffect(() => {
-    axios.get(`/api/user/profile/${username}`).then(({ data }) => {
-      setNonLogin(data);
-      if (user && user.following.some((item) => item.id === username)) {
-        setFollowClassname(
-          "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
-        );
-      } else {
-        setFollowClassname(
-          "mt-2 bg-black p-2 w-36 rounded-2xl text-white hover:bg-red-500 "
-        );
-      }
-    });
+    axios
+      .get(`https://gymtok-api-app.onrender.com/api/user/profile/${username}`)
+      .then(({ data }) => {
+        setNonLogin(data);
+        if (user && user.following.some((item) => item.id === username)) {
+          setFollowClassname(
+            "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
+          );
+        } else {
+          setFollowClassname(
+            "mt-2 bg-black p-2 w-36 rounded-2xl text-white hover:bg-red-500 "
+          );
+        }
+      });
   }, [followReady, edit]);
 
   //OPEN PROFILEVIDEO COMPONENT
@@ -52,6 +54,7 @@ const Profile = ({ user }) => {
     }
   }
 
+  console.log(username);
   return (
     <div className="bg-red-500 lg:bg-red-500 lg: bg-opacity-80   h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl pt-12 lg:pt-16 lg:pb-4 ">
