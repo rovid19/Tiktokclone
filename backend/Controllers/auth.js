@@ -34,7 +34,7 @@ export const login = async (req, res) => {
         async (err, token) => {
           if (err) throw err;
 
-          res.cookie("token", token).json(token);
+          res.cookie("token", token).json(userDoc);
           console.log(token);
         }
       );
