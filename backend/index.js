@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGOOSE_URL);
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://gymtok.onrender.com"],
+    origin: ["http://localhost:3000", "https://gymtokweb.onrender.com"],
   })
 );
 app.use(express.json());
