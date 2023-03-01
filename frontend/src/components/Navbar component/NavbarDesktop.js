@@ -129,20 +129,20 @@ const DesktopHeader = ({
           </div>
           {user && (
             <>
-              <Link
-                to={`/profile/${user._id}`}
+              <div
                 className="ml-[-6px]"
                 onClick={() => {
                   setAccount(false);
                   setVideos(true);
                   setInput("");
+                  navigate(`/profile/${user._id}`);
                 }}
               >
                 <img
                   src={"http://localhost:4000/uploads/" + user.profilePhoto}
                   className="h-7 rounded-full hover:scale-110 border-2 border-black"
                 ></img>
-              </Link>
+              </div>
             </>
           )}
           {user ? (
