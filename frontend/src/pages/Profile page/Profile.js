@@ -21,7 +21,9 @@ const Profile = ({ user }) => {
   // GET USER PROFILE BY THEIR ID FROM PARAMS
   useEffect(() => {
     axios
-      .get(`https://gymtok-api-app.onrender.com/api/user/profile/${username}`)
+      .get(
+        `https://gymtok-api-app.onrender.com:4000/api/user/profile/${username}`
+      )
       .then(({ data }) => {
         setNonLogin(data);
         if (user && user.following.some((item) => item.id === username)) {
