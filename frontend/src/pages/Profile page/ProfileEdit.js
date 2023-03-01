@@ -46,7 +46,9 @@ const EditProfile = ({ handleVisible }) => {
       })
       .then((response) => {
         const { data } = response;
-        setPhoto([data]);
+        setPhoto([
+          data[0].replace("/opt/render/project/src/backend/uploads/", ""),
+        ]);
       });
   }
   console.log(photo[0].replace("/opt/render/project/src/backend/uploads/", ""));
