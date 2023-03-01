@@ -8,8 +8,7 @@ import { useParams } from "react-router-dom";
 
 const Profile = () => {
   // CONTEXT & EXTRA
-  const { nonLogin, setNonLogin, edit, user, setUser } =
-    useContext(userContext);
+  const { nonLogin, setNonLogin, edit, user } = useContext(userContext);
   const { username } = useParams();
 
   //STATES
@@ -70,7 +69,7 @@ const Profile = () => {
                     {nonLogin && (
                       <img
                         src={
-                          "http://localhost:4000/uploads/" +
+                          "https://gymtok-api-app.onrender.com/uploads/" +
                           nonLogin.profilePhoto
                         }
                         className="h-full rounded-full"

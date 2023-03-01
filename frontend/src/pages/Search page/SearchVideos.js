@@ -35,7 +35,10 @@ const SearchVideos = () => {
                   loop
                   autoPlay
                   className="h-full rounded-3xl w-[100%]"
-                  src={"http://localhost:4000/uploads/videos/" + item.video}
+                  src={
+                    "https://gymtok-api-app.onrender.com/uploads/videos/" +
+                    item.video
+                  }
                 ></video>
               </div>
               <div className="h-[20%] pl-4">

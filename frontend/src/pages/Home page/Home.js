@@ -2,18 +2,30 @@ import React, { useEffect, useState } from "react";
 import HomeVideo from "../../components/Video component/HomeVideo";
 import { useContext } from "react";
 import { userContext } from "../../Usercontext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import FollowingVideo from "../../components/Video component/FollowingVideo";
 
 const Home = ({ handleOpenClose }) => {
   // CONTEXT & EXTRA
-  const { setAccount, setVideos, setInput, user } = useContext(userContext);
+  const { setAccount, setVideos, setInput, user, addRemoveLike } =
+    useContext(userContext);
   const navigate = useNavigate();
+  const { username } = useParams();
 
   //STATES
+  const [followingVideos, setFollowingVideos] = useState(null);
   const [following, setFollowing] = useState([]);
   const [topCreator, setTopCreator] = useState([]);
+  const [trigger, setTrigger] = useState(false);
   const [id, setId] = useState(null);
+  const [currentPage, setCurrentPage] = useState("home");
+  const [classname, setClassname] = useState(
+    "text-black p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2 cursor-pointer"
+  );
+  const [classnameDva, setClassnameDva] = useState(
+    "text-gray-300 p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2 cursor-pointer"
+  );
 
   // FETCH ALL USERS THAT LOGGED IN USER FOLLOWS
   useEffect(() => {
@@ -38,19 +50,60 @@ const Home = ({ handleOpenClose }) => {
     }
   }, [id]);
 
+  // FETCH FOLLOWINGVIDEOS ARRAY THAT HAS VIDEOS FROM USERS THAT LOGGED IN USER FOLLOWS
+  useEffect(() => {
+    if (followingVideos) {
+      axios
+        .get(`/api/user/get-following-videos/${username.id}`)
+        .then(({ data }) => {
+          setFollowingVideos(data);
+        });
+    }
+  }, [user, addRemoveLike, trigger]);
+
+  function handleNavigate() {
+    if (currentPage === "home") {
+      navigate(`/following/${user._id}`);
+      setTrigger((prev) => !prev);
+      setCurrentPage("following");
+      console.log("da");
+    } else {
+      navigate("/");
+      setCurrentPage("home");
+    }
+  }
+
+  useEffect(() => {
+    if (currentPage === "home") {
+      setClassname(
+        "text-black p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2 cursor-pointer"
+      );
+      setClassnameDva(
+        "text-gray-300 p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2 cursor-pointer"
+      );
+    } else {
+      setClassname(
+        "text-gray-300 p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2 cursor-pointer"
+      );
+      setClassnameDva(
+        "text-black p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2 cursor-pointer"
+      );
+    }
+  }, [trigger]);
+
   return (
     <div className=" bg-white  h-[calc(100%-5%)] lg:h-[calc(100%-7%)] fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0 lg:top-[7%] top-[5%]">
       <div className="h-full w-full lg:w-[55%] flex">
         <div className="hidden lg:flex lg:flex-col lg:w-[30%] border-r-2  border-gray-200 border-opacity-30   transition-all p-2">
-          <nav className="h-[15%]  w-full fl ">
+          <nav className="h-[15%]  w-full fl mt-6 ">
             <Link
               onClick={() => {
+                handleNavigate();
                 setAccount(false);
                 setVideos(true);
                 setInput("");
               }}
-              to="/"
-              className="text-black p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-6"
+              className={classname}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,21 +114,21 @@ const Home = ({ handleOpenClose }) => {
                 <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
                 <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
               </svg>
-              <span className="text-black">Home </span>
+              <span className="">Home </span>
             </Link>
 
-            <Link
+            <div
               onClick={() => {
                 if (!user) {
                   alert("you must be logged in to see your followings");
                 } else {
-                  navigate(`/following/${user._id}`);
+                  handleNavigate();
                   setAccount(false);
                   setVideos(true);
                   setInput("");
                 }
               }}
-              className="text-black p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2  "
+              className={classnameDva}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -86,8 +139,8 @@ const Home = ({ handleOpenClose }) => {
                 <path d="M4.5 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM14.25 8.625a3.375 3.375 0 116.75 0 3.375 3.375 0 01-6.75 0zM1.5 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM17.25 19.128l-.001.144a2.25 2.25 0 01-.233.96 10.088 10.088 0 005.06-1.01.75.75 0 00.42-.643 4.875 4.875 0 00-6.957-4.611 8.586 8.586 0 011.71 5.157v.003z" />
               </svg>
 
-              <span className="text-gray-400">Following </span>
-            </Link>
+              <span>Following </span>
+            </div>
           </nav>
           {!user && (
             <div
@@ -185,7 +238,7 @@ const Home = ({ handleOpenClose }) => {
           )}
         </div>
         <div className="w-[100%] lg:w-[70%] h-full bg-red-500">
-          <HomeVideo />
+          {trigger ? <FollowingVideo /> : <HomeVideo />}
         </div>
       </div>
     </div>

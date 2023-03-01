@@ -53,7 +53,10 @@ const UserVideos = ({ nonLogin }) => {
                 loop
                 autoPlay
                 muted
-                src={"http://localhost:4000/uploads/videos/" + item.video}
+                src={
+                  "https://gymtok-api-app.onrender.com/uploads/videos/" +
+                  item.video
+                }
                 className=" rounded-lg lg:rounded-2xl shadow-lg"
               ></video>{" "}
             </div>

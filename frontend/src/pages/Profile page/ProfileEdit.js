@@ -70,7 +70,10 @@ const EditProfile = ({ handleVisible }) => {
                   <h1>Old</h1>
                   <img
                     value={user.profilePhoto}
-                    src={"http://localhost:4000/uploads/" + user.profilePhoto}
+                    src={
+                      "https://gymtok-api-app.onrender.com/uploads/" +
+                      user.profilePhoto
+                    }
                     className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
                   ></img>
                 </div>
@@ -78,7 +81,7 @@ const EditProfile = ({ handleVisible }) => {
                 <div className="fl">
                   <h1>New</h1>
                   <img
-                    src={"http://localhost:4000/uploads/" + photo}
+                    src={"https://gymtok-api-app.onrender.com/uploads/" + photo}
                     className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
                   ></img>
                 </div>

@@ -29,7 +29,10 @@ const SearchAccounts = () => {
               >
                 <img
                   className="h-full rounded-full cursor-pointer"
-                  src={"http://localhost:4000/uploads/" + item.profilePhoto}
+                  src={
+                    "https://gymtok-api-app.onrender.com/uploads/" +
+                    item.profilePhoto
+                  }
                 ></img>{" "}
               </div>
               <div className="w-[80%] ml-4">
