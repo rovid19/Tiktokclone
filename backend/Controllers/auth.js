@@ -33,8 +33,7 @@ export const login = async (req, res) => {
         {},
         async (err, token) => {
           if (err) throw err;
-          res.setHeader("Cache-Control", "no-cache");
-          res.setHeader("Expires", "Thu, 01 Jan 1970 00:00:00 GMT");
+
           res.cookie("token", token).json(token);
         }
       );

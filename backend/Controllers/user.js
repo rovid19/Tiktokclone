@@ -6,6 +6,7 @@ const jwtSecret = "rockjefakatludirock";
 
 export const getprofile = async (req, res) => {
   const { token } = req.cookies;
+  console.log(token);
   if (token)
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
