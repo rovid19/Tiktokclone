@@ -13,7 +13,7 @@ import Upload from "./pages/Upload";
 import Search from "./pages/Search page/Search";
 
 // AXIOS SETUP
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
 axios.defaults.withCredentials = true;
 
 const App = () => {
@@ -56,19 +56,15 @@ const App = () => {
   // AXIOS GET LOGGED IN USER
   useEffect(() => {
     if (!user) {
-      axios
-        .get("api/user/profile?timestamp=" + new Date().getTime(), {})
-        .then(({ data }) => {
-          setUser(data);
-          setUserReady(!userReady);
-        });
+      axios.get("api/user/profile").then(({ data }) => {
+        setUser(data);
+        setUserReady(!userReady);
+      });
     } else {
-      axios
-        .get("api/user/profile?timestamp=" + new Date().getTime(), {})
-        .then(({ data }) => {
-          setUser(data);
-          setUserReady(!userReady);
-        });
+      axios.get("api/user/profile").then(({ data }) => {
+        setUser(data);
+        setUserReady(!userReady);
+      });
     }
   }, [ready, nonLogin]);
 
