@@ -65,11 +65,11 @@ const Home = ({ handleOpenClose }) => {
             </Link>
 
             <Link
-              to={user && `/following/${user._id}`}
               onClick={() => {
                 if (!user) {
                   alert("you must be logged in to see your followings");
                 } else {
+                  navigate(`/following/${user._id}`);
                   setAccount(false);
                   setVideos(true);
                   setInput("");
