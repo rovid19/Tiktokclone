@@ -6,9 +6,10 @@ import axios from "axios";
 import ProfileVideos from "./ProfileVideos.js";
 import { useParams } from "react-router-dom";
 
-const Profile = ({ user }) => {
+const Profile = () => {
   // CONTEXT & EXTRA
-  const { nonLogin, setNonLogin, edit } = useContext(userContext);
+  const { nonLogin, setNonLogin, edit, user, setUser } =
+    useContext(userContext);
   const { username } = useParams();
 
   //STATES

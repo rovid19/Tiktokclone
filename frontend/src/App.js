@@ -144,10 +144,7 @@ const App = () => {
               path="/"
               element={<Home handleOpenClose={handleOpenClose} />}
             ></Route>
-            <Route
-              path="/profile/:username"
-              element={<Profile user={user} />}
-            />
+            <Route path="/profile/:username" element={<Profile />} />
             <Route path="/search/*" element={<Search />} />
             <Route path="/following/:id" element={<Following />} />
           </Route>
