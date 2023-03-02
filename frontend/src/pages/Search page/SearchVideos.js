@@ -49,7 +49,9 @@ const SearchVideos = () => {
           );
         })
       ) : (
-        <h1 className="p-8 font-bold text-xl">No videos found</h1>
+        <h1 className="p-8 ml-[-15px] mt-[-30px] 2xl:mt-[-50px] font-bold text-xl">
+          No videos found
+        </h1>
       )}
     </div>
   );

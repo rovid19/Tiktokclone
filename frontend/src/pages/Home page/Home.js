@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
-import HomeVideo from "../../components/Video component/HomeVideo";
 import { useContext } from "react";
 import { userContext } from "../../Usercontext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import FollowingVideo from "../../components/Video component/FollowingVideo";
+import { Outlet } from "react-router-dom";
 
 const Home = ({ handleOpenClose }) => {
   // CONTEXT & EXTRA
-  const { setAccount, setVideos, setInput, user, addRemoveLike } =
-    useContext(userContext);
+  const {
+    setAccount,
+    setVideos,
+    setInput,
+    user,
+    addRemoveLike,
+    setFollowingVideos,
+  } = useContext(userContext);
   const navigate = useNavigate();
   const { username } = useParams();
 
   //STATES
-  const [followingVideos, setFollowingVideos] = useState(null);
   const [following, setFollowing] = useState([]);
   const [topCreator, setTopCreator] = useState([]);
   const [trigger, setTrigger] = useState(false);
@@ -52,9 +56,10 @@ const Home = ({ handleOpenClose }) => {
 
   // FETCH FOLLOWINGVIDEOS ARRAY THAT HAS VIDEOS FROM USERS THAT LOGGED IN USER FOLLOWS
   useEffect(() => {
-    if (followingVideos) {
+    if (username) {
+      console.log("da");
       axios
-        .get(`/api/user/get-following-videos/${username.id}`)
+        .get(`/api/user/get-following-videos/${username}`)
         .then(({ data }) => {
           setFollowingVideos(data);
         });
@@ -68,10 +73,11 @@ const Home = ({ handleOpenClose }) => {
       setCurrentPage("following");
       console.log("da");
     } else {
-      navigate("/");
+      navigate(`/`);
       setCurrentPage("home");
     }
   }
+  console.log(username);
 
   useEffect(() => {
     if (currentPage === "home") {
@@ -238,7 +244,7 @@ const Home = ({ handleOpenClose }) => {
           )}
         </div>
         <div className="w-[100%] lg:w-[70%] h-full bg-red-500">
-          {trigger ? <FollowingVideo /> : <HomeVideo />}
+          <Outlet />
         </div>
       </div>
     </div>

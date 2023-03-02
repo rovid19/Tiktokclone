@@ -104,7 +104,7 @@ const Video = () => {
   }, [listener]);
 
   // ON SCROLL FUNCTION THAT FOR SCROLLING ON VIDEOS - MOBILE
-  useEffect(() => {
+  /* useEffect(() => {
     if (video) {
       console.log("mob");
       let startY = 0;
@@ -144,8 +144,20 @@ const Video = () => {
       div.addEventListener("touchmove", (e) => handleTouchMove(e));
       div.addEventListener("touchend", handleTouchEnd);
     }
-  }, [listener]);
+  }, [listener]); */
 
+  function handleUp() {
+    if (currentVideoIndex === video.length - 1) {
+    } else {
+      setCurrentVideoIndex((prev) => prev + 1);
+    }
+  }
+  function handleDown() {
+    if (currentVideoIndex === 0) {
+    } else {
+      setCurrentVideoIndex((prev) => prev - 1);
+    }
+  }
   // SET STATE TO ADD EVENT LISTENER AFTER VIDEO HAS BEEN FETCHED
   if (video) {
     if (listener) {
@@ -280,6 +292,42 @@ const Video = () => {
             }}
           >
             <h1>@{video && video[currentVideoIndex].username}</h1>
+          </div>
+          <div className="flex justify-center items-center w-[30%] lg:hidden">
+            <div
+              className=" w-full h-full flex justify-center items-center"
+              onClick={handleUp}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.53 16.28a.75.75 0 01-1.06 0l-7.5-7.5a.75.75 0 011.06-1.06L12 14.69l6.97-6.97a.75.75 0 111.06 1.06l-7.5 7.5z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div
+              className="w-full h-full flex justify-center items-center"
+              onClick={handleDown}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.47 7.72a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 9.31l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
           </div>
           <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4  ">
             {video && (

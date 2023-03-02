@@ -1,9 +1,10 @@
 import React from "react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { userContext } from "../../Usercontext";
 import Img from "../../images/logo1.png";
 import Img2 from "../../images/logo2.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const DesktopHeader = ({
   handleLogout,
@@ -13,15 +14,33 @@ const DesktopHeader = ({
   setInput,
   changeInput,
 }) => {
-  const { user, trigger, setTrigger, setAccount, setVideos } =
-    useContext(userContext);
+  const {
+    user,
+    trigger,
+    setTrigger,
+    setAccount,
+    setVideos,
+    edit,
+    setEdit,
+    setNonLogin,
+  } = useContext(userContext);
   const navigate = useNavigate();
 
+  const [samoTi, setSamoTi] = useState(false);
   // NAVIGATE TO SEARCH
   const handleSearch = () => {
     setTrigger(!trigger);
     navigate("/search");
   };
+
+  useEffect(() => {
+    if (samoTi) {
+      console.log("da");
+      axios.get(`/api/user/profile/${user._id}`).then(({ data }) => {
+        setNonLogin(data);
+      });
+    }
+  }, [samoTi]);
 
   return (
     <header className="h-[5%] lg:h-[7%] absolute w-full z-10 bg-black lg:bg-white flex justify-center border-b-2 border-gray-300 border-opacity-10 lg:border-opacity-20  ">
@@ -132,6 +151,7 @@ const DesktopHeader = ({
               <div
                 className="ml-[-6px] cursor-pointer"
                 onClick={() => {
+                  setSamoTi(!samoTi);
                   navigate(`/profile/${user._id}`);
                   setAccount(false);
                   setVideos(true);

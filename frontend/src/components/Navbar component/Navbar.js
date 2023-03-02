@@ -18,6 +18,8 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
     trigger,
     setSearchedVideos,
     addRemoveLike,
+    setIsLoading,
+    isLoading,
   } = useContext(userContext);
 
   const [input, setInput] = useState(null);
@@ -46,6 +48,7 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
           })
           .then(({ data }) => {
             setSearched(data);
+            setIsLoading(!isLoading);
           });
         console.log("account");
       }
@@ -56,6 +59,7 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
           })
           .then(({ data }) => {
             setSearchedVideos(data);
+            setIsLoading(!isLoading);
           });
         console.log("video");
       }

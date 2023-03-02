@@ -11,7 +11,8 @@ import { useEffect } from "react";
 import Profile from "./pages/Profile page/Profile";
 import Upload from "./pages/Upload";
 import Search from "./pages/Search page/Search";
-
+import Video from "./components/Video component/HomeVideo";
+import FollowingVideo from "./components/Video component/FollowingVideo";
 // AXIOS SETUP
 axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
 // axios.defaults.baseURL = "https://localhost:4000";
@@ -36,6 +37,8 @@ const App = () => {
   const [nonLogin, setNonLogin] = useState(null);
   const [edit, setEdit] = useState(false);
   const [likeTrigger, setLikeTrigger] = useState(false);
+  const [followingVideos, setFollowingVideos] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const prevVideoRef = useRef(["marko"]);
 
@@ -129,6 +132,10 @@ const App = () => {
           setEdit,
           likeTrigger,
           setLikeTrigger,
+          followingVideos,
+          setFollowingVideos,
+          isLoading,
+          setIsLoading,
         }}
       >
         <Routes>
@@ -144,10 +151,12 @@ const App = () => {
             <Route
               path="/"
               element={<Home handleOpenClose={handleOpenClose} />}
-            ></Route>
+            >
+              <Route path="/" element={<Video />} />
+              <Route path="/following/:username" element={<FollowingVideo />} />
+            </Route>
             <Route path="/profile/:username" element={<Profile />} />
             <Route path="/search/*" element={<Search />} />
-            <Route path="/following/:id" element={<Following />} />
           </Route>
         </Routes>
         {openLogin && (

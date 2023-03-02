@@ -6,10 +6,16 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Comments from "./Comments.js";
 
-const Video = ({ followingVideos }) => {
+const Video = () => {
   // CONTEXT & EXTRA
-  const { spreman, user, userReady, addRemoveLike, setAddRemoveLike } =
-    useContext(userContext);
+  const {
+    spreman,
+    user,
+    userReady,
+    addRemoveLike,
+    setAddRemoveLike,
+    followingVideos,
+  } = useContext(userContext);
 
   const navigate = useNavigate();
   const videoRef = useRef(null);
@@ -223,7 +229,7 @@ const Video = ({ followingVideos }) => {
     }
   }
   //
-  console.log(name);
+  console.log(followingVideos);
   return (
     <div className="relative h-full w-full group  flex justify-center ">
       {visible && (
