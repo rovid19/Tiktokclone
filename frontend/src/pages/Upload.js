@@ -18,6 +18,7 @@ const Upload = ({ handleOpenClose }) => {
   const [className, setClassName] = useState(
     " bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
   );
+  const [progress, setProgress] = useState(0);
 
   // MAKE FORM DATA WITH UPLOADED FILE
   function handleFile(e) {
@@ -32,9 +33,21 @@ const Upload = ({ handleOpenClose }) => {
     axios
       .post("/api/upload/upload-video", videoFormData, {
         headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent;
+          let percent = Math.floor((loaded * 100) / total);
+          console.log(`${loaded}kb of ${total}kb / ${percent}%`);
+          if (percent < 100) {
+            setProgress(percent);
+          }
+        },
       })
       .then(({ data }) => {
         setVidac(data);
+        setProgress(100);
+        setTimeout(() => {
+          setProgress(0);
+        }, 1000);
       });
   }
 
@@ -94,6 +107,12 @@ const Upload = ({ handleOpenClose }) => {
             className="flex-col mt-10   w-[80%] h-[75%]"
             onSubmit={handleVideo}
           >
+            {progress > 0 && (
+              <div className="w-full flex justify-center text-xl">
+                {progress < 99 && <h1>Upload at: {progress}%</h1>}
+                {progress === 100 && <h1>Done!</h1>}
+              </div>
+            )}
             <div className=" mt-2 bg-gray-400 bg-opacity-30 flex items-center">
               <label className="p-2">
                 <input
