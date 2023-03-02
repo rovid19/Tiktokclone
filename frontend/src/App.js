@@ -13,8 +13,8 @@ import Search from "./pages/Search page/Search";
 import Video from "./components/Video component/HomeVideo";
 import FollowingVideo from "./components/Video component/FollowingVideo";
 // AXIOS SETUP
-//axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
+//axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 const App = () => {
