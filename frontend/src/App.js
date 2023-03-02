@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home page/Home";
-import Following from "./pages/Home page/Following.js";
 import { useState } from "react";
 import Login from "./pages/Login";
 import axios from "axios";
@@ -14,8 +13,8 @@ import Search from "./pages/Search page/Search";
 import Video from "./components/Video component/HomeVideo";
 import FollowingVideo from "./components/Video component/FollowingVideo";
 // AXIOS SETUP
-axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
-// axios.defaults.baseURL = "https://localhost:4000";
+//axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
+axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 const App = () => {

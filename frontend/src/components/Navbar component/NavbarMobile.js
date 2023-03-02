@@ -1,7 +1,9 @@
 import React from "react";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { userContext } from "../../Usercontext";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const MobileHeader = ({
   handleLogout,
@@ -10,7 +12,41 @@ const MobileHeader = ({
   setAccount,
   setVideos,
 }) => {
-  const { user, setInput } = useContext(userContext);
+  const { user, setInput, setNonLogin, edit, setEdit } =
+    useContext(userContext);
+
+  const [samoTi, setSamoTi] = useState(false);
+  const [newProfile, setNewProfile] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (samoTi) {
+      console.log("updatenonlogina");
+      axios.get(`/api/user/profile/${user._id}`).then(({ data }) => {
+        setNonLogin(data);
+        setEdit(!edit);
+      });
+    }
+  }, [samoTi]);
+
+  useEffect(() => {
+    if (user) {
+      if (
+        user &&
+        user.profilePhoto[0].includes(
+          "/opt/render/project/src/backend/uploads/"
+        )
+      ) {
+        const profile = user.profilePhoto[0].replace(
+          "/opt/render/project/src/backend/uploads/",
+          ""
+        );
+        setNewProfile(profile);
+      } else {
+        setNewProfile(user.profilePhoto);
+      }
+    }
+  }, [user]);
 
   return (
     <div className="bg-black text-white h-full w-14 absolute top-0 l-0 lg:hidden">
@@ -78,16 +114,19 @@ const MobileHeader = ({
             </svg>
           </div>
         )}
-        {user && (
+        {user && newProfile && (
           <>
-            <div onClick={handleLogout}>
+            <div
+              onClick={handleLogout}
+              className="flex justify-center w-full mb-3"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                class="w-6 h-6 mr-1"
               >
                 <path
                   stroke-linecap="round"
@@ -96,10 +135,11 @@ const MobileHeader = ({
                 />
               </svg>
             </div>
-
-            <Link
-              to={`/profile/${user._id}`}
+            <div
+              className="ml-[-6px] cursor-pointer"
               onClick={() => {
+                setSamoTi(!samoTi);
+                navigate(`/profile/${user._id}`);
                 setAccount(false);
                 setVideos(true);
                 setInput("");
@@ -107,15 +147,14 @@ const MobileHeader = ({
             >
               <img
                 src={
-                  "https://gymtok-api-app.onrender.com/uploads/" +
-                  user.profilePhoto[0].replace(
-                    "/opt/render/project/src/backend/uploads/",
-                    ""
-                  )
+                  newProfile[0].includes("data:")
+                    ? newProfile
+                    : "https://gymtok-api-app.onrender.com/uploads/" +
+                      newProfile
                 }
-                className="h-10 rounded-full  mt-4 "
+                className="h-7 rounded-full hover:scale-110 border-2 border-black"
               ></img>
-            </Link>
+            </div>
           </>
         )}
       </div>

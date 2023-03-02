@@ -69,11 +69,9 @@ export const sendComment = async (req, res) => {
   // const newProfile = profilePhotoSet.toString();
   const user = await User.findById(id);
   const commment = await Comments.create({
-    // profile: newProfile,
     comment: comment,
     video: name,
     owner: id,
-    //username: username,
   });
 
   const combinedComment = {

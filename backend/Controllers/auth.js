@@ -6,11 +6,13 @@ const jwtSecret = "rockjefakatludirock";
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, profilePhoto } = req.body;
+  const newProfile = profilePhoto.replace("", "");
   try {
     const newUser = await User.create({
       email: email,
       username: username,
+      profilePhoto: profilePhoto,
       password: bcrypt.hashSync(password, bcryptSalt),
     });
     res.json(newUser);

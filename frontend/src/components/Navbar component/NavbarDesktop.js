@@ -27,6 +27,7 @@ const DesktopHeader = ({
   const navigate = useNavigate();
 
   const [samoTi, setSamoTi] = useState(false);
+  const [newProfile, setNewProfile] = useState(null);
   // NAVIGATE TO SEARCH
   const handleSearch = () => {
     setTrigger(!trigger);
@@ -41,6 +42,26 @@ const DesktopHeader = ({
       });
     }
   }, [samoTi]);
+
+  useEffect(() => {
+    if (user) {
+      if (
+        user &&
+        user.profilePhoto[0].includes(
+          "/opt/render/project/src/backend/uploads/"
+        )
+      ) {
+        const profile = user.profilePhoto[0].replace(
+          "/opt/render/project/src/backend/uploads/",
+          ""
+        );
+        setNewProfile(profile);
+      } else {
+        setNewProfile(user.profilePhoto);
+      }
+    }
+  }, [user]);
+  console.log(newProfile);
 
   return (
     <header className="h-[5%] lg:h-[7%] absolute w-full z-10 bg-black lg:bg-white flex justify-center border-b-2 border-gray-300 border-opacity-10 lg:border-opacity-20  ">
@@ -146,7 +167,7 @@ const DesktopHeader = ({
               )}
             </div>
           </div>
-          {user && (
+          {user && newProfile && (
             <>
               <div
                 className="ml-[-6px] cursor-pointer"
@@ -160,11 +181,10 @@ const DesktopHeader = ({
               >
                 <img
                   src={
-                    "https://gymtok-api-app.onrender.com/uploads/" +
-                    user.profilePhoto[0].replace(
-                      "/opt/render/project/src/backend/uploads/",
-                      ""
-                    )
+                    newProfile[0].includes("data:")
+                      ? newProfile
+                      : "https://gymtok-api-app.onrender.com/uploads/" +
+                        newProfile
                   }
                   className="h-7 rounded-full hover:scale-110 border-2 border-black"
                 ></img>

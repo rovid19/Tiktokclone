@@ -15,4 +15,8 @@ router.post("/login", login);
 
 router.post("/logout", logout);
 
+router.get("/da", (req, res) => {
+  res.send("ok");
+});
+
 export default router;

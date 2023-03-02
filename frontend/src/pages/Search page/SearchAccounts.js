@@ -2,6 +2,7 @@ import React from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../Usercontext";
+import Img from "../../images/defaultphoto.jpg";
 
 const SearchAccounts = () => {
   // CONTEXT & EXTRA
@@ -16,7 +17,7 @@ const SearchAccounts = () => {
   }
 
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-full overflow-scroll scrollbar-hide ">
       {searched && searched.length > 0 ? (
         searched.map((item) => {
           return (
@@ -30,11 +31,13 @@ const SearchAccounts = () => {
                 <img
                   className="h-full rounded-full cursor-pointer"
                   src={
-                    "https://gymtok-api-app.onrender.com/uploads/" +
-                    item.profilePhoto[0].replace(
-                      "/opt/render/project/src/backend/uploads/",
-                      ""
-                    )
+                    item.profilePhoto[0]
+                      ? "https://gymtok-api-app.onrender.com/uploads/" +
+                        item.profilePhoto[0].replace(
+                          "/opt/render/project/src/backend/uploads/",
+                          ""
+                        )
+                      : Img
                   }
                 ></img>{" "}
               </div>

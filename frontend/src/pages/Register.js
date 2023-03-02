@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { userContext } from "../Usercontext";
+import Img from "../images/defaultphoto.jpg";
 
 const Register = ({ handleOpenClose, handleRegister }) => {
   // CONTEXT & EXTRA
@@ -13,6 +14,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
   const [redirect, setRedirect] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(Img);
   const [className, setClassName] = useState(
     "bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
   );
@@ -24,6 +26,7 @@ const Register = ({ handleOpenClose, handleRegister }) => {
       email,
       password,
       username,
+      profilePhoto,
     });
     await axios.post("/api/auth/login", {
       email,
@@ -60,6 +63,8 @@ const Register = ({ handleOpenClose, handleRegister }) => {
       );
     }
   }
+
+  console.log(profilePhoto);
 
   return (
     <>

@@ -17,12 +17,13 @@ const Profile = () => {
   const [followClassname, setFollowClassname] = useState(
     "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
   );
+  const [newProfile, setNewProfile] = useState(null);
 
   // GET USER PROFILE BY THEIR ID FROM PARAMS
   useEffect(() => {
     axios.get(`/api/user/profile/${username}`).then(({ data }) => {
       console.log(username);
-      console.log("da");
+      console.log("getprofile");
       setNonLogin(data);
       if (user && user.following.some((item) => item.id === username)) {
         setFollowClassname(
@@ -54,7 +55,43 @@ const Profile = () => {
     }
   }
 
-  console.log(nonLogin);
+  useEffect(() => {
+    if ((user && nonLogin) || (!user && nonLogin)) {
+      if (nonLogin && nonLogin._id === user && user._id) {
+        if (
+          user.profilePhoto[0].includes(
+            "/opt/render/project/src/backend/uploads/"
+          )
+        ) {
+          const profile = user.profilePhoto[0].replace(
+            "/opt/render/project/src/backend/uploads/",
+            ""
+          );
+          setNewProfile(profile);
+        } else {
+          setNewProfile(user.profilePhoto);
+        }
+      } else {
+        if (
+          nonLogin.profilePhoto[0].includes(
+            "/opt/render/project/src/backend/uploads/"
+          )
+        ) {
+          console.log("ophaj");
+          if (nonLogin) {
+            const profile = nonLogin.profilePhoto[0].replace(
+              "/opt/render/project/src/backend/uploads/",
+              ""
+            );
+            setNewProfile(profile);
+          }
+        } else {
+          setNewProfile(nonLogin.profilePhoto);
+        }
+      }
+    }
+  }, [user, nonLogin]);
+
   return (
     <div className="bg-red-500 lg:bg-red-500 lg: bg-opacity-80   h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       {nonLogin && (
@@ -71,11 +108,10 @@ const Profile = () => {
                     {nonLogin && (
                       <img
                         src={
-                          "https://gymtok-api-app.onrender.com/uploads/" +
-                          nonLogin.profilePhoto[0].replace(
-                            "/opt/render/project/src/backend/uploads/",
-                            ""
-                          )
+                          newProfile && newProfile[0].includes("data:")
+                            ? newProfile
+                            : "https://gymtok-api-app.onrender.com/uploads/" +
+                              newProfile
                         }
                         className="h-full rounded-full"
                       ></img>
