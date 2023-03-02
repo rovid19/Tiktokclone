@@ -1,25 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext } from "react";
 import { userContext } from "../../Usercontext";
 import { useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const EditProfile = ({ handleVisible }) => {
   // CONTEXT & EXTRA
   const { user, setEdit, edit } = useContext(userContext);
+  const { username } = useParams();
 
   // STATES
-  const [username, setUsername] = useState(user && user.username);
+  const [usernam, setUsernam] = useState(user && user.username);
   const [email, setEmail] = useState(user && user.email);
   const [bio, setBio] = useState(user && user.description);
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
   // AXIOS APPLY PROFILE EDITS
   async function handleEdit(e) {
     e.preventDefault();
     await axios.put("/api/user/editprofile", {
-      username,
+      usernam,
       email,
       bio,
       photo: photo.length > 0 ? photo : user.profilePhoto,
@@ -83,7 +85,7 @@ const EditProfile = ({ handleVisible }) => {
 
                 <div className="fl">
                   <h1>New</h1>
-                  {photo && (
+                  {photo.length > 0 && (
                     <img
                       src={
                         "https://gymtok-api-app.onrender.com/uploads/" +
@@ -123,10 +125,10 @@ const EditProfile = ({ handleVisible }) => {
               </div>
               <div className="w-[130px] lg:w-[300px]">
                 <input
-                  value={username}
+                  value={usernam}
                   type="text"
                   className="bg-gray-500 bg-opacity-50 p-2 rounded-xl"
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => setUsernam(e.target.value)}
                 />
               </div>
             </div>

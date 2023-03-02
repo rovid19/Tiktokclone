@@ -22,7 +22,6 @@ const Profile = () => {
   // GET USER PROFILE BY THEIR ID FROM PARAMS
   useEffect(() => {
     axios.get(`/api/user/profile/${username}`).then(({ data }) => {
-      console.log(username);
       console.log("getprofile");
       setNonLogin(data);
       if (user && user.following.some((item) => item.id === username)) {

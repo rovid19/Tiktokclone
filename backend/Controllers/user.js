@@ -18,12 +18,12 @@ export const getprofile = async (req, res) => {
 
 export const editprofile = async (req, res) => {
   const { token } = req.cookies;
-  const { username, email, bio, photo } = req.body;
+  const { usernam, email, bio, photo } = req.body;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
     const userEdit = await User.findById(userData.id);
     userEdit.set({
-      username,
+      username: usernam,
       email,
       profilePhoto: photo,
       description: bio,

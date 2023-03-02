@@ -97,6 +97,13 @@ const Home = ({ handleOpenClose }) => {
     }
   }, [trigger]);
 
+  function sliced(item) {
+    const slicedText = item.slice(0, 25);
+    console.log(slicedText);
+
+    return slicedText;
+  }
+
   return (
     <div className=" bg-white  h-[calc(100%-5%)] lg:h-[calc(100%-7%)] fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0 lg:top-[7%] top-[5%]">
       <div className="h-full w-full lg:w-[55%] flex">
@@ -186,7 +193,7 @@ const Home = ({ handleOpenClose }) => {
                           {item.username}
                         </h1>
                         <h3 className=" text-gray-700 text-sm">
-                          {item.description}
+                          {item.description && sliced(item.description)}...
                         </h3>{" "}
                       </div>
                       <div className="absolute right-4 items-center text-sm gap-1 font-bold opacity-20 group-hover:opacity-100 hidden 2xl:flex">
@@ -234,7 +241,7 @@ const Home = ({ handleOpenClose }) => {
                           {item.username}
                         </h1>
                         <h3 className=" text-gray-700 text-sm">
-                          {item.description}
+                          {item.description && sliced(item.description)}...
                         </h3>{" "}
                       </div>
                     </div>
