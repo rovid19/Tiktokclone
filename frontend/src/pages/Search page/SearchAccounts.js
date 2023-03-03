@@ -21,7 +21,7 @@ const SearchAccounts = () => {
       {searched && searched.length > 0 ? (
         searched.map((item) => {
           return (
-            <div className="h-[20%]  w-full border-b-2 border-gray-200 border-opacity-50 flex pl-2 pr-2 pt-4 pb-4 ">
+            <div className="h-[30%] lg:h-[20%]  w-full border-b-2 border-gray-200 border-opacity-50 flex pl-2 pr-2 pt-4 pb-4 ">
               <div
                 className="w-[20%] md:w-[8%] lg:w-[10%] flex justify-end"
                 onClick={() => {
@@ -29,7 +29,7 @@ const SearchAccounts = () => {
                 }}
               >
                 <img
-                  className="h-full rounded-full cursor-pointer"
+                  className="h-[70%] rounded-full cursor-pointer object-cover"
                   src={
                     item.profilePhoto[0]
                       ? "https://gymtok-api-app.onrender.com/uploads/" +

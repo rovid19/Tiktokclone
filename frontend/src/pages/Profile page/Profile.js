@@ -101,7 +101,7 @@ const Profile = () => {
           ) : (
             <>
               {" "}
-              <div className="h-[30%] w-full lg:w-[80%] xl:w-[80%] flex-col mt-6 ">
+              <div className="h-[30%] w-full lg:w-[80%] xl:w-[80%] flex-col mt-6 lg:mt-10 ">
                 <div className="flex h-[70%] ">
                   <div className="w-[100px] lg:w-[110px] ml-4  h-[100%]  flex ">
                     {nonLogin && (
@@ -112,7 +112,7 @@ const Profile = () => {
                             : "https://gymtok-api-app.onrender.com/uploads/" +
                               newProfile
                         }
-                        className="h-full rounded-full"
+                        className="h-full rounded-full object-cover"
                       ></img>
                     )}
                   </div>
@@ -176,7 +176,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="h-[70%]  w-full lg:w-[80%]">
+              <div className="h-[70%]  w-full lg:w-[80%] mt-12">
                 {nonLogin && <ProfileVideos nonLogin={nonLogin} />}
               </div>{" "}
             </>

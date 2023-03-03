@@ -130,7 +130,7 @@ const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
                           setProfileId(item.owner);
                           handleNavigate();
                         }}
-                        className="h-[60px] rounded-full cursor-pointer"
+                        className="h-[60px] rounded-full cursor-pointer object-cover"
                         src={
                           "https://gymtok-api-app.onrender.com/uploads/" +
                           item.owner.profilePhoto[0].replace(

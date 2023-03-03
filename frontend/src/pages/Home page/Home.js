@@ -180,7 +180,7 @@ const Home = ({ handleOpenClose }) => {
                       <div className="w-[13%]">
                         {" "}
                         <img
-                          className="h-10 rounded-full"
+                          className="h-10 rounded-full object-cover"
                           src={
                             "https://gymtok-api-app.onrender.com/uploads/" +
                             item.profilePhoto
@@ -228,7 +228,7 @@ const Home = ({ handleOpenClose }) => {
                       <div className="w-[13%]">
                         {" "}
                         <img
-                          className="h-10 rounded-full"
+                          className="h-10 rounded-full object-cover"
                           src={
                             "https://gymtok-api-app.onrender.com/uploads/" +
                             item.profile

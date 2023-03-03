@@ -38,12 +38,12 @@ const UserVideos = ({ nonLogin }) => {
   }
 
   return (
-    <div className=" lg:w-full h-full grid grid-cols-3 2xl:grid-cols-5 overflow-scroll scrollbar-hide gap-2    ">
+    <div className=" lg:w-full h-full grid grid-cols-3 2xl:grid-cols-5 overflow-scroll scrollbar-hide gap-1    ">
       {userVideos &&
         userVideos.map((item) => {
           return (
             <div
-              className="cursor-pointer hover:scale-110 transition-all h-4 p-1"
+              className="cursor-pointer hover:scale-110 transition-all h-[100%] p-1"
               onClick={(e) => {
                 setName(item.video);
                 setVisible(!visible);
@@ -57,7 +57,7 @@ const UserVideos = ({ nonLogin }) => {
                   "https://gymtok-api-app.onrender.com/uploads/videos/" +
                   item.video
                 }
-                className=" rounded-lg lg:rounded-2xl shadow-lg"
+                className=" rounded-lg lg:rounded-2xl shadow-lg h-full w-full object-cover"
               ></video>{" "}
             </div>
           );

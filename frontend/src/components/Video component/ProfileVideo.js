@@ -289,7 +289,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
           <div className="flex items-center text-sm lg:text-xl lg:hidden xl:flex  ">
             <h1>{index && userVideos[index].title}</h1>
           </div>
-          <div className="flex justify-center items-center w-[70%] lg:hidden">
+          <div className="flex justify-center items-center w-[100px] lg:hidden">
             <div
               className=" w-full h-full flex justify-center items-center"
               onClick={handleUp}
@@ -324,38 +324,38 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
                 />
               </svg>
             </div>
-            <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4  ">
-              {userVideos && (
-                <h1 className="block font-bold">
-                  {userVideos[index].likes.length}
-                </h1>
-              )}
-              <div onClick={() => handleLikeSet()}>
+          </div>
+          <div className="flex items-center lg:mr-8 gap-2 border-r-2 border-white border-opacity-25 border-l-2 pl-4 pr-4 ">
+            {userVideos && (
+              <h1 className="block font-bold">
+                {userVideos[index].likes.length}
+              </h1>
+            )}
+            <div onClick={() => handleLikeSet()}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class={className}
+              >
+                <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+              </svg>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div onClick={handleOpenCloseComments}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
                   fill="currentColor"
-                  class={className}
+                  class="w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
                 >
-                  <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
+                    clip-rule="evenodd"
+                  />
                 </svg>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <div onClick={handleOpenCloseComments}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    class="w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.322 0 9.75-3.97 9.75-9 0-5.03-4.428-9-9.75-9s-9.75 3.97-9.75 9c0 2.409 1.025 4.587 2.674 6.192.232.226.277.428.254.543a3.73 3.73 0 01-.814 1.686.75.75 0 00.44 1.223zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                </div>
               </div>
             </div>
           </div>
