@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
 
-const Home = ({ handleOpenClose }) => {
+const Home = ({ handleOpenClose, handleDarkModeChange }) => {
   // CONTEXT & EXTRA
   const {
     setAccount,
@@ -14,6 +14,8 @@ const Home = ({ handleOpenClose }) => {
     user,
     addRemoveLike,
     setFollowingVideos,
+    darkMode,
+    setDarkMode,
   } = useContext(userContext);
   const navigate = useNavigate();
   const { username } = useParams();
@@ -107,7 +109,7 @@ const Home = ({ handleOpenClose }) => {
   return (
     <div className=" bg-white  h-[calc(100%-5%)] lg:h-[calc(100%-7%)] fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0 lg:top-[7%] top-[5%]">
       <div className="h-full w-full lg:w-[55%] flex">
-        <div className="hidden lg:flex lg:flex-col lg:w-[30%] border-r-2  border-gray-200 border-opacity-30   transition-all p-2">
+        <div className="hidden lg:flex lg:flex-col lg:w-[30%] border-r-2  border-gray-200 border-opacity-30   relative transition-all p-2">
           <nav className="h-[15%]  w-full fl mt-6 ">
             <Link
               onClick={() => {
@@ -249,6 +251,15 @@ const Home = ({ handleOpenClose }) => {
                 })}
             </div>
           )}
+          <div className="w-full h-[30px]  flex justify-center absolute bottom-2 items-center bg-gray-200 bg-opacity-0 hover:bg-opacity-25">
+            <h1 className="">Toggle {darkMode ? "light" : "dark"} mode</h1>
+            <div className=" h-full w-[50px] flex items-center justify-center">
+              <label className="switch ml-2 transition-all  ">
+                <input type="checkbox" />
+                <span className="slider" onClick={handleDarkModeChange}></span>
+              </label>
+            </div>
+          </div>
         </div>
         <div className="w-[100%] lg:w-[70%] h-full bg-red-500">
           <Outlet />

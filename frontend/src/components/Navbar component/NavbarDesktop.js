@@ -14,20 +14,14 @@ const DesktopHeader = ({
   setInput,
   changeInput,
 }) => {
-  const {
-    user,
-    trigger,
-    setTrigger,
-    setAccount,
-    setVideos,
-    edit,
-    setEdit,
-    setNonLogin,
-  } = useContext(userContext);
+  const { user, trigger, setTrigger, setAccount, setVideos, setNonLogin } =
+    useContext(userContext);
   const navigate = useNavigate();
 
+  // STATES
   const [samoTi, setSamoTi] = useState(false);
   const [newProfile, setNewProfile] = useState(null);
+
   // NAVIGATE TO SEARCH
   const handleSearch = () => {
     setTrigger(!trigger);
@@ -61,13 +55,12 @@ const DesktopHeader = ({
       }
     }
   }, [user]);
-  console.log(newProfile);
 
   return (
     <header className="h-[5%] lg:h-[7%] absolute w-full z-10 bg-black lg:bg-white flex justify-center border-b-2 border-gray-300 border-opacity-10 lg:border-opacity-20  ">
       <div className="lg:w-[55%] w-full grid  grid-cols-2 lg:grid-cols-3 flex items-center">
         <div className="flex items-center ">
-          <div className=" gap-[20%] flex items-center">
+          <div className=" gap-[20%] flex items-center rounded-xl">
             <Link
               to="/"
               onClick={() => {
@@ -96,6 +89,7 @@ const DesktopHeader = ({
             </Link>
           </div>
         </div>
+
         <div className="flex bg-tamna gap-1 h-[75%] items-center rounded-full mr-4 lg:mr-0">
           <div className=" h-[80%] w-[90%] lg:border-r-2 lg:border-opacity-20 flex items-center border-gray-300">
             <input

@@ -13,8 +13,8 @@ import Search from "./pages/Search page/Search";
 import Video from "./components/Video component/HomeVideo";
 import FollowingVideo from "./components/Video component/FollowingVideo";
 // AXIOS SETUP
-axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
-//axios.defaults.baseURL = "http://localhost:4000";
+//axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
+axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 const App = () => {
@@ -38,6 +38,7 @@ const App = () => {
   const [likeTrigger, setLikeTrigger] = useState(false);
   const [followingVideos, setFollowingVideos] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
 
   const prevVideoRef = useRef(["marko"]);
 
@@ -54,6 +55,10 @@ const App = () => {
   //HANDLE STATE CHANGE
   function handleStateChange() {
     setReady(!ready);
+  }
+
+  function handleDarkModeChange() {
+    setDarkMode(!darkMode);
   }
 
   // AXIOS GET LOGGED IN USER
@@ -135,6 +140,8 @@ const App = () => {
           setFollowingVideos,
           isLoading,
           setIsLoading,
+          darkMode,
+          setDarkMode,
         }}
       >
         <Routes>
@@ -144,12 +151,18 @@ const App = () => {
               <Layout
                 handleOpenClose={handleOpenClose}
                 handleUpload={handleOpenCloseUpload}
+                handleDarkModeChange={handleDarkModeChange}
               />
             }
           >
             <Route
               path="/"
-              element={<Home handleOpenClose={handleOpenClose} />}
+              element={
+                <Home
+                  handleOpenClose={handleOpenClose}
+                  handleDarkModeChange={handleDarkModeChange}
+                />
+              }
             >
               <Route path="/" element={<Video />} />
               <Route path="/following/:username" element={<FollowingVideo />} />

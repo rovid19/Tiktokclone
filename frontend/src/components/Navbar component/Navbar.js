@@ -7,7 +7,7 @@ import NavbarDesktop from "./NavbarDesktop";
 import NavbarMobile from "./NavbarMobile";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ handleOpenClose, handleUpload }) => {
+const Navbar = ({ handleOpenClose, handleUpload, handleDarkModeChange }) => {
   const {
     setUser,
     setUserReady,
@@ -73,6 +73,7 @@ const Navbar = ({ handleOpenClose, handleUpload }) => {
         handleOpenClose={handleOpenClose}
         handleUpload={handleUpload}
         changeInput={changeInput}
+        handleDarkModeChange={handleDarkModeChange}
       />
       <NavbarMobile
         handleLogout={handleLogout}
