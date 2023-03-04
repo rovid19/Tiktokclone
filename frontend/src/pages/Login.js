@@ -7,7 +7,7 @@ import { userContext } from "../Usercontext";
 
 const Login = ({ handleOpenClose }) => {
   // CONTEXT & EXTRA
-  const { setReady, ready, setUser } = useContext(userContext);
+  const { setReady, ready, setUser, darkMode } = useContext(userContext);
 
   // STATES
   const [email, setEmail] = useState(null);
@@ -93,7 +93,13 @@ const Login = ({ handleOpenClose }) => {
         {register ? (
           ""
         ) : (
-          <div className="w-[350px] fl md:w-[450px] h-[600px] bg-white">
+          <div
+            className={
+              darkMode
+                ? "w-[350px] fl md:w-[450px] h-[600px] bg-black text-white border-[1px] border-gray-500 border-opacity-20"
+                : "w-[350px] fl md:w-[450px] h-[600px] bg-white"
+            }
+          >
             <div className="h-16 flex justify-end  w-full p-4">
               <button onClick={handleOpenClose}>
                 <svg

@@ -7,7 +7,7 @@ import Img from "../images/defaultphoto.jpg";
 
 const Register = ({ handleOpenClose, handleRegister }) => {
   // CONTEXT & EXTRA
-  const { setReady, ready } = useContext(userContext);
+  const { setReady, ready, darkMode } = useContext(userContext);
 
   // STATES
   const [email, setEmail] = useState(null);
@@ -68,7 +68,13 @@ const Register = ({ handleOpenClose, handleRegister }) => {
 
   return (
     <>
-      <div className="w-[350px] fl md:w-[450px] h-[600px] bg-white">
+      <div
+        className={
+          darkMode
+            ? "w-[350px] fl md:w-[450px] h-[600px]  bg-black text-white border-[1px] border-gray-500 border-opacity-20"
+            : "w-[350px] fl md:w-[450px] h-[600px] bg-white"
+        }
+      >
         <div className="h-16 flex justify-end  w-full p-4">
           <button onClick={handleOpenClose}>
             <svg

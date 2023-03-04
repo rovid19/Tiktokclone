@@ -15,7 +15,6 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
     addRemoveLike,
     setFollowingVideos,
     darkMode,
-    setDarkMode,
   } = useContext(userContext);
   const navigate = useNavigate();
   const { username } = useParams();
@@ -25,6 +24,10 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
   const [topCreator, setTopCreator] = useState([]);
   const [trigger, setTrigger] = useState(false);
   const [id, setId] = useState(null);
+  const [visible, setVisible] = useState(() => {
+    const savedItem = localStorage.getItem("info");
+    return savedItem ? JSON.parse(savedItem) : true;
+  });
   const [currentPage, setCurrentPage] = useState("home");
   const [classname, setClassname] = useState(
     "text-black p-1 gap-2 text-2xl hover:bg-gray-200 hover:bg-opacity-50 w-full flex justify-center mt-2 cursor-pointer"
@@ -122,7 +125,10 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
 
     return slicedText;
   }
-  console.log(darkMode);
+
+  useEffect(() => {
+    localStorage.setItem("info", JSON.stringify(visible));
+  }, [visible]);
   return (
     <div
       className={
@@ -131,6 +137,34 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
           : " bg-white  h-[calc(100%-5%)] lg:h-[calc(100%-7%)] fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0 lg:top-[7%] top-[5%]"
       }
     >
+      {visible && (
+        <div
+          classname="w-[100%] h-[100%] z-30 top-20 left-0 bg-black flex justify-center items-center"
+          onClick={() => setVisible(false)}
+        >
+          <div
+            className={
+              darkMode
+                ? "absolute top-0  left-0  z-40 h-full w-full bg-black text-white fl2 items-center"
+                : "absolute top-0  left-0  z-40 h-full w-full bg-white fl2 items-center"
+            }
+          >
+            {" "}
+            <h1 className="text-xl ">
+              {" "}
+              <span className="flex justify-center text-6xl mb-[-15px]">
+                Dear user.
+              </span>
+              <br /> Please be patient, this website, on a cold start, usually
+              takes about 30 sec to load due to some server issues with
+              render.com. Thanks!
+            </h1>{" "}
+            <h1 className="text-sm mt-2 text-gray-500">
+              press anywhere to continue
+            </h1>
+          </div>
+        </div>
+      )}
       <div className="h-full w-full lg:w-[55%] flex">
         <div
           className={
@@ -195,7 +229,13 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
               }
               onClick={handleOpenClose}
             >
-              <button className="text-xl w-full h-[60%]  border-2 border-red-200 text-red-300 hover:bg-red-500 hover:border-none hover:text-white">
+              <button
+                className={
+                  darkMode
+                    ? "text-xl w-full h-[60%]  bg-red-500 text-white hover:bg-red-700 hover:border-none hover:text-white"
+                    : "text-xl w-full h-[60%]  border-2 border-red-200 text-red-300 hover:bg-red-500 hover:border-none hover:text-white"
+                }
+              >
                 Log in
               </button>
             </div>
