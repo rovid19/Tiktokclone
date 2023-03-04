@@ -159,7 +159,11 @@ const DesktopHeader = ({
                   setInput("");
                 }}
                 to="/"
-                className="text-black flex hover:scale-110 mr-[-15px]"
+                className={
+                  darkMode
+                    ? "text-white flex hover:scale-110 mr-[-15px]"
+                    : "text-black flex hover:scale-110 mr-[-15px]"
+                }
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

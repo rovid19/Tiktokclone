@@ -247,14 +247,18 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                 : "h-[40%] w-full border-t-2 border-gray-200 border-opacity-30 flex-col pl-4 pt-4 hover:rounded-xl "
             }
           >
-            <h1 className={darkMode ? "text-white" : "text-gray-500"}>
+            <h1 className={darkMode ? "text-gray-200" : "text-gray-500"}>
               Top Creators
             </h1>
             {topCreator &&
               topCreator.map((item) => {
                 return (
                   <div
-                    className="w-full h-[15%] p-2 flex relative hover:bg-gray-200 cursor-pointer items-center mt-2 group"
+                    className={
+                      darkMode
+                        ? "w-full h-[15%] p-2 flex relative hover:bg-red-500 cursor-pointer items-center mt-2 group"
+                        : "w-full h-[15%] p-2 flex relative hover:bg-gray-200 cursor-pointer items-center mt-2 group"
+                    }
                     onClick={() => {
                       setId(item._id);
                     }}
@@ -275,7 +279,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                         <h1
                           className={
                             darkMode
-                              ? "lg:text-sm 2xl:text-base font-bold text-white "
+                              ? "lg:text-sm 2xl:text-base font-bold text-gray-200 "
                               : "lg:text-sm 2xl:text-base font-bold text-gray-700"
                           }
                         >
@@ -284,7 +288,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                         <h3
                           className={
                             darkMode
-                              ? " text-white text-sm "
+                              ? " text-gray-400 text-sm "
                               : " text-gray-700 text-sm"
                           }
                         >
@@ -294,7 +298,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                       <div
                         className={
                           darkMode
-                            ? "absolute right-4 items-center text-sm gap-1 font-bold opacity-40 group:hover:opacity-100 text-red-500 hidden 2xl:flex"
+                            ? "absolute right-4 items-center text-sm gap-1 font-bold opacity-40 group:hover:opacity-100 text-gray-300 hidden 2xl:flex"
                             : "absolute right-4 items-center text-sm gap-1 font-bold opacity-20 hover:opacity-100 hidden 2xl:flex"
                         }
                       >
@@ -305,7 +309,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                           fill="currentColor"
                           class={
                             darkMode
-                              ? "w-4 h-4 text-red-500"
+                              ? "w-4 h-4 text-gray-300"
                               : "w-4 h-4 text-black"
                           }
                         >
@@ -325,7 +329,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                   : "h-[40%] w-full border-t-2 border-gray-200 border-opacity-30 flex-col pl-4 pt-4 hover:rounded-xl overflow-scroll scrollbar-hide "
               }
             >
-              <h1 className={darkMode ? "text-white" : "text-gray-500"}>
+              <h1 className={darkMode ? "text-gray-200" : "text-gray-500"}>
                 Following accounts
               </h1>
 
@@ -333,7 +337,11 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                 following.map((item) => {
                   return (
                     <div
-                      className="w-full h-[15%] p-2 flex hover:bg-gray-200 cursor-pointer items-center mt-2"
+                      className={
+                        darkMode
+                          ? "w-full h-[15%] p-2 flex hover:bg-red-500 cursor-pointer items-center mt-2"
+                          : "w-full h-[15%] p-2 flex hover:bg-gray-200 cursor-pointer items-center mt-2"
+                      }
                       onClick={() => {
                         setId(item.id);
                       }}
@@ -353,7 +361,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                         <h1
                           className={
                             darkMode
-                              ? "lg:text-sm 2xl:text-base font-bold text-white"
+                              ? "lg:text-sm 2xl:text-base font-bold text-gray-200"
                               : "lg:text-sm 2xl:text-base font-bold text-gray-700"
                           }
                         >
@@ -362,7 +370,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                         <h3
                           className={
                             darkMode
-                              ? " text-white text-sm"
+                              ? " text-gray-400 text-sm"
                               : " text-gray-700 text-sm"
                           }
                         >
@@ -375,7 +383,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
             </div>
           )}
           <div className="w-full h-[30px]  flex justify-center absolute bottom-2 items-center bg-gray-200 bg-opacity-0 hover:bg-opacity-25">
-            <h1 className={darkMode ? "text-white " : "text-gray-300"}>
+            <h1 className={darkMode ? "text-gray-300 " : "text-gray-300"}>
               Toggle {darkMode ? "light" : "dark"} mode
             </h1>
             <div className=" h-full w-[50px] flex items-center justify-center">

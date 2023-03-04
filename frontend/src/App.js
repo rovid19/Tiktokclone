@@ -40,7 +40,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
     const savedItem = localStorage.getItem("darkMode");
-    return JSON.parse(savedItem);
+    return savedItem ? JSON.parse(savedItem) : true;
   });
 
   const prevVideoRef = useRef(["marko"]);
