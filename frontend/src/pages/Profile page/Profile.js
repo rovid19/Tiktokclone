@@ -8,7 +8,8 @@ import { useParams } from "react-router-dom";
 
 const Profile = () => {
   // CONTEXT & EXTRA
-  const { nonLogin, setNonLogin, edit, user } = useContext(userContext);
+  const { nonLogin, setNonLogin, edit, user, darkMode } =
+    useContext(userContext);
   const { username } = useParams();
 
   //STATES
@@ -26,11 +27,11 @@ const Profile = () => {
       setNonLogin(data);
       if (user && user.following.some((item) => item.id === username)) {
         setFollowClassname(
-          "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-black "
+          "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-gray-300 "
         );
       } else {
         setFollowClassname(
-          "mt-2 bg-black p-2 w-36 rounded-2xl text-white hover:bg-red-500 "
+          "mt-2 bg-gray-300 p-2 w-36 rounded-2xl text-white hover:bg-red-500 "
         );
       }
     });
@@ -94,7 +95,13 @@ const Profile = () => {
   return (
     <div className="bg-red-500 lg:bg-red-500 lg: bg-opacity-80   h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       {nonLogin && (
-        <div className="lg:w-[55%] w-full bg-white h-full grid-cols-1 fl pt-12 lg:pt-16 lg:pb-4 ">
+        <div
+          className={
+            darkMode
+              ? "lg:w-[55%] w-full bg-black text-white h-full grid-cols-1 fl pt-12 lg:pt-16 lg:pb-4 "
+              : "lg:w-[55%] w-full bg-white h-full grid-cols-1 fl pt-12 lg:pt-16 lg:pb-4 "
+          }
+        >
           {visible && <ProfileEdit handleVisible={handleVisible} />}
           {visible ? (
             ""
@@ -127,7 +134,11 @@ const Profile = () => {
                     {nonLogin && user && username === user._id ? (
                       <button
                         onClick={handleVisible}
-                        className="mt-2 bg-black p-2 w-36 rounded-2xl text-white hover:bg-gray-500 "
+                        className={
+                          darkMode
+                            ? "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-gray-500 "
+                            : "mt-2 bg-black p-2 w-36 rounded-2xl text-white hover:bg-gray-500 "
+                        }
                       >
                         Edit profile
                       </button>

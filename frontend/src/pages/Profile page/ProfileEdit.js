@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 const EditProfile = ({ handleVisible }) => {
   // CONTEXT & EXTRA
-  const { user, setEdit, edit } = useContext(userContext);
+  const { user, setEdit, edit, darkMode } = useContext(userContext);
   const { username } = useParams();
 
   // STATES
@@ -55,7 +55,11 @@ const EditProfile = ({ handleVisible }) => {
   return (
     <div className="h-full w-full   flex justify-center items-center">
       <form
-        className="w-[320px] lg:w-[450px]  h-[680px] lg:h-[800px] bg-white border-4 border-gray-200 mt-6"
+        className={
+          darkMode
+            ? "w-[320px] lg:w-[450px]  h-[680px] lg:h-[800px] bg-black bg-opacity-50   border-2 border-gray-200 mt-6"
+            : "w-[320px] lg:w-[450px]  h-[680px] lg:h-[800px] bg-white border-4 border-gray-200 mt-6"
+        }
         onSubmit={handleEdit}
       >
         <div className="h-[10%] mt-4 p-4 border-b-2 border-gray-500 border-opacity-20">
@@ -159,11 +163,21 @@ const EditProfile = ({ handleVisible }) => {
         <div className="h-[10%] p-4 lg:mt-[150px] mt-6 border-t-2 border-gray-500 border-opacity-20">
           <button
             onClick={handleVisible}
-            className="bg-gray-500 rounded-xl mt-1 text-white p-2 w-24 hover:bg-black "
+            className={
+              darkMode
+                ? "bg-gray-500 rounded-xl mt-1 text-white p-2 w-24 hover:bg-red-500"
+                : "bg-gray-500 rounded-xl mt-1 text-white p-2 w-24 hover:bg-black "
+            }
           >
             Cancel
           </button>
-          <button className="bg-gray-500 ml-2 rounded-xl mt-1 text-white p-2 w-24 hover:bg-black ">
+          <button
+            className={
+              darkMode
+                ? "bg-gray-500 ml-2 rounded-xl mt-1 text-white p-2 w-24 hover:bg-red-500 "
+                : "bg-gray-500 ml-2 rounded-xl mt-1 text-white p-2 w-24 hover:bg-black "
+            }
+          >
             Save
           </button>
         </div>

@@ -6,7 +6,8 @@ import { userContext } from "../../Usercontext";
 
 const Comments = ({ handleOpenCloseComments, name }) => {
   // CONTEXT
-  const { user, addRemoveLike, setAddRemoveLike } = useContext(userContext);
+  const { user, addRemoveLike, setAddRemoveLike, darkMode } =
+    useContext(userContext);
 
   // NAVIGATE
   const navigate = useNavigate();
@@ -88,7 +89,13 @@ const Comments = ({ handleOpenCloseComments, name }) => {
 
   return (
     <div className="w-full h-full z-30 absolute ">
-      <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
+      <div
+        className={
+          darkMode
+            ? "bg-black text-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden"
+            : "bg-white h-[60%] rounded-t-xl shadow-2xl w-[70%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden"
+        }
+      >
         <div
           onClick={() => {
             setError(!error);
@@ -100,7 +107,11 @@ const Comments = ({ handleOpenCloseComments, name }) => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="w-8 h-8 hover:text-red-500 hover:scale-125 cursor-pointer"
+            class={
+              darkMode
+                ? "w-8 h-8 text-white hover:text-red-500 hover:scale-125 cursor-pointer"
+                : "w-8 h-8 hover:text-red-500 hover:scale-125 cursor-pointer"
+            }
           >
             <path
               fill-rule="evenodd"

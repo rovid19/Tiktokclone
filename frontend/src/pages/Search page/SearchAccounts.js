@@ -6,18 +6,23 @@ import Img from "../../images/defaultphoto.jpg";
 
 const SearchAccounts = () => {
   // CONTEXT & EXTRA
-  const { searched, setVideos, setAccount } = useContext(userContext);
+  const { searched, setVideos, setAccount, darkMode } = useContext(userContext);
   const navigate = useNavigate();
 
   // HANDLE BUGFIX
   if (window.location.href === "http://localhost:3000/search/accounts") {
-    console.log("da");
     setVideos(false);
     setAccount(true);
   }
 
   return (
-    <div className="w-full h-full overflow-scroll scrollbar-hide ">
+    <div
+      className={
+        darkMode
+          ? "w-full h-full overflow-scroll bg-black bg-opacity-80 text-white scrollbar-hide "
+          : "w-full h-full overflow-scroll scrollbar-hide "
+      }
+    >
       {searched && searched.length > 0 ? (
         searched.map((item) => {
           return (

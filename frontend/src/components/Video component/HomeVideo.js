@@ -8,7 +8,7 @@ import Comments from "./Comments.js";
 
 const Video = () => {
   // CONTEXT & EXTRA
-  const { video, spreman, user, userReady, addRemoveLike, setAddRemoveLike } =
+  const { video, spreman, user, userReady, darkMode, setAddRemoveLike } =
     useContext(userContext);
 
   const videoRef = useRef(null);
@@ -250,7 +250,11 @@ const Video = () => {
       )}
       <div
         id="Mirko"
-        className="h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-white"
+        className={
+          darkMode
+            ? "h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-black"
+            : "h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-white"
+        }
       >
         {video && (
           <div className="h-[100%] w-[100%]">

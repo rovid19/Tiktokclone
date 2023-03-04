@@ -6,7 +6,8 @@ import { userContext } from "../../Usercontext";
 
 const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
   // CONTEXT
-  const { user, addRemoveLike, setAddRemoveLike } = useContext(userContext);
+  const { user, addRemoveLike, setAddRemoveLike, darkMode } =
+    useContext(userContext);
 
   // NAVIGATE
   const navigate = useNavigate();
@@ -86,7 +87,13 @@ const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
   console.log(comments);
   return (
     <div className="w-full h-full z-40 absolute ">
-      <div className="bg-white h-[60%] rounded-t-xl shadow-2xl w-[80%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden">
+      <div
+        className={
+          darkMode
+            ? "bg-black text-white h-[60%] rounded-t-xl shadow-2xl w-[80%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden"
+            : "bg-white h-[60%] rounded-t-xl shadow-2xl w-[80%] lg:h-[50%] lg:w-[40%] absolute bottom-0 right-0 overflow-hidden"
+        }
+      >
         <div
           onClick={() => {
             setError(!error);

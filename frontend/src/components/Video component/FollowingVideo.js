@@ -15,6 +15,7 @@ const Video = () => {
     addRemoveLike,
     setAddRemoveLike,
     followingVideos,
+    darkMode,
   } = useContext(userContext);
 
   const navigate = useNavigate();
@@ -241,7 +242,11 @@ const Video = () => {
       )}
       <div
         id="Mirko"
-        className="h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-white"
+        className={
+          darkMode
+            ? "h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-black"
+            : "h-full w-full cursor-pointer  overflow-auto flex bg-black lg:bg-white"
+        }
       >
         {followingVideos && (
           <video

@@ -38,7 +38,10 @@ const App = () => {
   const [likeTrigger, setLikeTrigger] = useState(false);
   const [followingVideos, setFollowingVideos] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedItem = localStorage.getItem("darkMode");
+    return JSON.parse(savedItem);
+  });
 
   const prevVideoRef = useRef(["marko"]);
 
@@ -100,6 +103,11 @@ const App = () => {
         console.log("da");
       });
   }, [addRemoveLike]);
+
+  // when component mounts, save current darkmode value to localstorage
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(darkMode));
+  }, [darkMode]);
 
   console.log(user);
   return (

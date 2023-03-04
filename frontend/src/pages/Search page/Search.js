@@ -4,11 +4,19 @@ import { userContext } from "../../Usercontext";
 import SearchAccounts from "./SearchAccounts";
 import SearchVideos from "./SearchVideos";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Search = () => {
   // CONTEXT & EXTRA
-  const { videos, setVideos, account, setAccount, trigger, setTrigger } =
-    useContext(userContext);
+  const {
+    videos,
+    setVideos,
+    account,
+    setAccount,
+    trigger,
+    setTrigger,
+    darkMode,
+  } = useContext(userContext);
 
   //STATES
   const [className, setClassName] = useState(
@@ -47,6 +55,18 @@ const Search = () => {
       console.log(account);
     }
   }
+  useEffect(() => {
+    if (darkMode) {
+      console.log("da");
+      if (className.includes("text-black")) {
+        console.log("video");
+        setClassName((prev) => prev.replace("text-black", "text-white"));
+      } else {
+        console.log("account");
+        setClassNameDva((prev) => prev.replace("text-black", "text-white"));
+      }
+    }
+  }, [trigger]);
 
   // HANDLE BUG WHEN USING BACK BUTTON
   if (account) {
@@ -59,10 +79,23 @@ const Search = () => {
     }
   }
 
+  console.log(classNameDva);
   return (
     <div className=" bg-red-500  h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
-      <div className="h-full w-full lg:w-[55%] bg-white">
-        <div className="h-[12%] mt-10 pt-12 pb-12 pl-4 ml-4 mr-4  lg:mr-6 lg:ml-6 lg:p-12 border-b-2 border-gray-200 flex gap-6 border-opacity-50">
+      <div
+        className={
+          darkMode
+            ? "h-full w-full lg:w-[55%] bg-black text-white"
+            : "h-full w-full lg:w-[55%] bg-white"
+        }
+      >
+        <div
+          className={
+            darkMode
+              ? "h-[12%] mt-10 pt-12 pb-12 pl-4 ml-4 mr-4  lg:mr-6 lg:ml-6 lg:p-12 border-b-2 border-gray-200 flex gap-6 border-opacity-10"
+              : "h-[12%] mt-10 pt-12 pb-12 pl-4 ml-4 mr-4  lg:mr-6 lg:ml-6 lg:p-12 border-b-2 border-gray-200 flex gap-6 border-opacity-50"
+          }
+        >
           {" "}
           <div className={className} onClick={handleVideos}>
             <Link to="/search/videos">Videos</Link>

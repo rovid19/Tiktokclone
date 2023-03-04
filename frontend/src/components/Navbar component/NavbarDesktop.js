@@ -14,8 +14,15 @@ const DesktopHeader = ({
   setInput,
   changeInput,
 }) => {
-  const { user, trigger, setTrigger, setAccount, setVideos, setNonLogin } =
-    useContext(userContext);
+  const {
+    user,
+    trigger,
+    setTrigger,
+    setAccount,
+    setVideos,
+    setNonLogin,
+    darkMode,
+  } = useContext(userContext);
   const navigate = useNavigate();
 
   // STATES
@@ -57,7 +64,13 @@ const DesktopHeader = ({
   }, [user]);
 
   return (
-    <header className="h-[5%] lg:h-[7%] absolute w-full z-10 bg-black lg:bg-white flex justify-center border-b-2 border-gray-300 border-opacity-10 lg:border-opacity-20  ">
+    <header
+      className={
+        darkMode
+          ? "h-[5%] lg:h-[7%] absolute w-full z-10 bg-black lg:bg-black flex justify-center border-b-2 border-gray-300 border-opacity-10 lg:border-opacity-10  "
+          : "h-[5%] lg:h-[7%] absolute w-full z-10 bg-black lg:bg-white flex justify-center border-b-2 border-gray-300 border-opacity-10 lg:border-opacity-20  "
+      }
+    >
       <div className="lg:w-[55%] w-full grid  grid-cols-2 lg:grid-cols-3 flex items-center">
         <div className="flex items-center ">
           <div className=" gap-[20%] flex items-center rounded-xl">
@@ -71,7 +84,11 @@ const DesktopHeader = ({
             >
               <img
                 src={Img}
-                className="hidden lg:block ml-0 lg:ml-0 h-10 cursor-pointer"
+                className={
+                  darkMode
+                    ? "hidden  ml-0 lg:ml-0 h-10 cursor-pointer"
+                    : "hidden lg:block ml-0 lg:ml-0 h-10 cursor-pointer"
+                }
               />
             </Link>
             <Link
@@ -84,13 +101,23 @@ const DesktopHeader = ({
             >
               <img
                 src={Img2}
-                className="ml-1 lg:hidden h-[20px] cursor-pointer"
+                className={
+                  darkMode
+                    ? "ml-1 h-[20px] cursor-pointer"
+                    : "ml-1 lg:hidden h-[20px] cursor-pointer"
+                }
               />
             </Link>
           </div>
         </div>
 
-        <div className="flex bg-tamna gap-1 h-[75%] items-center rounded-full mr-4 lg:mr-0">
+        <div
+          className={
+            darkMode
+              ? "flex bg-tamna gap-1 h-[75%] items-center rounded-full mr-4 lg:mr-0"
+              : "flex bg-gray-200 gap-1 h-[75%] items-center rounded-full mr-4 lg:mr-0"
+          }
+        >
           <div className=" h-[80%] w-[90%] lg:border-r-2 lg:border-opacity-20 flex items-center border-gray-300">
             <input
               value={input}
@@ -152,7 +179,11 @@ const DesktopHeader = ({
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="currentColor"
-                    class="w-6 h-6 text-black flex hover:scale-110 cursor-pointer ml-3"
+                    class={
+                      darkMode
+                        ? "w-6 h-6 text-white flex hover:scale-110 cursor-pointer ml-3"
+                        : "w-6 h-6 text-black flex hover:scale-110 cursor-pointer ml-3"
+                    }
                   >
                     <path d="M9.97.97a.75.75 0 011.06 0l3 3a.75.75 0 01-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 01-1.06-1.06l3-3zM9.75 6.75v6a.75.75 0 001.5 0v-6h3a3 3 0 013 3v7.5a3 3 0 01-3 3h-7.5a3 3 0 01-3-3v-7.5a3 3 0 013-3h3z" />
                     <path d="M7.151 21.75a2.999 2.999 0 002.599 1.5h7.5a3 3 0 003-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 01-4.5 4.5H7.151z" />
