@@ -167,7 +167,11 @@ const CommentsFullSize = ({
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             fill="currentColor"
-                            class="w-4 h-4 text-black cursor-pointer hover:scale-125 hover:text-red-500 "
+                            class={
+                              darkMode
+                                ? "w-4 h-4 text-white cursor-pointer hover:scale-125 hover:text-red-500 "
+                                : "w-4 h-4 text-black cursor-pointer hover:scale-125 hover:text-red-500 "
+                            }
                           >
                             <path
                               fill-rule="evenodd"
