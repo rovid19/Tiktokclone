@@ -158,7 +158,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                 Dear user.
               </span>
               <br /> Please be patient, this website, on a cold start, usually
-              takes about 30 sec to load due to some server issues with
+              takes about 30-50sec to load due to some server issues with
               render.com. Thanks!
             </h1>{" "}
             <h1 className="text-sm mt-2 text-gray-500">
