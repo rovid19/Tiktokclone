@@ -8,8 +8,15 @@ import Comments from "./Comments.js";
 
 const Video = () => {
   // CONTEXT & EXTRA
-  const { video, spreman, user, userReady, darkMode, setAddRemoveLike } =
-    useContext(userContext);
+  const {
+    video,
+    spreman,
+    user,
+    userReady,
+    darkMode,
+    setAddRemoveLike,
+    addRemoveLike,
+  } = useContext(userContext);
 
   const videoRef = useRef(null);
   const navigate = useNavigate();
@@ -53,7 +60,7 @@ const Video = () => {
           likedVideo,
         })
         .then(() => {
-          setAddRemoveLike("NENE");
+          setAddRemoveLike(!addRemoveLike);
           setLike(null);
           setLikedVideo(null);
         });
@@ -64,7 +71,7 @@ const Video = () => {
           likedVideo,
         })
         .then(() => {
-          setAddRemoveLike("DADA");
+          setAddRemoveLike(!addRemoveLike);
           setLike(null);
           setLikedVideo(null);
         });
@@ -177,7 +184,7 @@ const Video = () => {
   useEffect(() => {
     if (video && user) {
       const ifLiked = video[currentVideoIndex].likes.includes(user._id);
-
+      console.log(ifLiked);
       if (ifLiked) {
         setClassName(
           "w-8 h-8 lg:h-10 lg:w-10 hover:text-red-500 hover:scale-125 cursor-pointer text-red-500"
@@ -188,7 +195,7 @@ const Video = () => {
         );
       }
     }
-  }, [spreman, currentVideoIndex, userReady]);
+  }, [spreman, currentVideoIndex, userReady, addRemoveLike]);
 
   // SET STATE FOR COMMENTS
   useEffect(() => {
@@ -238,6 +245,7 @@ const Video = () => {
   }
 
   console.log("current", currentVideoIndex);
+  console.log(video);
 
   return (
     <div className="relative h-full w-full group  flex justify-center ">
@@ -264,10 +272,7 @@ const Video = () => {
               loop
               onClick={playPause}
               className="h-full w-full"
-              src={
-                "https://gymtok-api-app.onrender.com/uploads/videos/" +
-                video[currentVideoIndex].video
-              }
+              src={video[currentVideoIndex].video}
               autoPlay
             ></video>
           </div>

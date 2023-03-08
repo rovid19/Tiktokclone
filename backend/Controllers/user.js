@@ -19,18 +19,20 @@ export const getprofile = async (req, res) => {
 export const editprofile = async (req, res) => {
   const { token } = req.cookies;
   const { usernam, email, bio, photo } = req.body;
+  const newProfile = photo.toString();
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
     const userEdit = await User.findById(userData.id);
     userEdit.set({
       username: usernam,
       email,
-      profilePhoto: photo,
+      profilePhoto: newProfile,
       description: bio,
     });
     await userEdit.save();
     res.json(userEdit);
   });
+  console.log(usernam, email, bio, newProfile);
 };
 
 export const setprofile = async (req, res) => {

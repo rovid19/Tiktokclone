@@ -146,13 +146,7 @@ const Comments = ({ handleOpenCloseComments, name }) => {
                     >
                       <img
                         className="h-[60px] rounded-full object-cover "
-                        src={
-                          "https://gymtok-api-app.onrender.com/uploads/" +
-                          item.owner.profilePhoto[0].replace(
-                            "/opt/render/project/src/backend/uploads/",
-                            ""
-                          )
-                        }
+                        src={item.owner.profilePhoto[0]}
                       ></img>
                     </div>
                     <div className="w-[90%] relative ml-2">

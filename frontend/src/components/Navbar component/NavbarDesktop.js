@@ -46,20 +46,7 @@ const DesktopHeader = ({
 
   useEffect(() => {
     if (user) {
-      if (
-        user &&
-        user.profilePhoto[0].includes(
-          "/opt/render/project/src/backend/uploads/"
-        )
-      ) {
-        const profile = user.profilePhoto[0].replace(
-          "/opt/render/project/src/backend/uploads/",
-          ""
-        );
-        setNewProfile(profile);
-      } else {
-        setNewProfile(user.profilePhoto);
-      }
+      setNewProfile(user.profilePhoto);
     }
   }, [user]);
 
@@ -126,7 +113,11 @@ const DesktopHeader = ({
               }}
               type="text"
               placeholder="Search"
-              className="bg-transparent text-l pl-4 w-full text-white"
+              className={
+                darkMode
+                  ? "bg-transparent text-l pl-4 w-full text-white"
+                  : "bg-transparent text-l pl-4 w-full text-black "
+              }
             />
           </div>
           <button
@@ -210,10 +201,7 @@ const DesktopHeader = ({
               >
                 <img
                   src={
-                    newProfile[0].includes("data:")
-                      ? newProfile
-                      : "https://gymtok-api-app.onrender.com/uploads/" +
-                        newProfile
+                    newProfile[0].includes("data:") ? newProfile : newProfile
                   }
                   className="h-7 rounded-full hover:scale-110 border-2 border-black"
                 ></img>

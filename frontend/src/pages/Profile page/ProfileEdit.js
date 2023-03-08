@@ -76,13 +76,7 @@ const EditProfile = ({ handleVisible }) => {
                   <h1>Old</h1>
                   <img
                     value={user.profilePhoto}
-                    src={
-                      "https://gymtok-api-app.onrender.com/uploads/" +
-                      user.profilePhoto[0].replace(
-                        "/opt/render/project/src/backend/uploads/",
-                        ""
-                      )
-                    }
+                    src={user.profilePhoto[0]}
                     className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
                   ></img>
                 </div>
@@ -91,13 +85,7 @@ const EditProfile = ({ handleVisible }) => {
                   <h1>New</h1>
                   {photo.length > 0 && (
                     <img
-                      src={
-                        "https://gymtok-api-app.onrender.com/uploads/" +
-                        photo[0].replace(
-                          "/opt/render/project/src/backend/uploads/",
-                          ""
-                        )
-                      }
+                      src={photo}
                       className="h-20 lg:h-[200px] w-auto rounded-full border-2 border-gray-200 mt-3"
                     ></img>
                   )}

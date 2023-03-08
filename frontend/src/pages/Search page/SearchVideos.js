@@ -49,15 +49,12 @@ const SearchVideos = () => {
                       ? "h-full w-[100%] object-cover rounded-xl"
                       : "h-full rounded-3xl w-[100%] object-cover"
                   }
-                  src={
-                    "https://gymtok-api-app.onrender.com/uploads/videos/" +
-                    item.video
-                  }
+                  src={item.video}
                 ></video>
               </div>
               <div className="h-[20%] pl-4 mt-2">
                 <p className="text-sm">{item.description}</p>
-                <h1 className="font-bold">{item.username}</h1>
+                <h1 className="font-bold">@{item.username}</h1>
               </div>
             </div>
           );

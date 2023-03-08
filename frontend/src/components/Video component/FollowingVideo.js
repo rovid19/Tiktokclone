@@ -255,11 +255,7 @@ const Video = () => {
             loop
             onClick={playPause}
             className="h-full w-full "
-            src={
-              followingVideos &&
-              "https://gymtok-api-app.onrender.com/uploads/videos/" +
-                followingVideos[currentVideoIndex].video
-            }
+            src={followingVideos && followingVideos[currentVideoIndex].video}
             autoPlay
           ></video>
         )}

@@ -35,15 +35,7 @@ const SearchAccounts = () => {
               >
                 <img
                   className="h-[70%] rounded-full cursor-pointer object-cover"
-                  src={
-                    item.profilePhoto[0]
-                      ? "https://gymtok-api-app.onrender.com/uploads/" +
-                        item.profilePhoto[0].replace(
-                          "/opt/render/project/src/backend/uploads/",
-                          ""
-                        )
-                      : Img
-                  }
+                  src={item.profilePhoto[0] ? item.profilePhoto[0] : Img}
                 ></img>{" "}
               </div>
               <div className="w-[80%] ml-4">

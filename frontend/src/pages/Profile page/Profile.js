@@ -59,36 +59,9 @@ const Profile = () => {
   useEffect(() => {
     if ((user && nonLogin) || (!user && nonLogin)) {
       if (nonLogin && nonLogin._id === user && user._id) {
-        if (
-          user.profilePhoto[0].includes(
-            "/opt/render/project/src/backend/uploads/"
-          )
-        ) {
-          const profile = user.profilePhoto[0].replace(
-            "/opt/render/project/src/backend/uploads/",
-            ""
-          );
-          setNewProfile(profile);
-        } else {
-          setNewProfile(user.profilePhoto);
-        }
+        setNewProfile(user.profilePhoto[0]);
       } else {
-        if (
-          nonLogin.profilePhoto[0].includes(
-            "/opt/render/project/src/backend/uploads/"
-          )
-        ) {
-          console.log("ophaj");
-          if (nonLogin) {
-            const profile = nonLogin.profilePhoto[0].replace(
-              "/opt/render/project/src/backend/uploads/",
-              ""
-            );
-            setNewProfile(profile);
-          }
-        } else {
-          setNewProfile(nonLogin.profilePhoto);
-        }
+        setNewProfile(nonLogin.profilePhoto);
       }
     }
   }, [user, nonLogin]);
@@ -117,8 +90,7 @@ const Profile = () => {
                         src={
                           newProfile && newProfile[0].includes("data:")
                             ? newProfile
-                            : "https://gymtok-api-app.onrender.com/uploads/" +
-                              newProfile
+                            : newProfile
                         }
                         className="h-full rounded-full object-cover"
                       ></img>

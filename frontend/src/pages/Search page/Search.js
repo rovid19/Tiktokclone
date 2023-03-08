@@ -28,58 +28,57 @@ const Search = () => {
 
   //ON CLICK CHANGE CURRENT SEARCH ACCOUNT/VIDEOS AND SET THEIR CSS
   function handleVideos() {
-    if (className.includes("text-black")) {
-    } else {
-      setClassName("text-xl lg:text-4xl text-black  cursor-pointer ");
-      setClassNameDva(
-        "text-xl lg:text-4xl text-gray-300  cursor-pointer hover:text-red-500  transition-all "
-      );
-      setTrigger(!trigger);
-      setVideos(true);
-      setAccount(false);
-    }
+    setVideos(true);
+    setAccount(false);
+    setTrigger(!trigger);
   }
 
   //ON CLICK CHANGE CURRENT SEARCH ACCOUNT/VIDEOS AND SET THEIR CSS
   function handleAccount() {
-    if (classNameDva.includes("text-black")) {
-    } else {
-      setClassNameDva("text-xl lg:text-4xl text-black  cursor-pointer ");
-      setClassName(
-        "text-xl lg:text-4xl text-gray-300  cursor-pointer hover:text-red-500  transition-all "
-      );
-      console.log("da");
-      setVideos(false);
-      setAccount(true);
-      setTrigger(!trigger);
-      console.log(account);
-    }
+    setAccount(true);
+    setVideos(false);
+    setTrigger(!trigger);
   }
+
+  useEffect(() => {
+    if (account) {
+      if (darkMode) {
+        setClassNameDva("text-xl lg:text-4xl text-white  cursor-pointer ");
+        setClassName(
+          "text-xl lg:text-4xl text-gray-500  cursor-pointer hover:text-red-500  transition-all "
+        );
+      } else {
+        setClassNameDva("text-xl lg:text-4xl text-black  cursor-pointer ");
+        setClassName(
+          "text-xl lg:text-4xl text-gray-300  cursor-pointer hover:text-red-500  transition-all "
+        );
+      }
+    }
+    if (videos) {
+      if (darkMode) {
+        setClassName("text-xl lg:text-4xl text-white  cursor-pointer ");
+        setClassNameDva(
+          "text-xl lg:text-4xl text-gray-500  cursor-pointer hover:text-red-500  transition-all "
+        );
+      } else {
+        setClassName("text-xl lg:text-4xl text-black  cursor-pointer ");
+        setClassNameDva(
+          "text-xl lg:text-4xl text-gray-300  cursor-pointer hover:text-red-500  transition-all "
+        );
+      }
+    }
+  }, [account, videos]);
+
   useEffect(() => {
     if (darkMode) {
-      console.log("da");
-      if (className.includes("text-black")) {
-        console.log("video");
+      if (videos) {
         setClassName((prev) => prev.replace("text-black", "text-white"));
       } else {
-        console.log("account");
         setClassNameDva((prev) => prev.replace("text-black", "text-white"));
       }
     }
   }, [trigger]);
 
-  // HANDLE BUG WHEN USING BACK BUTTON
-  if (account) {
-    if (classNameDva.includes("text-black")) {
-    } else {
-      setClassNameDva("text-xl lg:text-4xl text-black  cursor-pointer ");
-      setClassName(
-        "text-xl lg:text-4xl text-gray-300  cursor-pointer hover:text-red-500  transition-all "
-      );
-    }
-  }
-
-  console.log(classNameDva);
   return (
     <div className=" bg-red-500  h-full fl lg:w-full w-[calc(100%-56px)] relative left-[56px] lg:left-0">
       <div

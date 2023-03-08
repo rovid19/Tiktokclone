@@ -129,6 +129,8 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
   useEffect(() => {
     localStorage.setItem("info", JSON.stringify(visible));
   }, [visible]);
+
+  console.log(following);
   return (
     <div
       className={
@@ -268,10 +270,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                         {" "}
                         <img
                           className="h-10 rounded-full object-cover"
-                          src={
-                            "https://gymtok-api-app.onrender.com/uploads/" +
-                            item.profilePhoto
-                          }
+                          src={item.profilePhoto}
                         ></img>
                       </div>
 
@@ -350,10 +349,7 @@ const Home = ({ handleOpenClose, handleDarkModeChange }) => {
                         {" "}
                         <img
                           className="h-10 rounded-full object-cover"
-                          src={
-                            "https://gymtok-api-app.onrender.com/uploads/" +
-                            item.profile
-                          }
+                          src={item.profile}
                         ></img>
                       </div>
 

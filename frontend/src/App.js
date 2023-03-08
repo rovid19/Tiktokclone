@@ -13,8 +13,8 @@ import Search from "./pages/Search page/Search";
 import Video from "./components/Video component/HomeVideo";
 import FollowingVideo from "./components/Video component/FollowingVideo";
 // AXIOS SETUP
-axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
-//axios.defaults.baseURL = "http://localhost:4000";
+//axios.defaults.baseURL = "https://gymtok-api-app.onrender.com";
+axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
 const App = () => {
@@ -28,7 +28,7 @@ const App = () => {
   const [userReady, setUserReady] = useState(false);
   const [searched, setSearched] = useState(null);
   const [searchedVideos, setSearchedVideos] = useState(null);
-  const [addRemoveLike, setAddRemoveLike] = useState("");
+  const [addRemoveLike, setAddRemoveLike] = useState(false);
   const [videoTrigger, setVideoTrigger] = useState("");
   const [videos, setVideos] = useState(true);
   const [account, setAccount] = useState(false);
@@ -108,8 +108,7 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [darkMode]);
-
-  console.log(user);
+  console.log(addRemoveLike);
   return (
     <div>
       <userContext.Provider

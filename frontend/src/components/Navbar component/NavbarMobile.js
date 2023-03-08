@@ -31,20 +31,7 @@ const MobileHeader = ({
 
   useEffect(() => {
     if (user) {
-      if (
-        user &&
-        user.profilePhoto[0].includes(
-          "/opt/render/project/src/backend/uploads/"
-        )
-      ) {
-        const profile = user.profilePhoto[0].replace(
-          "/opt/render/project/src/backend/uploads/",
-          ""
-        );
-        setNewProfile(profile);
-      } else {
-        setNewProfile(user.profilePhoto);
-      }
+      setNewProfile(user.profilePhoto);
     }
   }, [user]);
 
@@ -146,12 +133,7 @@ const MobileHeader = ({
               }}
             >
               <img
-                src={
-                  newProfile[0].includes("data:")
-                    ? newProfile
-                    : "https://gymtok-api-app.onrender.com/uploads/" +
-                      newProfile
-                }
+                src={newProfile[0].includes("data:") ? newProfile : newProfile}
                 className="h-7 rounded-full hover:scale-110 border-2 border-black"
               ></img>
             </div>

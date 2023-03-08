@@ -6,7 +6,7 @@ import { useContext } from "react";
 
 const Upload = ({ handleOpenClose }) => {
   // CONTEXT & EXTRA
-  const { user, userReady, setVideo } = useContext(userContext);
+  const { user, userReady, setVideo, darkMode } = useContext(userContext);
 
   // STATES
   const [title, setTitle] = useState("");
@@ -80,7 +80,13 @@ const Upload = ({ handleOpenClose }) => {
   return (
     <>
       <div className="flex items-center bg-black bg-opacity-50 justify-center absolute top-0 left-0 w-screen h-screen z-20">
-        <div className="w-[350px] fl md:w-[450px] h-[600px] bg-white">
+        <div
+          className={
+            darkMode
+              ? "w-[350px] fl md:w-[450px] h-[600px] bg-black  text-white border-[1px] border-gray-500 border-opacity-20"
+              : "w-[350px] fl md:w-[450px] h-[600px] bg-white"
+          }
+        >
           <div className="h-16 flex justify-end  w-full p-4">
             <button onClick={handleOpenClose}>
               <svg
@@ -108,13 +114,23 @@ const Upload = ({ handleOpenClose }) => {
             onSubmit={handleVideo}
           >
             {progress > 0 && (
-              <div className="w-full flex justify-center text-xl">
-                {progress < 99 && <h1>Upload at: {progress}%</h1>}
+              <div
+                className={
+                  darkMode
+                    ? "w-full flex justify-center text-xl text-white"
+                    : "w-full flex justify-center text-xl"
+                }
+              >
+                {progress < 99 && (
+                  <h1 className={darkMode ? "text-white" : "text-black"}>
+                    Upload at: {progress}%
+                  </h1>
+                )}
                 {progress === 100 && <h1>Done!</h1>}
               </div>
             )}
             <div className=" mt-2 bg-gray-400 bg-opacity-30 flex items-center">
-              <label className="p-2">
+              <label className="p-2 ">
                 <input
                   type="file"
                   className="mt-5 w-full bg-transparent bg-gray-300 bg-opacity-30 h-12 pl-4"
@@ -133,10 +149,10 @@ const Upload = ({ handleOpenClose }) => {
                 </svg>
               </div>
             </div>
-            <div className="mt-1">
+            <div className="mt-1 ">
               <input
                 type="type"
-                className="w-full bg-transparent bg-gray-400 bg-opacity-30 h-12 pl-4"
+                className="w-full  bg-gray-400 bg-opacity-30 h-12 pl-4"
                 placeholder="Title of your video"
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -144,12 +160,20 @@ const Upload = ({ handleOpenClose }) => {
             <div className="mt-1 ">
               <input
                 type="type"
-                className="w-full bg-transparent bg-gray-400 bg-opacity-30 h-24 pl-4"
+                className="w-full  bg-gray-400 bg-opacity-30 h-24 pl-4"
                 placeholder="Description of your video"
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
-            <button className={className}>Upload</button>
+            <button
+              className={
+                darkMode
+                  ? " bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-red-500 hover:text-white"
+                  : " bg-gray-200 w-full text-gray-400 p-2 mt-10 hover:bg-black hover:text-white"
+              }
+            >
+              Upload
+            </button>
           </form>
         </div>
       </div>
