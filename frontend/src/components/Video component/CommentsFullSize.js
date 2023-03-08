@@ -4,9 +4,13 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userContext } from "../../Usercontext";
 
-const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
+const CommentsFullSize = ({
+  handleOpenCloseComments,
+  name,
+  closeFullVideo,
+}) => {
   // CONTEXT
-  const { user, addRemoveLike, setAddRemoveLike, darkMode } =
+  const { user, addRemoveLike, setAddRemoveLike, darkMode, edit, setEdit } =
     useContext(userContext);
 
   // NAVIGATE
@@ -80,10 +84,20 @@ const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
   // NAVIGATE TO CLICKED USER PROFILE
   function handleNavigate() {
     if (profileId) {
+      navigate(`/profile/${profileId._id}`);
       console.log(profileId);
-      navigate(`/profile/${profileId}`);
+      handleOpenCloseComments();
+      closeFullVideo();
+      setEdit(!edit);
     }
   }
+
+  useEffect(() => {
+    if (profileId) {
+      handleNavigate();
+    }
+  }, [profileId]);
+
   console.log(comments);
   return (
     <div className="w-full h-full z-40 absolute ">
@@ -135,7 +149,6 @@ const CommentsFullSize = ({ handleOpenCloseComments, name }) => {
                       <img
                         onClick={() => {
                           setProfileId(item.owner);
-                          handleNavigate();
                         }}
                         className="h-[60px] rounded-full cursor-pointer object-cover"
                         src={

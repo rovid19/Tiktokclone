@@ -33,7 +33,7 @@ const Video = () => {
     setVolume(e.target.value);
     videoRef.current.volume = volume;
   }
-
+  console.log(volume);
   // HANDLE PLAY PAUSE
   function playPause() {
     if (playing) {

@@ -25,6 +25,7 @@ const Profile = () => {
     axios.get(`/api/user/profile/${username}`).then(({ data }) => {
       console.log("getprofile");
       setNonLogin(data);
+
       if (user && user.following.some((item) => item.id === username)) {
         setFollowClassname(
           "mt-2 bg-red-500 p-2 w-36 rounded-2xl text-white hover:bg-gray-300 "

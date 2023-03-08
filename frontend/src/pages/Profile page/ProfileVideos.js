@@ -29,13 +29,14 @@ const UserVideos = ({ nonLogin }) => {
           setUserVideos(data);
         });
     }
-  }, [userReady, likeTrigger]);
+  }, [userReady, likeTrigger, nonLogin]);
 
   //OPEN CLOSE PROFILEVIDEOS
   function closeFullVideo() {
     setVisible(!visible);
     setAddRemoveLike(!addRemoveLike);
   }
+  console.log(userVideos);
 
   return (
     <div className=" lg:w-full h-full grid grid-cols-3 2xl:grid-cols-5 overflow-scroll scrollbar-hide gap-1    ">

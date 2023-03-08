@@ -236,6 +236,7 @@ const VideoProfileFullSize = ({ name, closeFullVideo, userVideos }) => {
           handleOpenCloseComments={handleOpenCloseComments}
           name={nameDva}
           visible={visible}
+          closeFullVideo={closeFullVideo}
         />
       )}
       <div
